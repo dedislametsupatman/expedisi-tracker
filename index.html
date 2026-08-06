@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lacak & Ongkir — Expedisi Indonesia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest: #084823;
+      --green-mid: #0a5c2e;
+      --amber: #D4A843;
+      --orange: #C4622D;
+      --cream: #FAF4EB;
+      --light-tint: #f0f7f4;
+      --text-dark: #1a1a1a;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --shadow: 0 4px 20px rgba(8,72,35,0.12);
+      --shadow-lg: 0 8px 40px rgba(8,72,35,0.18);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    .btn-primary {
+      background-color: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(196,98,45,0.35);
+      font-family: inherit;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(196,98,45,0.45); }
+
+    .btn-secondary {
+      background-color: var(--green-mid);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 22px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(10,92,46,0.3);
+      font-family: inherit;
+    }
+    .btn-secondary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--forest);
+      border: 2px solid var(--forest);
+      border-radius: 12px;
+      padding: 10px 22px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-ghost:hover { background: var(--forest); color: white; }
+
+    input, select {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: white;
+      color: var(--text-dark);
+      transition: border-color 0.2s;
+      width: 100%;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: var(--green-mid); }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .tab-btn {
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      font-family: inherit;
+    }
+
+    .navbar {
+      background: var(--forest);
+      padding: 0 40px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+    }
+
+    .navbar-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: white;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar-logo span { color: var(--amber); }
+
+    .navbar-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .navbar-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .navbar-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+
+    .hero {
+      background: linear-gradient(135deg, var(--forest) 0%, var(--green-mid) 60%, #2d7a4a 100%);
+      padding: 64px 40px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(212,168,67,0.18);
+      border: 1px solid rgba(212,168,67,0.4);
+      color: var(--amber);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      color: white;
+      font-size: 2.8rem;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.1rem;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      line-height: 0;
+      overflow: hidden;
+    }
+
+    .hero-wave svg { display: block; width: 100%; height: 100%; }
+
+    .section { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--forest);
+      margin-bottom: 10px;
+    }
+
+    .section-title p { color: var(--text-muted); font-size: 1rem; }
+
+    .divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 0;
+    }
+    .divider-line { width: 60px; height: 1px; background: var(--amber); }
+    .divider-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
+
+    .expedition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .expedition-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .expedition-card:hover { border-color: var(--green-mid); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,92,46,0.12); }
+    .expedition-card.selected { border-color: var(--green-mid); background: var(--light-tint); box-shadow: 0 0 0 3px rgba(10,92,46,0.15); }
+    .expedition-card img { width: 52px; height: 52px; object-fit: contain; margin-bottom: 10px; }
+    .expedition-card .name { font-weight: 700; font-size: 0.88rem; color: var(--forest); }
+    .expedition-card .type { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+
+    .tracking-result {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-top: 24px;
+    }
+
+    .tracking-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .tracking-awb { font-size: 1.1rem; font-weight: 800; color: var(--forest); }
+    .tracking-courier { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    .tracking-status-badge {
+      margin-left: auto;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-item { position: relative; padding-bottom: 24px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -25px;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px var(--border);
+      background: white;
+      z-index: 1;
+    }
+    .timeline-item:first-child .timeline-dot { box-shadow: 0 0 0 3px var(--green-mid); background: var(--green-mid); }
+    .timeline-item:not(:first-child) .timeline-dot { background: white; }
+
+    .timeline-date { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+    .timeline-title { font-weight: 700; font-size: 0.95rem; color: var(--text-dark); margin: 2px 0; }
+    .timeline-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+    .cost-card {
+      background: linear-gradient(135deg, var(--forest), var(--green-mid));
+      border-radius: 20px;
+      padding: 28px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cost-card .courier-name { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+    .cost-card .price { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--amber); }
+    .cost-card .eta { font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-top: 4px; }
+
+    .cost-breakdown {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cost-breakdown .label { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+    .cost-breakdown .value { font-size: 0.85rem; font-weight: 600; }
+
+    .best-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--amber);
+      color: var(--forest);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer {
+      background: var(--forest);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.88rem;
+    }
+    .footer strong { color: var(--amber); }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2rem; }
+      .navbar { padding: 0 16px; }
+      .navbar-links { display: none; }
+      .section { padding: 32px 16px; }
+      .cost-breakdown { grid-template-columns: 1fr; }
+      .expedition-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+    // ─── DATA ────────────────────────────────────────────────────────────────
+    const COURIERS = [
+      { id: 'jne', name: 'JNE', logo: 'https://asset.kriya.com/logo/jne-600x258.png', type: 'Reg, Yes, OK' },
+      { id: 'jnt', name: 'J&T Express', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/J%26T_Express_Logo.svg', type: 'Reg, Super' },
+      { id: 'sicepat', name: 'SiCepat', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Logo_SiCepat.svg/512px-Logo_SiCepat.svg.png', type: 'Reg, HDS, BEST' },
+      { id: 'anteraja', name: 'AnterAja', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Anteraja_Logo.svg', type: 'Reg, Next Day' },
+      { id: 'ninja', name: 'Ninja Xpress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Ninja_Xpress_Logo.svg', type: 'Std, Express' },
+      { id: 'pos', name: 'Pos Indonesia', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Logo_Pos_Indonesia.svg', type: 'Kilat, Reg' },
+      { id: 'tiki', name: 'TIKI', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_TIKI.svg', type: 'Reg, ECO' },
+      { id: 'spx', name: 'Shopee Xpress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg', type: 'Instant, Reg' },
+    ];
+
+    const PROVINCES = [
+      'Aceh','Sumatera Utara','Sumatera Barat','Riau','Jambi','Sumatera Selatan','Bengkulu','Lampung',
+      'DKI Jakarta','Jawa Barat','Jawa Tengah','DI Yogyakarta','Jawa Timur','Banten','Bali',
+      'Nusa Tenggara Barat','Nusa Tenggara Timur','Kalimantan Barat','Kalimantan Tengah','Kalimantan Timur',
+      'Kalimantan Selatan','Sulawesi Utara','Sulawesi Tengah','Sulawesi Selatan','Sulawesi Tenggara',
+      'Gorontalo','Sulawesi Barat','Maluku','Maluku Utara','Papua','Papua Barat'
+    ];
+
+    // Simulasi ongkir
+    function calcCost(fromIdx, toIdx, weight, courierId) {
+      const baseRates = {
+        jne: 12000, jnt: 10000, sicepat: 11000, anteraja: 10500,
+        ninja: 9500, pos: 11000, tiki: 11500, spx: 9000,
+      };
+      const base = baseRates[courierId] || 10000;
+      const distance = Math.abs(toIdx - fromIdx) + 1;
+      const weightFactor = Math.max(1, Math.ceil(weight / 250));
+      const serviceMultiplier = courierId === 'jne' ? 1.3 : courierId === 'ninja' ? 0.9 : 1.1;
+      const total = Math.round(base * distance * weightFactor * serviceMultiplier / 1000) * 1000;
+      const days = Math.min(8, Math.max(1, Math.round(distance / 4))) + (courierId === 'spx' ? -1 : 0);
+      return { price: total, days: `±${days} hari` };
+    }
+
+    function getMockHistory(awb, courierId) {
+      const statuses = [
+        { date: '15 Jun 2026, 08:30', title: 'Paket diterima di titik origin', desc: 'Paket telah diterima di gudang asal' },
+        { date: '15 Jun 2026, 14:20', title: 'Dalam proses pengiriman', desc: 'Paket sedang dalam perjalanan ke kota tujuan' },
+        { date: '16 Jun 2026, 09:00', title: 'Paket tiba di kota transit', desc: 'Paket arrived at sorting facility' },
+        { date: '17 Jun 2026, 07:45', title: 'Out for delivery', desc: 'Paket sedang diantar oleh kurir' },
+        { date: '17 Jun 2026, 13:20', title: 'DELIVERED', desc: 'Paket berhasil diterima' },
+      ];
+      return statuses;
+    }
+
+    function getStatusBadge(status) {
+      const map = {
+        'DELIVERED': { bg: '#d1fae5', color: '#065f46', text: '✓ Delivered' },
+        'Out for delivery': { bg: '#fef3c7', color: '#92400e', text: '🚚 On the way' },
+        'Dalam proses': { bg: '#dbeafe', color: '#1e40af', text: '↻ Processing' },
+        'Paket diterima': { bg: '#f3e8ff', color: '#6b21a8', text: '📦 Received' },
+      };
+      return map[status] || { bg: '#f3f4f6', color: '#374151', text: '● Pending' };
+    }
+
+    // ─── COMPONENTS ──────────────────────────────────────────────────────────
+
+    function Navbar() {
+      return (
+        <nav className="navbar">
+          <a href="#" className="navbar-logo">
+            🚛 <span>Lacak</span>Ongkir
+          </a>
+          <div className="navbar-links">
+            <a href="#tracking">Lacak</a>
+            <a href="#ongkir">Ongkir</a>
+            <a href="#ekspedisi">Ekspedisi</a>
+          </div>
+        </nav>
+      );
+    }
+
+    function Hero() {
+      return (
+        <section className="hero">
+          <div className="hero-content">
+            <div className="hero-badge">🇮🇩 Layanan Ekspedisi Indonesia</div>
+            <h1>Lacak Pengiriman & Hitung Ongkir Instan</h1>
+            <p>Track paket dari JNE, J&T, SiCepat, AnterAja & lainnya. Hitung biaya pengiriman antar kota di Indonesia dengan akurat.</p>
+          </div>
+          <div className="hero-wave">
+            <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0,0 L0,45 Q180,90 360,55 T720,65 T1080,50 T1440,60 L1440,0 Z" fill="#FAF4EB"/>
+            </svg>
+          </div>
+        </section>
+      );
+    }
+
+    function ExpeditionGrid({ selected, onSelect }) {
+      return (
+        <div className="expedition-grid">
+          {COURIERS.map(c => (
+            <div key={c.id} className={`expedition-card${selected === c.id ? ' selected' : ''}`} onClick={() => onSelect(c.id)}>
+              <img src={c.logo} alt={c.name} onError={e => { e.target.style.display = 'none'; }} />
+              <div className="name">{c.name}</div>
+              <div className="type">{c.type}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    function TrackingTab() {
+      const [awb, setAwb] = React.useState('');
+      const [courier, setCourier] = React.useState('jne');
+      const [result, setResult] = React.useState(null);
+      const [loading, setLoading] = React.useState(false);
+
+      const handleTrack = () => {
+        if (!awb.trim()) return;
+        setLoading(true);
+        setResult(null);
+        setTimeout(() => {
+          const history = getMockHistory(awb, courier);
+          setResult({ awb: awb.toUpperCase(), courier: COURIERS.find(c => c.id === courier)?.name, history, status: history[history.length-1].title });
+          setLoading(false);
+        }, 1200);
+      };
+
+      const badge = result ? getStatusBadge(result.status) : null;
+
+      return (
+        <div id="tracking">
+          <div className="card">
+            <div style={{marginBottom: 24}}>
+              <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Pilih Ekspedisi</label>
+              <ExpeditionGrid selected={courier} onSelect={setCourier} />
+            </div>
+
+            <div style={{marginBottom: 20}}>
+              <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Nomor Resi / AWB</label>
+              <div style={{display:'flex',gap:12}}>
+                <input
+                  type="text"
+                  placeholder="Contoh: JP1234567890"
+                  value={awb}
+                  onChange={e => setAwb(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleTrack()}
+                  style={{flex:1,fontWeight:600,letterSpacing:'0.5px'}}
+                />
+                <button className="btn-primary" onClick={handleTrack} disabled={loading || !awb.trim()} style={{whiteSpace:'nowrap',opacity: loading || !awb.trim() ? 0.6 : 1}}>
+                  {loading ? 'Melacak...' : '🔍 Lacak'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {result && (
+            <div className="tracking-result">
+              <div className="tracking-header">
+                <div>
+                  <div className="tracking-awb">{result.awb}</div>
+                  <div className="tracking-courier">{result.courier}</div>
+                </div>
+                <span className="tracking-status-badge" style={{background: badge.bg, color: badge.color}}>{badge.text}</span>
+              </div>
+
+              <div className="timeline">
+                {result.history.map((item, i) => (
+                  <div key={i} className="timeline-item">
+                    <div className="timeline-dot"></div>
+                    <div className="timeline-date">{item.date}</div>
+                    <div className="timeline-title">{item.title}</div>
+                    <div className="timeline-desc">{item.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function OngkirTab() {
+      const [from, setFrom] = React.useState('');
+      const [to, setTo] = React.useState('');
+      const [weight, setWeight] = React.useState(1);
+      const [courier, setCourier] = React.useState('');
+      const [results, setResults] = React.useState([]);
+      const [loading, setLoading] = React.useState(false);
+
+      const handleCalc = () => {
+        if (!from || !to || !weight) return;
+        setLoading(true);
+        setResults([]);
+        setTimeout(() => {
+          const fromIdx = PROVINCES.indexOf(from);
+          const toIdx = PROVINCES.indexOf(to);
+          const costs = COURIERS.map(c => ({
+            ...c,
+            ...calcCost(fromIdx, toIdx, weight, c.id)
+          })).sort((a, b) => a.price - b.price);
+          setResults(costs);
+          setLoading(false);
+        }, 1000);
+      };
+
+      return (
+        <div id="ongkir">
+          <div className="card">
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+              <div>
+                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Kota Asal</label>
+                <select value={from} onChange={e => setFrom(e.target.value)}>
+                  <option value="">Pilih Kota Asal</option>
+                  {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Kota Tujuan</label>
+                <select value={to} onChange={e => setTo(e.target.value)}>
+                  <option value="">Pilih Kota Tujuan</option>
+                  {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+              <div>
+                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Berat (gram)</label>
+                <input type="number" min="1" max="30000" value={weight} onChange={e => setWeight(Number(e.target.value))} />
+              </div>
+              <div>
+                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Filter Ekspedisi</label>
+                <select value={courier} onChange={e => setCourier(e.target.value)}>
+                  <option value="">Semua Ekspedisi</option>
+                  {COURIERS.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              </div>
+            </div>
+            <button className="btn-primary" onClick={handleCalc} disabled={loading || !from || !to} style={{width:'100%',opacity: loading || !from || !to ? 0.6 : 1}}>
+              {loading ? 'Menghitung...' : '💰 Hitung Ongkir'}
+            </button>
+          </div>
+
+          {results.length > 0 && (
+            <div style={{marginTop:24}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(300px, 1fr))',gap:16}}>
+                {results.filter(r => !courier || r.id === courier).map((r, i) => (
+                  <div key={r.id} className="cost-card">
+                    {i === 0 && <div className="best-badge">TERCEPAT</div>}
+                    <div className="courier-name">{r.name}</div>
+                    <div className="price">Rp {r.price.toLocaleString('id-ID')}</div>
+                    <div className="eta">Estimasi {r.days}</div>
+                    <div className="cost-breakdown">
+                      <div>
+                        <div className="label">Berat</div>
+                        <div className="value">{weight}g</div>
+                      </div>
+                      <div>
+                        <div className="label">Layanan</div>
+                        <div className="value">{r.type.split(',')[0]}</div>
+                      </div>
+                      <div>
+                        <div className="label">Asal</div>
+                        <div className="value">{from}</div>
+                      </div>
+                      <div>
+                        <div className="label">Tujuan</div>
+                        <div className="value">{to}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p style={{textAlign:'center',marginTop:16,fontSize:'0.8rem',color:'var(--text-muted)'}}>
+                * Harga adalah estimasi. Harga aktual bisa berbeda tergantung kondisi dan promotions.
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function CourierList() {
+      return (
+        <div id="ekspedisi">
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(240px, 1fr))',gap:16}}>
+            {COURIERS.map(c => (
+              <div key={c.id} className="card" style={{display:'flex',alignItems:'center',gap:16}}>
+                <img src={c.logo} alt={c.name} style={{width:48,height:48,objectFit:'contain',flexShrink:0}} onError={e => {e.target.style.display='none'}} />
+                <div>
+                  <div style={{fontWeight:800,color:'var(--forest)',fontSize:'1rem'}}>{c.name}</div>
+                  <div style={{fontSize:'0.8rem',color:'var(--text-muted)',marginTop:3}}>{c.type}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [activeTab, setActiveTab] = React.useState('tracking');
+
+      return (
+        <>
+          <Navbar />
+          <Hero />
+
+          <section className="section">
+            <div style={{display:'flex',justifyContent:'center',gap:8,marginBottom:36}}>
+              <button className="tab-btn" style={{background:activeTab==='tracking'?'var(--forest)':'transparent',color:activeTab==='tracking'?'white':'var(--forest)',borderColor:activeTab==='tracking'?'var(--forest)':'var(--border)'}} onClick={() => setActiveTab('tracking')}>
+                🔍 Lacak Paket
+              </button>
+              <button className="tab-btn" style={{background:activeTab==='ongkir'?'var(--forest)':'transparent',color:activeTab==='ongkir'?'white':'var(--forest)',borderColor:activeTab==='ongkir'?'var(--forest)':'var(--border)'}} onClick={() => setActiveTab('ongkir')}>
+                💰 Kalkulator Ongkir
+              </button>
+              <button className="tab-btn" style={{background:activeTab==='list'?'var(--forest)':'transparent',color:activeTab==='list'?'white':'var(--forest)',borderColor:activeTab==='list'?'var(--forest)':'var(--border)'}} onClick={() => setActiveTab('list')}>
+                📦 Ekspedisi
+              </button>
+            </div>
+
+            {activeTab === 'tracking' && <TrackingTab />}
+            {activeTab === 'ongkir' && <OngkirTab />}
+            {activeTab === 'list' && <CourierList />}
+          </section>
+
+          <div className="divider">
+            <div className="divider-line"></div>
+            <div className="divider-dot"></div>
+            <div className="divider-line"></div>
+          </div>
+
+          <section className="section" id="ekspedisi">
+            <div className="section-title">
+              <h2>Partner Ekspedisi</h2>
+              <p>8 kurir ternama Indonesia dalam satu platform</p>
+            </div>
+            <CourierList />
+          </section>
+
+          <footer className="footer">
+            <p>🇮🇩 <strong>LacakOngkir</strong> — Platform tracking & kalkulator ongkir Indonesia</p>
+            <p style={{marginTop:6}}>Demo project · Data bersifat estimasi</p>
+          </footer>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
