@@ -1,8 +1,9 @@
 FROM php:8-cli-alpine
 WORKDIR /var/www/html
 
-# Install required PHP extensions
-RUN docker-php-ext-install pdo pdo_sqlite
+# Enable built-in SQLite extension (no compile needed)
+RUN echo "extension=pdo_sqlite" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini \
+ && echo "extension=pdo" >> /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini
 
 # Copy all application files
 COPY . .
