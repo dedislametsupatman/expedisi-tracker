@@ -1,12 +1,10 @@
 <?php
 /**
  * Utility functions - Auth, Sessions, API Key validation
+ * Uses DB-backed sessions for PHP built-in server compatibility
  */
 
 require_once __DIR__ . '/db.php';
-
-// Session storage (in-memory for simplicity - use Redis in production)
-$SESSIONS = [];
 
 // ─── Response Helpers ───────────────────────────────────────────
 function json_response($data, $code = 200) {
@@ -23,31 +21,33 @@ function json_error($message, $code = 400, $details = null) {
     exit;
 }
 
-// ─── Auth Helpers ───────────────────────────────────────────────
+// ─── Auth Helpers (DB-backed sessions) ──────────────────────────
 function createSession(int $userId): string {
-    global $SESSIONS;
     $token = bin2hex(random_bytes(32));
-    $SESSIONS[$token] = [
-        'user_id' => $userId,
-        'created_at' => time()
-    ];
+    $pdo = Database::get();
+    $stmt = $pdo->prepare('INSERT INTO sessions (token, user_id) VALUES (?, ?)');
+    $stmt->execute([$token, $userId]);
     return $token;
 }
 
 function deleteSession(string $token): void {
-    global $SESSIONS;
-    unset($SESSIONS[$token]);
+    $pdo = Database::get();
+    $stmt = $pdo->prepare('DELETE FROM sessions WHERE token = ?');
+    $stmt->execute([$token]);
 }
 
 function getSession(string $token): ?array {
-    global $SESSIONS;
-    return $SESSIONS[$token] ?? null;
+    if (empty($token)) return null;
+    $pdo = Database::get();
+    $stmt = $pdo->prepare('SELECT * FROM sessions WHERE token = ?');
+    $stmt->execute([$token]);
+    return $stmt->fetch() ?: null;
 }
 
 function getBearerToken(): ?string {
     $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
     if (preg_match('/Bearer\s+(.+)/i', $header, $m)) {
-        return $m[1];
+        return trim($m[1]);
     }
     return null;
 }
@@ -60,19 +60,24 @@ function requireAuth(): ?array {
     if (!$token) {
         return null;
     }
-    
+
     $session = getSession($token);
     if (!$session) {
         return null;
     }
-    
-    // Session expired (24 hours)
-    if (time() - $session['created_at'] > 86400) {
+
+    // Session expired (7 days)
+    $createdAt = strtotime($session['created_at']);
+    if (time() - $createdAt > 7 * 86400) {
         deleteSession($token);
         return null;
     }
-    
+
+    // Update last used
     $pdo = Database::get();
+    $stmt = $pdo->prepare('UPDATE sessions SET last_used_at = CURRENT_TIMESTAMP WHERE token = ?');
+    $stmt->execute([$token]);
+
     $stmt = $pdo->prepare('SELECT id, email, name, created_at FROM users WHERE id = ?');
     $stmt->execute([$session['user_id']]);
     return $stmt->fetch() ?: null;
@@ -82,38 +87,36 @@ function requireAuth(): ?array {
  * Require API key - returns api_key record or exits
  */
 function requireApiKey(): ?array {
-    $header = $_SERVER['HTTP_X_API_KEY'] ?? $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-    
-    // Try X-API-Key header first
     $key = $_SERVER['HTTP_X_API_KEY'] ?? '';
-    
+
     // Or Bearer token with api_key prefix
+    $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
     if (preg_match('/Bearer\s+exp_api_(.+)/i', $header, $m)) {
-        $key = $m[1];
+        $key = 'exp_api_' . trim($m[1]);
     }
-    
+
     if (empty($key)) {
         return null;
     }
-    
+
     $pdo = Database::get();
     $stmt = $pdo->prepare('
-        SELECT ak.id, ak.user_id, ak.name, ak.is_active, ak.last_used_at, u.email 
-        FROM api_keys ak 
-        JOIN users u ON u.id = ak.user_id 
+        SELECT ak.id, ak.user_id, ak.name, ak.is_active, ak.last_used_at, u.email
+        FROM api_keys ak
+        JOIN users u ON u.id = ak.user_id
         WHERE ak.key_hash = ? AND ak.is_active = 1
     ');
     $stmt->execute([hash('sha256', $key)]);
     $keyData = $stmt->fetch();
-    
+
     if (!$keyData) {
         return null;
     }
-    
+
     // Update last_used_at
     $stmt = $pdo->prepare('UPDATE api_keys SET last_used_at = CURRENT_TIMESTAMP WHERE id = ?');
     $stmt->execute([$keyData['id']]);
-    
+
     return $keyData;
 }
 
@@ -131,8 +134,8 @@ function validateApiKey(string $key): ?array {
     $pdo = Database::get();
     $stmt = $pdo->prepare('
         SELECT ak.*, u.email, u.name as user_name
-        FROM api_keys ak 
-        JOIN users u ON u.id = ak.user_id 
+        FROM api_keys ak
+        JOIN users u ON u.id = ak.user_id
         WHERE ak.key_hash = ? AND ak.is_active = 1
     ');
     $stmt->execute([hash('sha256', $key)]);

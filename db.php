@@ -68,6 +68,17 @@ class Database {
                 FOREIGN KEY (api_key_id) REFERENCES api_keys(id) ON DELETE SET NULL
             )
         ");
+
+        // Sessions table (DB-backed for PHP built-in server)
+        $pdo->exec("
+            CREATE TABLE IF NOT EXISTS sessions (
+                token TEXT PRIMARY KEY,
+                user_id INTEGER NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                last_used_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        ");
         
         // Create indexes
         $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_user ON api_keys(user_id)");
