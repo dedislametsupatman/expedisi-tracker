@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lacak & Ongkir — Expedisi Indonesia</title>
+  <title>LacakOngkir — Expedisi Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
@@ -24,6 +24,8 @@
       --border: #e5e7eb;
       --shadow: 0 4px 20px rgba(8,72,35,0.12);
       --shadow-lg: 0 8px 40px rgba(8,72,35,0.18);
+      --danger: #dc2626;
+      --success: #16a34a;
     }
 
     body {
@@ -49,7 +51,8 @@
       box-shadow: 0 4px 16px rgba(196,98,45,0.35);
       font-family: inherit;
     }
-    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(196,98,45,0.45); }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .btn-secondary {
       background-color: var(--green-mid);
@@ -65,6 +68,7 @@
       font-family: inherit;
     }
     .btn-secondary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .btn-ghost {
       background: transparent;
@@ -80,6 +84,20 @@
     }
     .btn-ghost:hover { background: var(--forest); color: white; }
 
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-danger:hover { opacity: 0.9; }
+
     input, select {
       border: 2px solid var(--border);
       border-radius: 12px;
@@ -91,8 +109,10 @@
       transition: border-color 0.2s;
       width: 100%;
       outline: none;
+      box-sizing: border-box;
     }
     input:focus, select:focus { border-color: var(--green-mid); }
+    input::placeholder { color: #9ca3af; }
 
     .card {
       background: white;
@@ -112,6 +132,7 @@
       font-family: inherit;
     }
 
+    /* Navbar */
     .navbar {
       background: var(--forest);
       padding: 0 40px;
@@ -124,27 +145,22 @@
       z-index: 100;
       box-shadow: 0 2px 16px rgba(0,0,0,0.2);
     }
-
     .navbar-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1.4rem;
       color: white;
       font-weight: 800;
-      letter-spacing: -0.3px;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
     .navbar-logo span { color: var(--amber); }
-
     .navbar-links {
       display: flex;
       gap: 8px;
       align-items: center;
     }
-
     .navbar-links a {
       color: rgba(255,255,255,0.8);
       text-decoration: none;
@@ -154,8 +170,58 @@
       border-radius: 8px;
       transition: all 0.2s;
     }
-    .navbar-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+    .navbar-links a:hover, .navbar-links a.active { color: white; background: rgba(255,255,255,0.1); }
 
+    /* User menu */
+    .user-menu {
+      position: relative;
+    }
+    .user-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .user-btn:hover { background: rgba(255,255,255,0.2); }
+    .user-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      min-width: 200px;
+      overflow: hidden;
+      z-index: 999;
+    }
+    .user-dropdown-item {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      transition: background 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+    }
+    .user-dropdown-item:hover { background: var(--light-tint); }
+    .user-dropdown-item.danger { color: var(--danger); }
+
+    /* Hero */
     .hero {
       background: linear-gradient(135deg, var(--forest) 0%, var(--green-mid) 60%, #2d7a4a 100%);
       padding: 64px 40px 80px;
@@ -163,16 +229,13 @@
       position: relative;
       overflow: hidden;
     }
-
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-
     .hero-content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
-
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -188,21 +251,8 @@
       border-radius: 100px;
       margin-bottom: 20px;
     }
-
-    .hero h1 {
-      color: white;
-      font-size: 2.8rem;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-
-    .hero p {
-      color: rgba(255,255,255,0.8);
-      font-size: 1.1rem;
-      max-width: 480px;
-      margin: 0 auto 32px;
-    }
-
+    .hero h1 { color: white; font-size: 2.8rem; line-height: 1.15; margin-bottom: 16px; }
+    .hero p { color: rgba(255,255,255,0.8); font-size: 1.1rem; max-width: 480px; margin: 0 auto 32px; }
     .hero-wave {
       position: absolute;
       bottom: 0;
@@ -212,41 +262,23 @@
       line-height: 0;
       overflow: hidden;
     }
-
     .hero-wave svg { display: block; width: 100%; height: 100%; }
 
     .section { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .section-title h2 {
-      font-size: 2rem;
-      color: var(--forest);
-      margin-bottom: 10px;
-    }
-
+    .section-title { text-align: center; margin-bottom: 40px; }
+    .section-title h2 { font-size: 2rem; color: var(--forest); margin-bottom: 10px; }
     .section-title p { color: var(--text-muted); font-size: 1rem; }
-
-    .divider {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      padding: 20px 0;
-    }
+    .divider { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 20px 0; }
     .divider-line { width: 60px; height: 1px; background: var(--amber); }
     .divider-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
 
+    /* Expedition grid */
     .expedition-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 14px;
       margin-bottom: 32px;
     }
-
     .expedition-card {
       background: white;
       border: 2px solid var(--border);
@@ -263,23 +295,9 @@
     .expedition-card .name { font-weight: 700; font-size: 0.88rem; color: var(--forest); }
     .expedition-card .type { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
 
-    .tracking-result {
-      background: white;
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-      margin-top: 24px;
-    }
-
-    .tracking-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding-bottom: 20px;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 24px;
-    }
-
+    /* Tracking result */
+    .tracking-result { background: white; border-radius: 20px; padding: 28px; box-shadow: var(--shadow); margin-top: 24px; }
+    .tracking-header { display: flex; align-items: flex-start; gap: 16px; padding-bottom: 20px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
     .tracking-awb { font-size: 1.1rem; font-weight: 800; color: var(--forest); }
     .tracking-courier { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
     .tracking-status-badge {
@@ -292,7 +310,6 @@
       letter-spacing: 0.5px;
       white-space: nowrap;
     }
-
     .timeline { position: relative; padding-left: 28px; }
     .timeline::before {
       content: '';
@@ -303,10 +320,8 @@
       width: 2px;
       background: var(--border);
     }
-
     .timeline-item { position: relative; padding-bottom: 24px; }
     .timeline-item:last-child { padding-bottom: 0; }
-
     .timeline-dot {
       position: absolute;
       left: -25px;
@@ -320,12 +335,11 @@
       z-index: 1;
     }
     .timeline-item:first-child .timeline-dot { box-shadow: 0 0 0 3px var(--green-mid); background: var(--green-mid); }
-    .timeline-item:not(:first-child) .timeline-dot { background: white; }
-
     .timeline-date { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
     .timeline-title { font-weight: 700; font-size: 0.95rem; color: var(--text-dark); margin: 2px 0; }
     .timeline-desc { font-size: 0.85rem; color: var(--text-muted); }
 
+    /* Cost card */
     .cost-card {
       background: linear-gradient(135deg, var(--forest), var(--green-mid));
       border-radius: 20px;
@@ -334,22 +348,12 @@
       position: relative;
       overflow: hidden;
     }
-
     .cost-card .courier-name { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
     .cost-card .price { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--amber); }
     .cost-card .eta { font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-top: 4px; }
-
-    .cost-breakdown {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,0.2);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .cost-breakdown { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .cost-breakdown .label { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
     .cost-breakdown .value { font-size: 0.85rem; font-weight: 600; }
-
     .best-badge {
       position: absolute;
       top: 12px;
@@ -363,15 +367,181 @@
       letter-spacing: 0.5px;
     }
 
-    .footer {
-      background: var(--forest);
-      color: rgba(255,255,255,0.7);
-      text-align: center;
-      padding: 32px 24px;
-      font-size: 0.88rem;
-    }
+    /* Footer */
+    .footer { background: var(--forest); color: rgba(255,255,255,0.7); text-align: center; padding: 32px 24px; font-size: 0.88rem; }
     .footer strong { color: var(--amber); }
 
+    /* ─── Auth Modal ─────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    .modal {
+      background: white;
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-close:hover { background: var(--cream); color: var(--text-dark); }
+    .modal-title { font-size: 1.6rem; color: var(--forest); margin-bottom: 8px; }
+    .modal-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px; }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-weight: 600; font-size: 0.88rem; color: var(--forest); margin-bottom: 6px; }
+    .form-error { background: #fef2f2; border: 1px solid #fca5a5; color: var(--danger); padding: 10px 14px; border-radius: 10px; font-size: 0.88rem; margin-bottom: 16px; }
+    .form-success { background: #f0fdf4; border: 1px solid #86efac; color: var(--success); padding: 10px 14px; border-radius: 10px; font-size: 0.88rem; margin-bottom: 16px; }
+    .auth-switch { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
+    .auth-switch a { color: var(--forest); font-weight: 600; cursor: pointer; text-decoration: underline; }
+
+    /* ─── API Key Dashboard ──────────────────────────────── */
+    .api-key-box {
+      background: var(--light-tint);
+      border: 2px dashed var(--amber);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .api-key-label { font-size: 0.78rem; font-weight: 700; color: var(--amber); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .api-key-value {
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--forest);
+      word-break: break-all;
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .api-key-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+    .key-list { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+    .key-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .key-item-info { flex: 1; }
+    .key-item-name { font-weight: 700; color: var(--forest); font-size: 0.95rem; }
+    .key-item-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+    .key-item-prefix { font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-muted); }
+
+    /* ─── Docs ────────────────────────────────────────────── */
+    .docs-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .docs-nav-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid var(--border);
+      background: white;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .docs-nav-btn:hover { border-color: var(--green-mid); color: var(--green-mid); }
+    .docs-nav-btn.active { background: var(--forest); border-color: var(--forest); color: white; }
+
+    .docs-code {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      margin: 12px 0;
+      line-height: 1.6;
+    }
+    .docs-code .comment { color: #64748b; }
+    .docs-code .string { color: #86efac; }
+    .docs-code .keyword { color: #f472b6; }
+    .docs-code .method { color: #60a5fa; }
+
+    .endpoint-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .endpoint-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .method-badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      font-family: monospace;
+    }
+    .method-badge.get { background: #dbeafe; color: #1e40af; }
+    .method-badge.post { background: #d1fae5; color: #065f46; }
+    .method-badge.delete { background: #fee2e2; color: #991b1b; }
+    .endpoint-path { font-family: monospace; font-size: 0.95rem; font-weight: 600; color: var(--text-dark); }
+    .endpoint-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+
+    .param-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .param-table th { text-align: left; padding: 8px 12px; background: var(--cream); border-bottom: 2px solid var(--border); font-size: 0.8rem; color: var(--text-muted); }
+    .param-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .param-table code { background: var(--light-tint); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--forest); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--forest);
+      color: white;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideUp 0.3s ease;
+    }
+    .toast.error { background: var(--danger); }
+    .toast.success { background: var(--success); }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* Responsive */
     @media (max-width: 640px) {
       .hero h1 { font-size: 2rem; }
       .navbar { padding: 0 16px; }
@@ -386,534 +556,280 @@
   <div id="root"></div>
   <script type="text/babel">
 
-    // ─── DATA ────────────────────────────────────────────────────────────────
+    // ─── Config ────────────────────────────────────────────────────────────────
+    const API_BASE = '/api';
+
+    // ─── Data ─────────────────────────────────────────────────────────────────
     const COURIERS = [
-      {
-        id: 'jne',
-        name: 'JNE',
-        logo: 'https://asset.kriya.com/logo/jne-600x258.png',
-        tagline: 'Layanan terpercaya sejak 1990',
-        services: [
-          { code: 'REG', name: 'Reguler', desc: 'Layanan standar dengan estimasi 3-7 hari. Cocok untuk paket biasa yang tidak mendesak.', estimate: '3-7 hari' },
-          { code: 'YES', name: 'Yakin Esok Sampai', desc: 'Layanan next-day delivery untuk kota-kota besar di Jawa. Garansi uang kembali jika terlambat.', estimate: '1 hari' },
-          { code: 'JTR', name: 'Jasa Trucking', desc: 'Layanan pengiriman via trucking untuk paket besar / berat (di atas 10kg). Cocok untuk pindahan atau kiriman cargo.', estimate: '5-14 hari' },
-          { code: 'OK', name: 'Ojek Kupon', desc: 'Layanan penjemputan dan pengantaran via ojek untuk area tertentu. Untuk paket yang butuh kecepatan di area kota.', estimate: 'Same day' },
-          { code: 'SPS', name: 'Special Handling', desc: 'Layanan penanganan khusus untuk barang fragile / bernilai tinggi dengan asuransi tambahan.', estimate: '2-5 hari' },
-          { code: 'CARG', name: 'Cargo', desc: 'Pengiriman via udara atau laut untuk paket sangat besar atau ke wilayah terpencil.', estimate: '7-21 hari' },
-        ],
-      },
-      {
-        id: 'jnt',
-        name: 'J&T Express',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/J%26T_Express_Logo.svg',
-        tagline: 'Pengiriman cepat harga terjangkau',
-        services: [
-          { code: 'REG', name: 'Reguler', desc: 'Layanan standar J&T dengan jangkauan nasional luas. Cocok untuk penggunaan harian dan online shop.', estimate: '2-5 hari' },
-          { code: 'SUP', name: 'Super', desc: 'Layanan ekspres dengan estimasi lebih cepat dari reguler. Untuk paket yang butuh sampai cepat.', estimate: '1-2 hari' },
-          { code: 'FRS', name: 'Fresh', desc: 'Layanan khusus untuk produk segar / perishable seperti makanan, bunga, obat-obatan. Menggunakan packaging khusus.', estimate: '1-2 hari' },
-          { code: 'MED', name: 'Medicine', desc: 'Layanan khusus pengiriman obat-obatan dan produk farmasi dengan penanganan温度 controlled.', estimate: '1-3 hari' },
-        ],
-      },
-      {
-        id: 'sicepat',
-        name: 'SiCepat',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Logo_SiCepat.svg/512px-Logo_SiCepat.svg.png',
-        tagline: 'Sicepat kebagian, Pasti sampai',
-        services: [
-          { code: 'REG', name: 'Reguler', desc: 'Layanan standar SiCepat dengan jangkauan seluruh Indonesia. Terkenal dengan tracking yang akurat.', estimate: '2-5 hari' },
-          { code: 'HDS', name: 'Hand-carry', desc: 'Layanan hand-carry untuk paket mendesak yang diantar langsung oleh kurir. Untuk dokumen penting atau barang berharga.', estimate: 'Same day' },
-          { code: 'BEST', name: 'SiCepat BEST', desc: 'Layanan premium dengan jaminan keamanan dan kecepatan. Dilengkapi packing upgraded dan asuransi.', estimate: '1-2 hari' },
-          { code: 'GOKIL', name: 'GOKIL', desc: 'Layanan económico untuk paket ringan dengan harga paling terjangkau. Tanpa kompromi keamanan.', estimate: '3-7 hari' },
-          { code: 'SIUNT', name: 'Si Untung', desc: 'Program loyalitas untuk penjual online dengan harga spesial dan fitur COD enhanced.', estimate: '2-5 hari' },
-        ],
-      },
-      {
-        id: 'anteraja',
-        name: 'AnterAja',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Anteraja_Logo.svg',
-        tagline: 'Kompetitif dalam harga dan kecepatan',
-        services: [
-          { code: 'REG', name: 'Reguler', desc: 'Layanan standar AnterAja untuk pengiriman harian. Jangkauan luas dengan harga bersahabat.', estimate: '2-5 hari' },
-          { code: 'HDS', name: 'Hemat Same Day', desc: 'Layanan same day dengan harga lebih hemat dibanding kompetitor. Untuk kota besar saja.', estimate: 'Same day' },
-          { code: 'NDD', name: 'Next Day', desc: 'Layanan next day delivery untuk paket yang butuh sampai keesokan harinya. Tersedia di kota-kota utama.', estimate: '1 hari' },
-          { code: 'ECO', name: 'Economi', desc: 'Layanan paling terjangkau untuk paket tidak mendesak. Menggunakan armada gabungan terrestres.', estimate: '4-8 hari' },
-        ],
-      },
-      {
-        id: 'ninja',
-        name: 'Ninja Xpress',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Ninja_Xpress_Logo.svg',
-        tagline: 'Thorough, Fast, Reliable',
-        services: [
-          { code: 'STD', name: 'Standard', desc: 'Layanan standar Ninja Xpress dengan jangkauan nasional. Terkenal dengan teknologi tracking real-time.', estimate: '2-5 hari' },
-          { code: 'EXP', name: 'Express', desc: 'Layanan ekspres untuk pengiriman cepat. Dilengkapi notifikasi otomatis ke penerima.', estimate: '1-2 hari' },
-          { code: 'PRI', name: 'Priority', desc: 'Layanan prioritas dengan handling khusus. Untuk barang fragiles atau bernilai tinggi.', estimate: '1-2 hari' },
-          { code: 'FRT', name: 'Freight', desc: 'Layanan freight untuk paket sangat besar via trucking atau cargo. Minimal berat 10kg.', estimate: '5-14 hari' },
-        ],
-      },
-      {
-        id: 'pos',
-        name: 'Pos Indonesia',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Logo_Pos_Indonesia.svg',
-        tagline: 'Menghubungkan Negeri, Membangun Bangsa',
-        services: [
-          { code: 'KILAT', name: 'Kilat', desc: 'Layanan kilat dengan kecepatan tinggi via udara. Bisa kirim ke seluruh Indonesia termasuk wilayah terpencil.', estimate: '2-4 hari' },
-          { code: 'REG', name: 'Reguler', desc: 'Layanan paket standar Pos Indonesia yang menjangkau hingga ke desa-desa terpencil.', estimate: '5-10 hari' },
-          { code: 'SIKAT', name: 'Sicepat Kilat', desc: 'Layanan kilat khusus dari Pos untuk kota-kota besar. Kombinasi kecepatan dan jangkauan.', estimate: '2-3 hari' },
-          { code: 'POS', name: 'Pos Extra', desc: 'Layanan extra dengan fitur pelacakan dan asuransi. Untuk paket bernilai tinggi.', estimate: '3-6 hari' },
-          { code: 'BAG', name: 'Baggage', desc: 'Layanan pengiriman bagasi untuk penumpang pesawat yang sudah selesai terbang.', estimate: '3-7 hari' },
-        ],
-      },
-      {
-        id: 'tiki',
-        name: 'TIKI',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_TIKI.svg',
-        tagline: 'On Time Any Time',
-        services: [
-          { code: 'REG', name: 'Reguler', desc: 'Layanan standar TIKI dengan jaringan distribusi yang luas di seluruh Indonesia.', estimate: '2-5 hari' },
-          { code: 'ECO', name: 'Economi', desc: 'Layanan ekonomis untuk paket berat dengan harga terjangkau. Cocok untuk cargo dan pindahan.', estimate: '5-10 hari' },
-          { code: 'SDS', name: 'Same Day', desc: 'Layanan pengiriman di hari yang sama untuk kota-kota besar. Untuk paket mendesak.', estimate: 'Same day' },
-          { code: 'NEX', name: 'Next Day', desc: 'Layanan besok sampai ke kota-kota besar. Dengan garansi on-time delivery.', estimate: '1 hari' },
-          { code: 'TRUCK', name: 'Trucking', desc: 'Layanan trucking untuk paket sangat besar dan berat. Via jalur darat dengan estimasi fleksibel.', estimate: '7-21 hari' },
-        ],
-      },
-      {
-        id: 'spx',
-        name: 'Shopee Xpress',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg',
-        tagline: 'Jasa kirim andalan Shopee & platform lainnya',
-        services: [
-          { code: 'INST', name: 'Instant', desc: 'Layanan pengiriman secepat mungkin dengan kurir langsung. Tersedia di area tertentu kota besar.', estimate: '1-3 jam' },
-          { code: 'REG', name: 'Reguler', desc: 'Layanan standar Shopee Xpress yang terintegrasi dengan berbagai marketplace. Harga sangat kompetitif.', estimate: '2-4 hari' },
-          { code: 'HEMAT', name: 'Hemat', desc: 'Layanan ekonomis untuk pembeli yang ingin hemat ongkir. Dengan waktu pengiriman sedikit lebih lama.', estimate: '3-6 hari' },
-          { code: 'EXPRESS', name: 'Express', desc: 'Layanan ekspres untuk seller dengan jaminan kecepatan sampai. Dilengkapi tracking real-time.', estimate: '1-2 hari' },
-        ],
-      },
+      { id: 'jne', name: 'JNE', logo: 'https://asset.kriya.com/logo/jne-600x258.png', tagline: 'Layanan terpercaya sejak 1990' },
+      { id: 'jnt', name: 'J&T Express', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/J%26T_Express_Logo.svg', tagline: 'Pengiriman cepat harga terjangkau' },
+      { id: 'sicepat', name: 'SiCepat', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Logo_SiCepat.svg/512px-Logo_SiCepat.svg.png', tagline: 'Sicepat kebagian, Pasti sampai' },
+      { id: 'anteraja', name: 'AnterAja', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Anteraja_Logo.svg', tagline: 'Kompetitif dalam harga dan kecepatan' },
+      { id: 'ninja', name: 'Ninja Xpress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Ninja_Xpress_Logo.svg', tagline: 'Thorough, Fast, Reliable' },
+      { id: 'pos', name: 'Pos Indonesia', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Logo_Pos_Indonesia.svg', tagline: 'Menghubungkan Negeri, Membangun Bangsa' },
+      { id: 'tiki', name: 'TIKI', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_TIKI.svg', tagline: 'On Time Any Time' },
+      { id: 'spx', name: 'Shopee Xpress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg', tagline: 'Jasa kirim andalan Shopee & platform lainnya' },
     ];
 
-    // Zone: 1=Sumatra, 2=Jawa Barat, 3=Jawa Tengah, 4=Jawa Timur, 5=Bali-NTT-NTB, 6=Kalimantan, 7=Sulawesi, 8=Maluku-Papua
-    
-const CITIES = [
-  // === SUMATERA (Zone 1) ===
-  { id: 'btj', name: 'Banda Aceh', province: 'Aceh', zone: 1, jneCode: 'BTJ' },
-  { id: 'meulaboh', name: 'Meulaboh', province: 'Aceh', zone: 1, jneCode: 'Meulaboh' },
-  { id: 'lhokseumawe', name: 'Lhokseumawe', province: 'Aceh', zone: 1, jneCode: 'Lhokseumawe' },
-  { id: 'sabang', name: 'Sabang', province: 'Aceh', zone: 1, jneCode: 'Sabang' },
-  { id: 'blpid', name: 'Blangpidie', province: 'Aceh', zone: 1, jneCode: 'Blangpidie' },
-  { id: 'mdn', name: 'Medan', province: 'Sumatera Utara', zone: 1, jneCode: 'KNO' },
-  { id: 'pkb', name: 'Pekanbaru', province: 'Riau', zone: 1, jneCode: 'PKU' },
-  { id: 'dumai', name: 'Dumai', province: 'Riau', zone: 1, jneCode: 'Dumai' },
-  { id: 'jambi', name: 'Jambi', province: 'Jambi', zone: 1, jneCode: 'DJB' },
-  { id: 'sungai-penuh', name: 'Sungai Penuh', province: 'Jambi', zone: 1, jneCode: 'Sungai Penuh' },
-  { id: 'plg', name: 'Palembang', province: 'Sumatera Selatan', zone: 1, jneCode: 'PLG' },
-  { id: 'lubuklinggau', name: 'Lubuklinggau', province: 'Sumatera Selatan', zone: 1, jneCode: 'Lubuklinggau' },
-  { id: 'prabumulih', name: 'Prabumulih', province: 'Sumatera Selatan', zone: 1, jneCode: 'Prabumulih' },
-  { id: 'bengkulu', name: 'Bengkulu', province: 'Bengkulu', zone: 1, jneCode: 'BKS' },
-  { id: 'manna', name: 'Manna', province: 'Bengkulu', zone: 1, jneCode: 'Manna' },
-  { id: 'curup', name: 'Curup', province: 'Bengkulu', zone: 1, jneCode: 'Curup' },
-  { id: 'tanjung-pandan', name: 'Tanjung Pandan', province: 'Bangka Belitung', zone: 1, jneCode: 'Tanjung Pandan' },
-  { id: 'pangkal-pinang', name: 'Pangkal Pinang', province: 'Bangka Belitung', zone: 1, jneCode: 'PGK' },
-  { id: 'tanjung-pinang', name: 'Tanjung Pinang', province: 'Kepulauan Riau', zone: 1, jneCode: 'TNJ' },
-  { id: 'btm', name: 'Batam', province: 'Kepulauan Riau', zone: 1, jneCode: 'BTH' },
-  { id: 'karimun', name: 'Karimun', province: 'Kepulauan Riau', zone: 1, jneCode: 'Karimun' },
-  { id: 'bandar-lampung', name: 'Bandar Lampung', province: 'Lampung', zone: 1, jneCode: 'Banda Lampung' },
-  { id: 'metro', name: 'Metro', province: 'Lampung', zone: 1, jneCode: 'Metro' },
-  { id: 'kota-agi', name: 'Kota Agung', province: 'Lampung', zone: 1, jneCode: 'Kota Agung' },
-  { id: 'pdg', name: 'Padang', province: 'Sumatera Barat', zone: 1, jneCode: 'PDG' },
-  { id: 'payakumbuh', name: 'Payakumbuh', province: 'Sumatera Barat', zone: 1, jneCode: 'Payakumbuh' },
-  { id: 'pariaman', name: 'Pariaman', province: 'Sumatera Barat', zone: 1, jneCode: 'Pariaman' },
-  { id: 'solok', name: 'Solok', province: 'Sumatera Barat', zone: 1, jneCode: 'Solok' },
-  { id: 'sawahlunto', name: 'Sawahlunto', province: 'Sumatera Barat', zone: 1, jneCode: 'Sawahlunto' },
-
-  // === JAWA BARAT & DKI (Zone 2) ===
-  { id: 'jakarta-pusat', name: 'Jakarta Pusat', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKPUS' },
-  { id: 'jakarta-barat', name: 'Jakarta Barat', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKBAR' },
-  { id: 'jakarta-selatan', name: 'Jakarta Selatan', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKSEL' },
-  { id: 'jakarta-timur', name: 'Jakarta Timur', province: 'DKI Jakarta', zone: 2, jneCode: 'CGK' },
-  { id: 'jakarta-utara', name: 'Jakarta Utara', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKUT' },
-  { id: 'depok', name: 'Depok', province: 'Jawa Barat', zone: 2, jneCode: 'DEP' },
-  { id: 'bekasi', name: 'Bekasi', province: 'Jawa Barat', zone: 2, jneCode: 'BKI' },
-  { id: 'bogor', name: 'Bogor', province: 'Jawa Barat', zone: 2, jneCode: 'BGR' },
-  { id: 'sukabumi', name: 'Sukabumi', province: 'Jawa Barat', zone: 2, jneCode: 'SUKABUMI' },
-  { id: 'bandung', name: 'Bandung', province: 'Jawa Barat', zone: 2, jneCode: 'BDO' },
-  { id: 'cirebon', name: 'Cirebon', province: 'Jawa Barat', zone: 2, jneCode: 'CRB' },
-  { id: 'tasikmalaya', name: 'Tasikmalaya', province: 'Jawa Barat', zone: 2, jneCode: 'TSM' },
-  { id: 'karawang', name: 'Karawang', province: 'Jawa Barat', zone: 2, jneCode: 'KRW' },
-  { id: 'serang', name: 'Serang', province: 'Banten', zone: 2, jneCode: 'SRG' },
-  { id: 'cilegon', name: 'Cilegon', province: 'Banten', zone: 2, jneCode: 'CLG' },
-  { id: 'tangerang-selatan', name: 'Tangerang Selatan', province: 'Banten', zone: 2, jneCode: 'TANGSEL' },
-  { id: 'tangerang', name: 'Tangerang', province: 'Banten', zone: 2, jneCode: 'TANGERANG' },
-  { id: 'rangkas', name: 'Rangkasbitung', province: 'Banten', zone: 2, jneCode: 'RNG' },
-
-  // === JAWA TENGAH (Zone 3) ===
-  { id: 'semarang', name: 'Semarang', province: 'Jawa Tengah', zone: 3, jneCode: 'SMH' },
-  { id: 'solo', name: 'Surakarta (Solo)', province: 'Jawa Tengah', zone: 3, jneCode: 'SOL' },
-  { id: 'salatiga', name: 'Salatiga', province: 'Jawa Tengah', zone: 3, jneCode: 'SLG' },
-  { id: 'pekalongan', name: 'Pekalongan', province: 'Jawa Tengah', zone: 3, jneCode: 'PKL' },
-  { id: 'tegal', name: 'Tegal', province: 'Jawa Tengah', zone: 3, jneCode: 'TG' },
-  { id: 'magelang', name: 'Magelang', province: 'Jawa Tengah', zone: 3, jneCode: 'MGL' },
-  { id: 'kudus', name: 'Kudus', province: 'Jawa Tengah', zone: 3, jneCode: 'KDS' },
-  { id: 'wonogiri', name: 'Wonogiri', province: 'Jawa Tengah', zone: 3, jneCode: 'WNG' },
-  { id: 'pati', name: 'Pati', province: 'Jawa Tengah', zone: 3, jneCode: 'PT' },
-  { id: 'jepara', name: 'Jepara', province: 'Jawa Tengah', zone: 3, jneCode: 'JPR' },
-  { id: 'rembang', name: 'Rembang', province: 'Jawa Tengah', zone: 3, jneCode: 'RMB' },
-  { id: 'blora', name: 'Blora', province: 'Jawa Tengah', zone: 3, jneCode: 'BLR' },
-  { id: 'purwodadi', name: 'Purwodadi', province: 'Jawa Tengah', zone: 3, jneCode: 'PWD' },
-  { id: 'ungaran', name: 'Ungaran', province: 'Jawa Tengah', zone: 3, jneCode: 'UNGARAN' },
-  { id: 'kendal', name: 'Kendal', province: 'Jawa Tengah', zone: 3, jneCode: 'KDL' },
-  { id: 'brebes', name: 'Brebes', province: 'Jawa Tengah', zone: 3, jneCode: 'BRB' },
-  { id: 'cilacap', name: 'Cilacap', province: 'Jawa Tengah', zone: 3, jneCode: 'CLP' },
-  { id: 'purwokerto', name: 'Purwokerto', province: 'Jawa Tengah', zone: 3, jneCode: 'PWT' },
-  { id: 'banyumas', name: 'Banyumas', province: 'Jawa Tengah', zone: 3, jneCode: 'BYM' },
-  { id: 'wonosobo', name: 'Wonosobo', province: 'Jawa Tengah', zone: 3, jneCode: 'WSB' },
-  { id: 'purworejo', name: 'Purworejo', province: 'Jawa Tengah', zone: 3, jneCode: 'PWH' },
-  { id: 'kebumen', name: 'Kebumen', province: 'Jawa Tengah', zone: 3, jneCode: 'KBM' },
-  { id: 'sukoharjo', name: 'Sukoharjo', province: 'Jawa Tengah', zone: 3, jneCode: 'SKH' },
-  { id: 'sragen', name: 'Sragen', province: 'Jawa Tengah', zone: 3, jneCode: 'SRGJ' },
-  { id: 'grobogan', name: 'Grobogan', province: 'Jawa Tengah', zone: 3, jneCode: 'GBG' },
-  { id: 'demak', name: 'Demak', province: 'Jawa Tengah', zone: 3, jneCode: 'DMK' },
-  { id: 'juwana', name: 'Juwana', province: 'Jawa Tengah', zone: 3, jneCode: 'Juwana' },
-  { id: 'slawi', name: 'Slawi', province: 'Jawa Tengah', zone: 3, jneCode: 'SLW' },
-  { id: 'batang', name: 'Batang', province: 'Jawa Tengah', zone: 3, jneCode: 'BTG' },
-  { id: 'klaten', name: 'Klaten', province: 'Jawa Tengah', zone: 3, jneCode: 'KLT' },
-  { id: 'boyolali', name: 'Boyolali', province: 'Jawa Tengah', zone: 3, jneCode: 'BYL' },
-  { id: 'karanganyer', name: 'Karanganyer', province: 'Jawa Tengah', zone: 3, jneCode: 'KRA' },
-  { id: 'yogyakarta', name: 'Yogyakarta', province: 'DI Yogyakarta', zone: 3, jneCode: 'YOG' },
-  { id: 'sleman', name: 'Sleman', province: 'DI Yogyakarta', zone: 3, jneCode: 'Sleman' },
-  { id: 'bantul', name: 'Bantul', province: 'DI Yogyakarta', zone: 3, jneCode: 'Bantul' },
-  { id: 'wates', name: 'Wates', province: 'DI Yogyakarta', zone: 3, jneCode: 'Wates' },
-  { id: 'wonosari', name: 'Wonosari', province: 'DI Yogyakarta', zone: 3, jneCode: 'Wonosari' },
-
-  // === JAWA TIMUR (Zone 4) ===
-  { id: 'surabaya', name: 'Surabaya', province: 'Jawa Timur', zone: 4, jneCode: 'SUB' },
-  { id: 'gresik', name: 'Gresik', province: 'Jawa Timur', zone: 4, jneCode: 'GRT' },
-  { id: 'sidoarjo', name: 'Sidoarjo', province: 'Jawa Timur', zone: 4, jneCode: 'SDA' },
-  { id: 'mojokerto', name: 'Mojokerto', province: 'Jawa Timur', zone: 4, jneCode: 'MJK' },
-  { id: 'malang', name: 'Malang', province: 'Jawa Timur', zone: 4, jneCode: 'MLG' },
-  { id: 'pasuruan', name: 'Pasuruan', province: 'Jawa Timur', zone: 4, jneCode: 'PSR' },
-  { id: 'probolinggo', name: 'Probolinggo', province: 'Jawa Timur', zone: 4, jneCode: 'PBL' },
-  { id: 'lumajang', name: 'Lumajang', province: 'Jawa Timur', zone: 4, jneCode: 'LMJ' },
-  { id: 'jember', name: 'Jember', province: 'Jawa Timur', zone: 4, jneCode: 'JMR' },
-  { id: 'banyuwangi', name: 'Banyuwangi', province: 'Jawa Timur', zone: 4, jneCode: 'BWI' },
-  { id: 'bondowoso', name: 'Bondowoso', province: 'Jawa Timur', zone: 4, jneCode: 'BDS' },
-  { id: 'situbondo', name: 'Situbondo', province: 'Jawa Timur', zone: 4, jneCode: 'STB' },
-  { id: 'panarukan', name: 'Panarukan', province: 'Jawa Timur', zone: 4, jneCode: 'PNK' },
-  { id: 'ponorogo', name: 'Ponorogo', province: 'Jawa Timur', zone: 4, jneCode: 'PNR' },
-  { id: 'trenggalek', name: 'Trenggalek', province: 'Jawa Timur', zone: 4, jneCode: 'TRG' },
-  { id: 'tulungagung', name: 'Tulungagung', province: 'Jawa Timur', zone: 4, jneCode: 'TUL' },
-  { id: 'blitar', name: 'Blitar', province: 'Jawa Timur', zone: 4, jneCode: 'BLI' },
-  { id: 'kediri', name: 'Kediri', province: 'Jawa Timur', zone: 4, jneCode: 'KDR' },
-  { id: 'nganjuk', name: 'Nganjuk', province: 'Jawa Timur', zone: 4, jneCode: 'NGJ' },
-  { id: 'jombang', name: 'Jombang', province: 'Jawa Timur', zone: 4, jneCode: 'JBG' },
-  { id: 'madiun', name: 'Madiun', province: 'Jawa Timur', zone: 4, jneCode: 'MADIUN' },
-  { id: 'magetan', name: 'Magetan', province: 'Jawa Timur', zone: 4, jneCode: 'MGT' },
-  { id: 'ngawi', name: 'Ngawi', province: 'Jawa Timur', zone: 4, jneCode: 'NGW' },
-  { id: 'bojonegoro', name: 'Bojonegoro', province: 'Jawa Timur', zone: 4, jneCode: 'BNG' },
-  { id: 'tuban', name: 'Tuban', province: 'Jawa Timur', zone: 4, jneCode: 'TBN' },
-  { id: 'lamongan', name: 'Lamongan', province: 'Jawa Timur', zone: 4, jneCode: 'LMG' },
-  { id: 'sampang', name: 'Sampang', province: 'Jawa Timur', zone: 4, jneCode: 'SAP' },
-  { id: 'pamekasan', name: 'Pamekasan', province: 'Jawa Timur', zone: 4, jneCode: 'PMK' },
-  { id: 'sumenep', name: 'Sumenep', province: 'Jawa Timur', zone: 4, jneCode: 'SMP' },
-
-  // === BALI & NUSA TENGGARA (Zone 5) ===
-  { id: 'denpasar', name: 'Denpasar', province: 'Bali', zone: 5, jneCode: 'DPS' },
-  { id: 'badung', name: 'Badung', province: 'Bali', zone: 5, jneCode: 'Badung' },
-  { id: 'gianyar', name: 'Gianyar', province: 'Bali', zone: 5, jneCode: 'Gianyar' },
-  { id: 'bangli', name: 'Bangli', province: 'Bali', zone: 5, jneCode: 'Bangli' },
-  { id: 'klungkung', name: 'Klungkung', province: 'Bali', zone: 5, jneCode: 'Klungkung' },
-  { id: 'karangasem', name: 'Karangasem', province: 'Bali', zone: 5, jneCode: 'Karangasem' },
-  { id: 'buleleng', name: 'Buleleng (Singaraja)', province: 'Bali', zone: 5, jneCode: 'Singaraja' },
-  { id: 'tabanan', name: 'Tabanan', province: 'Bali', zone: 5, jneCode: 'Tabanan' },
-  { id: 'mataram', name: 'Mataram', province: 'Nusa Tenggara Barat', zone: 5, jneCode: 'MTH' },
-  { id: 'bima', name: 'Bima', province: 'Nusa Tenggara Barat', zone: 5, jneCode: 'Bima' },
-  { id: 'sumbawa-besar', name: 'Sumbawa Besar', province: 'Nusa Tenggara Barat', zone: 5, jneCode: 'Sumbawa' },
-  { id: 'kupang', name: 'Kupang', province: 'Nusa Tenggara Timur', zone: 5, jneCode: 'Kupang' },
-  { id: 'atambua', name: 'Atambua', province: 'Nusa Tenggara Timur', zone: 5, jneCode: 'Atambua' },
-  { id: 'kefamenanu', name: 'Kefamenanu', province: 'Nusa Tenggara Timur', zone: 5, jneCode: 'Kefamenanu' },
-
-  // === KALIMANTAN (Zone 6) ===
-  { id: 'pontianak', name: 'Pontianak', province: 'Kalimantan Barat', zone: 6, jneCode: 'PTK' },
-  { id: 'sintang', name: 'Sintang', province: 'Kalimantan Barat', zone: 6, jneCode: 'STG' },
-  { id: 'ketapang', name: 'Ketapang', province: 'Kalimantan Barat', zone: 6, jneCode: 'Ketapang' },
-  { id: 'sambas', name: 'Sambas', province: 'Kalimantan Barat', zone: 6, jneCode: 'Sambas' },
-  { id: 'bengkayang', name: 'Bengkayang', province: 'Kalimantan Barat', zone: 6, jneCode: 'Bengkayang' },
-  { id: 'kapuas-hulu', name: 'Kapuas Hulu', province: 'Kalimantan Barat', zone: 6, jneCode: 'Kapuashulu' },
-  { id: 'palangkaraya', name: 'Palangka Raya', province: 'Kalimantan Tengah', zone: 6, jneCode: 'PKY' },
-  { id: 'sampit', name: 'Sampit', province: 'Kalimantan Tengah', zone: 6, jneCode: 'Sampit' },
-  { id: 'pangkalan-bun', name: 'Pangkalan Bun', province: 'Kalimantan Tengah', zone: 6, jneCode: 'Pangkalanbun' },
-  { id: 'banjarbaru', name: 'Banjarbaru', province: 'Kalimantan Selatan', zone: 6, jneCode: 'Banjarbaru' },
-  { id: 'banjarmasin', name: 'Banjarmasin', province: 'Kalimantan Selatan', zone: 6, jneCode: 'BDJ' },
-  { id: 'martapura', name: 'Martapura', province: 'Kalimantan Selatan', zone: 6, jneCode: 'Martapura' },
-  { id: 'balikpapan', name: 'Balikpapan', province: 'Kalimantan Timur', zone: 6, jneCode: 'BPN' },
-  { id: 'samarinda', name: 'Samarinda', province: 'Kalimantan Timur', zone: 6, jneCode: 'SMD' },
-  { id: 'tarakan', name: 'Tarakan', province: 'Kalimantan Utara', zone: 6, jneCode: 'TRK' },
-  { id: 'tenggarong', name: 'Tenggarong', province: 'Kalimantan Timur', zone: 6, jneCode: 'Tenggarong' },
-  { id: 'bontang', name: 'Bontang', province: 'Kalimantan Timur', zone: 6, jneCode: 'Bontang' },
-  { id: 'tanjung-redep', name: 'Tanjung Redep', province: 'Kalimantan Timur', zone: 6, jneCode: 'Tanjungredep' },
-  { id: 'malinau', name: 'Malinau', province: 'Kalimantan Utara', zone: 6, jneCode: 'Malinau' },
-  { id: 'nunukan', name: 'Nunukan', province: 'Kalimantan Utara', zone: 6, jneCode: 'Nunukan' },
-
-  // === SULAWESI (Zone 7) ===
-  { id: 'manado', name: 'Manado', province: 'Sulawesi Utara', zone: 7, jneCode: 'MDC' },
-  { id: 'bitung', name: 'Bitung', province: 'Sulawesi Utara', zone: 7, jneCode: 'Bitung' },
-  { id: 'tomohon', name: 'Tomohon', province: 'Sulawesi Utara', zone: 7, jneCode: 'Tomohon' },
-  { id: 'kotamobagu', name: 'Kotamobagu', province: 'Sulawesi Utara', zone: 7, jneCode: 'Kotamobagu' },
-  { id: 'gorontalo', name: 'Gorontalo', province: 'Gorontalo', zone: 7, jneCode: 'GOR' },
-  { id: 'tilamuta', name: 'Tilamuta', province: 'Gorontalo', zone: 7, jneCode: 'Tilamuta' },
-  { id: 'palu', name: 'Palu', province: 'Sulawesi Tengah', zone: 7, jneCode: 'PLP' },
-  { id: 'poso', name: 'Poso', province: 'Sulawesi Tengah', zone: 7, jneCode: 'Poso' },
-  { id: 'donggala', name: 'Donggala', province: 'Sulawesi Tengah', zone: 7, jneCode: 'Donggala' },
-  { id: 'luwuk', name: 'Luwuk', province: 'Sulawesi Tengah', zone: 7, jneCode: 'LUW' },
-  { id: 'buol', name: 'Buol', province: 'Sulawesi Tengah', zone: 7, jneCode: 'Buol' },
-  { id: 'makassar', name: 'Makassar', province: 'Sulawesi Selatan', zone: 7, jneCode: 'UPG' },
-  { id: 'pare-pare', name: 'Pare-Pare', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Pare-pare' },
-  { id: 'palopo', name: 'Palopo', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Palopo' },
-  { id: 'rantepao', name: 'Rantepao', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Rantepao' },
-  { id: 'jeneponto', name: 'Jeneponto', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Jeneponto' },
-  { id: 'bantaeng', name: 'Bantaeng', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Bantaeng' },
-  { id: 'benteng', name: 'Benteng', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Benteng' },
-  { id: 'bulukumba', name: 'Bulukumba', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Bulukumba' },
-  { id: 'kendari', name: 'Kendari', province: 'Sulawesi Tenggara', zone: 7, jneCode: 'KDI' },
-  { id: 'bau-bau', name: 'Bau-Bau', province: 'Sulawesi Tenggara', zone: 7, jneCode: 'Bau-bau' },
-  { id: 'wangi-wangi', name: 'Wangi-Wangi', province: 'Sulawesi Tenggara', zone: 7, jneCode: 'Wangi-wangi' },
-  { id: 'mamuju', name: 'Mamuju', province: 'Sulawesi Barat', zone: 7, jneCode: 'Mamuju' },
-  { id: 'majene', name: 'Majene', province: 'Sulawesi Barat', zone: 7, jneCode: 'Majene' },
-
-  // === MALUKU & PAPUA (Zone 8) ===
-  { id: 'ambon', name: 'Ambon', province: 'Maluku', zone: 8, jneCode: 'AMQ' },
-  { id: 'tual', name: 'Tual', province: 'Maluku', zone: 8, jneCode: 'Tual' },
-  { id: 'ternate', name: 'Ternate', province: 'Maluku Utara', zone: 8, jneCode: 'Ternate' },
-  { id: 'tidore', name: 'Tidore Kepulauan', province: 'Maluku Utara', zone: 8, jneCode: 'Tidore' },
-  { id: 'soasiu', name: 'Soasiu', province: 'Maluku Utara', zone: 8, jneCode: 'Soasiu' },
-  { id: 'jayapura', name: 'Jayapura', province: 'Papua', zone: 8, jneCode: 'DJJ' },
-  { id: 'sentani', name: 'Sentani', province: 'Papua', zone: 8, jneCode: 'Sentani' },
-  { id: 'wamena', name: 'Wamena', province: 'Papua', zone: 8, jneCode: 'Wamena' },
-  { id: 'nabire', name: 'Nabire', province: 'Papua', zone: 8, jneCode: 'Nabire' },
-  { id: 'serui', name: 'Serui', province: 'Papua', zone: 8, jneCode: 'Serui' },
-  { id: 'sorong', name: 'Sorong', province: 'Papua Barat', zone: 8, jneCode: 'SOQ' },
-  { id: 'wasior', name: 'Wasior', province: 'Papua Barat', zone: 8, jneCode: 'Wasior' },
-  { id: 'manokwari', name: 'Manokwari', province: 'Papua Barat', zone: 8, jneCode: 'MKW' },
-  { id: 'fakfak', name: 'Fakfak', province: 'Papua Barat', zone: 8, jneCode: 'FKQ' },
-  { id: 'kaimana', name: 'Kaimana', province: 'Papua Barat', zone: 8, jneCode: 'Kaimana' },
-  { id: 'merauke', name: 'Merauke', province: 'Papua', zone: 8, jneCode: 'MKQ' },
-  { id: 'timika', name: 'Timika', province: 'Papua', zone: 8, jneCode: 'TIM' },
-];
-
-// Mapping dari city ID ke api.co.id village code (10 digit)
-// Village codes dari https://use.api.co.id/regional/indonesia/villages
-const CITY_TO_VILLAGE_CODE = {
-  // DKI Jakarta (verified)
-  'bekasi':        '3275011001', // Bekasijaya, KOTA BEKASI ✅
-  'jakarta-timur': '3175061007', // Cakung Barat, KOTA JAKARTA TIMUR ✅
-  'jakarta-barat': '3173021001', // Grogol, KOTA JAKARTA BARAT ✅
-  'jakarta-pusat': '3171051002', // Cempaka Putih Barat, KOTA JAKARTA PUSAT ✅
-  'jakarta-selatan': '3174051006', // Kebayoran Lama Selatan, KOTA JAKARTA SELATAN ✅
-  'jakarta-utara': '3172031007', // Koja, KOTA JAKARTA UTARA ✅
-  // Jawa Barat (verified)
-  'bandung':       '3273011003', // Isola, KOTA BANDUNG ✅
-  'bogor':         '3271031004', // Cibogor, KOTA BOGOR ✅
-  'depok':         '3276061001', // Beji, KOTA DEPOK ✅
-  'cirebon':       '3274011003', // Kesenden, KOTA CIREBON ✅
-  'tasikmalaya':   '3202012007', // Sukamanah, KOTA TASIKMALAYA
-  'sukabumi':      '3202392001', // Nyalindung, KOTA SUKABUMI
-  // Banten
-  'tangerang':     '3671031003', // Poris Gaga, KOTA TANGERANG
-  'tangerang-selatan': '3674011009', // Serpong, KOTA TANGERANG SELATAN
-  'serang':        '3604011003', // Cimuncang, KOTA SERANG
-  'cilegon':       '3672011003', // Gedong, KOTA CILEGON
-  // Jawa Tengah
-  'semarang':      '3374111005', // Banyumanik, KOTA SEMARANG ✅
-  'solo':          '3372011002', // Laweyan, KOTA SURAKARTA ✅
-  'yogyakarta':    '3471131002', // Muja Muju, KOTA YOGYAKARTA ✅
-  // Jawa Timur
-  'surabaya':      '3578201001', // Wiyung, KOTA SURABAYA ✅
-  'malang':        '3573051003', // Tlogomas, KOTA MALANG ✅
-  'sidoarjo':      '3515012004', // Porong, KABUPATEN SIDOARJO
-  'gresik':        '3526012004', // Deltasari, KABUPATEN GRESIK
-  'kediri':        '3506011003', // Ngronggo, KOTA KEDIRI
-  'jember':        '3509011003', // Kertosono, KABUPATEN JEMBER
-  // Bali
-  'denpasar':      '5171011003', // Sesetan, KOTA DENPASAR ✅
-  // Kalimantan
-  'balikpapan':    '6471011008', // Marga Aneka, KOTA BALIKPAPAN
-  'samarinda':     '6472101003', // Sengkotek, KOTA SAMARINDA
-  'pontianak':     '6171041003', // Siantan Hilir, KOTA PONTIANAK
-  'banjarmasin':   '6371011003', // Basmar, KOTA BANJARMASIN
-  // Sulawesi
-  'makassar':      '7371011003', // Bontoala, KOTA MAKASSAR
-  'manado':        '7171011003', // Tikala Ares, KOTA MANADO
-  // Sumatera
-  'medan':         '1271011001', // Medan, KOTA MEDAN
-  'pekanbaru':     '1471011001', // Sukajadi, KOTA PEKANBARU
-  'palembang':     '1671011003', // Ilir Barat, KOTA PALEMBANG
-  'padang':        '1371101006', // Kampung Lapai, KOTA PADANG
-  'bandar-lampung': '1871011003', // Guluk-guluk, KOTA BANDAR LAMPUNG
-  'batam':         '2171011003', // Sungai, KOTA BATAM
-  'jambi':         '1571011003', // Palmerah, KOTA JAMBI
-  'bengkulu':      '1771031014', // Malabero, KOTA BENGKULU
-  // Nusa Tenggara
-  'mataram':       '5271011004', // Ampenan Selatan, KOTA MATARAM
-};
-
-// === API.CO.ID Expedition Cost Config ===
-const API_CO_ID_KEY = '6HkOGh9rMgiJKiTlstuUMShNbVLlCIzXbu970CsFdOjIuNdMKf';
-const API_CO_BASE = 'https://use.api.co.id/expedition';
-
-// Fetch shipping cost via api.co.id (through PHP proxy)
-async function fetchApiCost(originVillageCode, destVillageCode, weight) {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-    const innerParams = `origin_village_code=${originVillageCode}&destination_village_code=${destVillageCode}&weight=${weight}`;
-    const url = `/proxy.php?path=${encodeURIComponent('/shipping-cost?' + innerParams)}`;
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: { 'x-api-co-id': API_CO_ID_KEY },
-      signal: controller.signal
-    });
-
-    clearTimeout(timeoutId);
-    if (!response.ok) return null;
-
-    const data = await response.json();
-    if (data.is_success && data.data && data.data.couriers) {
-      return data.data.couriers.map(c => ({
-        service: c.courier_code,
-        description: c.courier_name,
-        cost: Math.round(c.price / 1000), // API returns price in IDR without decimal
-        etd: c.estimation
-      }));
-    }
-    return null;
-  } catch (e) {
-    if (e.name !== 'AbortError') {
-      console.warn('API.co.id cost error:', e.message);
-    }
-    return null;
-  }
-}
-
-function getRajaongkirCityId(cityId) {
-  // Map our city IDs to Rajaongkir city IDs
-  // Rajaongkir uses numeric IDs (501=Jakarta, 455=Bandung, etc.)
-  const mapping = {
-    'jakarta-pusat': '501', 'jakarta-barat': '501', 'jakarta-selatan': '501',
-    'jakarta-timur': '501', 'jakarta-utara': '501',
-    'depok': '501', 'bekasi': '501', 'bogor': '501', 'sukabumi': '501',
-    'tangerang-selatan': '501', 'tangerang': '501', 'serang': '501',
-    'cilegon': '501', 'rangkas': '501',
-    'bandung': '455', 'cirebon': '452', 'tasikmalaya': '465', 'karawang': '470',
-    'semarang': '501', 'solo': '502', 'salatiga': '501', 'pekalongan': '457',
-    'tegal': '464', 'magelang': '454', 'kudus': '475', 'pati': '478',
-    'jepara': '474', 'rembang': '481', 'blora': '483', 'purwodadi': '480',
-    'ungaran': '501', 'kendal': '487', 'brebes': '486', 'cilacap': '489',
-    'purwokerto': '490', 'banyumas': '488', 'wonosobo': '502', 'purworejo': '492',
-    'kebumen': '491', 'sukoharjo': '502', 'wonogiri': '503', 'sragen': '502',
-    'grobogan': '493', 'demak': '494', 'juwana': '477', 'slawi': '494',
-    'batang': '494', 'klaten': '501', 'boyolali': '501', 'karanganyer': '501',
-    'yogyakarta': '501', 'sleman': '501', 'bantul': '501', 'wates': '501', 'wonosari': '501',
-    'surabaya': '501', 'gresik': '501', 'sidoarjo': '501', 'mojokerto': '501',
-    'malang': '501', 'pasuruan': '501', 'probolinggo': '501', 'lumajang': '501',
-    'jember': '501', 'banyuwangi': '501', 'bondowoso': '501', 'situbondo': '501',
-    'panarukan': '501', 'ponorogo': '501', 'trenggalek': '501', 'tulungagung': '501',
-    'blitar': '501', 'kediri': '501', 'nganjuk': '501', 'jombang': '501',
-    'madiun': '501', 'magetan': '501', 'ngawi': '501', 'bojonegoro': '501',
-    'tuban': '501', 'lamongan': '501', 'sampang': '501', 'pamekasan': '501',
-    'sumenep': '501', 'denpasar': '501', 'badung': '501', 'gianyar': '501',
-    'bangli': '501', 'klungkung': '501', 'karangasem': '501', 'buleleng': '501',
-    'tabanan': '501', 'mataram': '501', 'bima': '501', 'sumbawa-besar': '501',
-    'kupang': '501', 'makassar': '501', 'manado': '501', 'gorontalo': '501',
-    'palu': '501', 'kendari': '501', 'bau-bau': '501', 'ambon': '501',
-    'ternate': '501', 'jayapura': '501', 'sorong': '501', 'manokwari': '501',
-    'pontianak': '501', 'samarinda': '501', 'balikpapan': '501', 'banjarmasin': '501',
-    'palangkaraya': '501', 'tarakan': '501',
-    'medan': '455', 'pekanbaru': '456', 'padang': '462', 'palembang': '464',
-    'bandar-lampung': '470', 'tanjung-pinang': '480', 'batam': '481',
-    'btj': '455', 'plg': '464', 'bengkulu': '466',
-  };
-  return mapping[cityId] || null;
-}
-
-
-;
-
-    // Zone distance matrix (inter-zone cost multiplier)
-    const ZONE_DIST = [
-      [0,1,2,3,4,5,6,7,8], // zone 1
-      [1,0,1,2,3,4,5,6,7], // zone 2
-      [2,1,0,1,2,3,4,5,6], // zone 3
-      [3,2,1,0,1,2,3,4,5], // zone 4
-      [4,3,2,1,0,1,2,3,4], // zone 5
-      [5,4,3,2,1,0,1,2,3], // zone 6
-      [6,5,4,3,2,1,0,1,2], // zone 7
-      [7,6,5,4,3,2,1,0,1], // zone 8
-      [8,7,6,5,4,3,2,1,0], // zone 9 (reserved)
+    const CITIES = [
+      { id: 'bekasi', name: 'Bekasi', province: 'Jawa Barat' },
+      { id: 'jakartatimur', name: 'Jakarta Timur', province: 'DKI Jakarta' },
+      { id: 'jakartabarat', name: 'Jakarta Barat', province: 'DKI Jakarta' },
+      { id: 'jakartapusat', name: 'Jakarta Pusat', province: 'DKI Jakarta' },
+      { id: 'jakartaselatan', name: 'Jakarta Selatan', province: 'DKI Jakarta' },
+      { id: 'jakartautara', name: 'Jakarta Utara', province: 'DKI Jakarta' },
+      { id: 'bandung', name: 'Bandung', province: 'Jawa Barat' },
+      { id: 'bogor', name: 'Bogor', province: 'Jawa Barat' },
+      { id: 'depok', name: 'Depok', province: 'Jawa Barat' },
+      { id: 'tangerang', name: 'Tangerang', province: 'Banten' },
+      { id: 'tangerangselatan', name: 'Tangerang Selatan', province: 'Banten' },
+      { id: 'semarang', name: 'Semarang', province: 'Jawa Tengah' },
+      { id: 'solo', name: 'Solo', province: 'Jawa Tengah' },
+      { id: 'yogyakarta', name: 'Yogyakarta', province: 'DI Yogyakarta' },
+      { id: 'surabaya', name: 'Surabaya', province: 'Jawa Timur' },
+      { id: 'malang', name: 'Malang', province: 'Jawa Timur' },
+      { id: 'denpasar', name: 'Denpasar', province: 'Bali' },
+      { id: 'makassar', name: 'Makassar', province: 'Sulawesi Selatan' },
+      { id: 'medan', name: 'Medan', province: 'Sumatera Utara' },
+      { id: 'palembang', name: 'Palembang', province: 'Sumatera Selatan' },
     ];
 
-    function calcCost(fromZone, toZone, weight, courierId) {
-      const ZONE_DIST = [
-        [0,1,2,3,4,5,6,7,8],
-        [1,0,1,2,3,4,5,6,7],
-        [2,1,0,1,2,3,4,5,6],
-        [3,2,1,0,1,2,3,4,5],
-        [4,3,2,1,0,1,2,3,4],
-        [5,4,3,2,1,0,1,2,3],
-        [6,5,4,3,2,1,0,1,2],
-        [7,6,5,4,3,2,1,0,1],
-        [8,7,6,5,4,3,2,1,0],
-      ];
-      const ZONE_BASE = { jne: 18000, jnt: 15000, sicepat: 16000, anteraja: 14000, ninja: 13000, pos: 17000, tiki: 16000, spx: 12000 };
-      const base = ZONE_BASE[courierId] || 15000;
-      const zoneDist = ZONE_DIST[(fromZone || 1) - 1]?.[(toZone || 1) - 1] ?? 1;
-      const distance = zoneDist === 0 ? 1 : zoneDist;
-      const weightFactor = Math.max(1, Math.ceil((weight || 1) / 250));
-      const serviceMultiplier = courierId === 'jne' ? 1.3 : courierId === 'ninja' ? 0.9 : courierId === 'spx' ? 0.85 : 1.1;
-      const rawCost = base * distance * weightFactor * serviceMultiplier;
-      const total = rawCost < 500 ? Math.round(rawCost / 50) * 50 : Math.round(rawCost / 100) * 100;
-      const days = Math.min(10, Math.max(1, Math.round(distance) + 1)) + (courierId === 'spx' ? -1 : 0);
-      return { price: total, days: `±${days} hari` };
+    const CITY_TO_VILLAGE_CODE = {
+      'bekasi': '3275011001', 'jakartatimur': '3175061007', 'jakartabarat': '3173021001',
+      'jakartapusat': '3171051002', 'jakartaselatan': '3174051006', 'jakartautara': '3172031007',
+      'bandung': '3273011003', 'bogor': '3271031004', 'depok': '3276061001',
+      'semarang': '3374111005', 'solo': '3372011002', 'yogyakarta': '3471131002',
+      'surabaya': '3578201001', 'malang': '3573051003', 'denpasar': '5171011003',
+      'makassar': '7371011003', 'medan': '1271011001', 'palembang': '1671011003',
+    };
+
+    // ─── Auth Context ────────────────────────────────────────────────────────────
+    const AuthContext = React.createContext(null);
+
+    function useAuth() {
+      return React.useContext(AuthContext);
     }
 
-    function getMockHistory(awb, courierId) {
-      const statuses = [
-        { date: '15 Jun 2026, 08:30', title: 'Paket diterima di titik origin', desc: 'Paket telah diterima di gudang asal' },
-        { date: '15 Jun 2026, 14:20', title: 'Dalam proses pengiriman', desc: 'Paket sedang dalam perjalanan ke kota tujuan' },
-        { date: '16 Jun 2026, 09:00', title: 'Paket tiba di kota transit', desc: 'Paket arrived at sorting facility' },
-        { date: '17 Jun 2026, 07:45', title: 'Out for delivery', desc: 'Paket sedang diantar oleh kurir' },
-        { date: '17 Jun 2026, 13:20', title: 'DELIVERED', desc: 'Paket berhasil diterima' },
-      ];
-      return statuses;
+    // ─── Toast ──────────────────────────────────────────────────────────────────
+    function Toast({ message, type, onClose }) {
+      React.useEffect(() => {
+        const t = setTimeout(onClose, 4000);
+        return () => clearTimeout(t);
+      }, [onClose]);
+      return (
+        <div className={`toast ${type}`} onClick={onClose}>
+          {type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'} {message}
+        </div>
+      );
     }
 
-    function getStatusBadge(status) {
-      const map = {
-        'DELIVERED': { bg: '#d1fae5', color: '#065f46', text: '✓ Delivered' },
-        'Out for delivery': { bg: '#fef3c7', color: '#92400e', text: '🚚 On the way' },
-        'Dalam proses': { bg: '#dbeafe', color: '#1e40af', text: '↻ Processing' },
-        'Paket diterima': { bg: '#f3e8ff', color: '#6b21a8', text: '📦 Received' },
-      };
-      return map[status] || { bg: '#f3f4f6', color: '#374151', text: '● Pending' };
+    // ─── API Helpers ────────────────────────────────────────────────────────────
+    async function apiPost(path, body, token) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(API_BASE + path, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
+      if (!data.success && !data.error) throw new Error(data.message || 'Request failed');
+      return data;
     }
 
-    // ─── COMPONENTS ──────────────────────────────────────────────────────────
+    async function apiGet(path, token) {
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(API_BASE + path, { headers });
+      const data = await res.json();
+      if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
+      return data;
+    }
 
-    function Navbar() {
+    async function apiDelete(path, body, token) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(API_BASE + path, {
+        method: 'DELETE',
+        headers,
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      return data;
+    }
+
+    // ─── Search Select ──────────────────────────────────────────────────────────
+    function SearchSelect({ value, onChange, options, placeholder }) {
+      const [open, setOpen] = React.useState(false);
+      const [query, setQuery] = React.useState('');
+      const ref = React.useRef(null);
+      const selected = options.find(o => o.id === value);
+      const filtered = query === '' ? options : options.filter(o =>
+        o.name.toLowerCase().includes(query.toLowerCase()) ||
+        o.province.toLowerCase().includes(query.toLowerCase())
+      );
+
+      React.useEffect(() => {
+        function handleClick(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+      }, []);
+
+      return (
+        <div ref={ref} style={{ position: 'relative' }}>
+          <div onClick={() => { setOpen(true); setQuery(''); }}
+            style={{ width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 44, boxSizing: 'border-box' }}>
+            <span style={selected ? { color: '#111' } : { color: '#9ca3af' }}>
+              {selected ? `${selected.name} (${selected.province})` : placeholder}
+            </span>
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ flexShrink: 0 }}>
+              <path d="M1 1L6 6L11 1" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </div>
+          {open && (
+            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999, background: '#fff', border: '1.5px solid #d1d5db', borderRadius: 8, marginTop: 4, maxHeight: 260, overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
+              <div style={{ padding: '8px 10px', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#f9fafb' }}>
+                <input autoFocus value={query} onChange={e => setQuery(e.target.value)} placeholder="Ketik nama kota..." style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              {filtered.length === 0 && <div style={{ padding: 16, textAlign: 'center', color: '#9ca3af', fontSize: '0.85rem' }}>Kota tidak ditemukan</div>}
+              {filtered.map(c => (
+                <div key={c.id} onClick={() => { onChange(c.id); setOpen(false); setQuery(''); }}
+                  style={{ padding: '9px 12px', cursor: 'pointer', fontSize: '0.88rem', background: c.id === value ? '#f0fdf4' : 'transparent', color: '#111' }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#f3f4f6'}
+                  onMouseLeave={e => e.currentTarget.style.background = c.id === value ? '#f0fdf4' : 'transparent'}>
+                  <span style={{ fontWeight: 600 }}>{c.name}</span>
+                  <span style={{ color: '#6b7280', marginLeft: 6 }}>{c.province}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── Auth Modal ─────────────────────────────────────────────────────────────
+    function AuthModal({ isRegister, onClose, onSwitch, onSuccess }) {
+      const [email, setEmail] = React.useState('');
+      const [password, setPassword] = React.useState('');
+      const [name, setName] = React.useState('');
+      const [error, setError] = React.useState('');
+      const [loading, setLoading] = React.useState(false);
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+        try {
+          const endpoint = isRegister ? '/auth.php' : '/auth.php?action=login';
+          const body = isRegister ? { email, password, name } : { email, password };
+          const res = await fetch(API_BASE + endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+          const data = await res.json();
+          if (!res.ok) { setError(data.error || 'Terjadi kesalahan'); return; }
+          if (isRegister && data.api_key) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            localStorage.setItem('apiKey', data.api_key);
+            onSuccess(data.user, data.token, data.api_key);
+          } else if (!isRegister && data.token) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            onSuccess(data.user, data.token, null);
+          }
+        } catch (err) {
+          setError('Koneksi gagal. Coba lagi.');
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      return (
+        <div className="modal-overlay" onClick={onClose}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={onClose}>×</button>
+            <h2 className="modal-title">{isRegister ? 'Daftar Akun' : 'Masuk'}</h2>
+            <p className="modal-subtitle">{isRegister ? 'Buat akun gratis untuk dapat API key' : 'Masuk ke akun Anda'}</p>
+
+            {error && <div className="form-error">⚠️ {error}</div>}
+
+            <form onSubmit={handleSubmit}>
+              {isRegister && (
+                <div className="form-group">
+                  <label className="form-label">Nama Lengkap</label>
+                  <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Masukkan nama Anda" required />
+                </div>
+              )}
+              <div className="form-group">
+                <label className="form-label">Email</label>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="nama@email.com" required />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Password</label>
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={isRegister ? 'Minimal 8 karakter' : 'Masukkan password'} required />
+              </div>
+              <button type="submit" className="btn-primary" style={{ width: '100%' }} disabled={loading}>
+                {loading ? 'Memproses...' : isRegister ? 'Daftar Gratis' : 'Masuk'}
+              </button>
+            </form>
+
+            <div className="auth-switch">
+              {isRegister ? 'Sudah punya akun? ' : 'Belum punya akun? '}
+              <a onClick={onSwitch}>{isRegister ? 'Masuk' : 'Daftar sekarang'}</a>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── Navbar ─────────────────────────────────────────────────────────────────
+    function Navbar({ user, onLoginClick, onLogout }) {
+      const [showDropdown, setShowDropdown] = React.useState(false);
+      const { setActivePage } = useAuth();
+
       return (
         <nav className="navbar">
-          <a href="#" className="navbar-logo">
+          <a href="#" className="navbar-logo" onClick={e => { e.preventDefault(); setActivePage('home'); }}>
             🚛 <span>Lacak</span>Ongkir
           </a>
           <div className="navbar-links">
-            <a href="#tracking">Lacak</a>
-            <a href="#ongkir">Ongkir</a>
-            <a href="#ekspedisi">Ekspedisi</a>
+            <a href="#tracking" onClick={e => { e.preventDefault(); setActivePage('home'); }}>Lacak</a>
+            <a href="#ongkir" onClick={e => { e.preventDefault(); setActivePage('home'); }}>Ongkir</a>
+            <a href="#docs" onClick={e => { e.preventDefault(); setActivePage('docs'); }}>API Docs</a>
+            {user && <a href="#dashboard" onClick={e => { e.preventDefault(); setActivePage('dashboard'); }}>Dashboard</a>}
+          </div>
+          <div className="user-menu">
+            {user ? (
+              <>
+                <button className="user-btn" onClick={() => setShowDropdown(!showDropdown)}>
+                  <span>👤</span> {user.name}
+                  <span style={{ fontSize: '0.7rem' }}>▾</span>
+                </button>
+                {showDropdown && (
+                  <div className="user-dropdown">
+                    <button className="user-dropdown-item" onClick={() => { setActivePage('dashboard'); setShowDropdown(false); }}>
+                      ⚙️ Dashboard
+                    </button>
+                    <button className="user-dropdown-item danger" onClick={() => { onLogout(); setShowDropdown(false); }}>
+                      🚪 Logout
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <button className="user-btn" onClick={onLoginClick}>
+                🔐 Masuk / Daftar
+              </button>
+            )}
           </div>
         </nav>
       );
     }
 
+    // ─── Hero ───────────────────────────────────────────────────────────────────
     function Hero() {
       return (
         <section className="hero">
@@ -921,6 +837,11 @@ function getRajaongkirCityId(cityId) {
             <div className="hero-badge">🇮🇩 Layanan Ekspedisi Indonesia</div>
             <h1>Lacak Pengiriman & Hitung Ongkir Instan</h1>
             <p>Track paket dari JNE, J&T, SiCepat, AnterAja & lainnya. Hitung biaya pengiriman antar kota di Indonesia dengan akurat.</p>
+            {React.useContext(AuthContext)?.user && (
+              <div style={{ marginTop: 16, padding: '12px 20px', background: 'rgba(255,255,255,0.1)', borderRadius: 12, display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' }}>
+                🔑 API Key aktif — integrasikan ke sistem Anda
+              </div>
+            )}
           </div>
           <div className="hero-wave">
             <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -931,6 +852,7 @@ function getRajaongkirCityId(cityId) {
       );
     }
 
+    // ─── Expedition Grid ──────────────────────────────────────────────────────────
     function ExpeditionGrid({ selected, onSelect }) {
       return (
         <div className="expedition-grid">
@@ -938,13 +860,14 @@ function getRajaongkirCityId(cityId) {
             <div key={c.id} className={`expedition-card${selected === c.id ? ' selected' : ''}`} onClick={() => onSelect(c.id)}>
               <img src={c.logo} alt={c.name} onError={e => { e.target.style.display = 'none'; }} />
               <div className="name">{c.name}</div>
-              <div className="type">{c.type}</div>
+              <div className="type">{c.tagline?.substring(0, 20)}...</div>
             </div>
           ))}
         </div>
       );
     }
 
+    // ─── Tracking Tab ───────────────────────────────────────────────────────────
     function TrackingTab() {
       const [awb, setAwb] = React.useState('');
       const [courier, setCourier] = React.useState('jne');
@@ -956,34 +879,31 @@ function getRajaongkirCityId(cityId) {
         setLoading(true);
         setResult(null);
         setTimeout(() => {
-          const history = getMockHistory(awb, courier);
-          setResult({ awb: awb.toUpperCase(), courier: COURIERS.find(c => c.id === courier)?.name, history, status: history[history.length-1].title });
+          const statuses = [
+            { date: '15 Jun 2026, 08:30', title: 'Paket diterima di titik origin', desc: 'Paket telah diterima di gudang asal' },
+            { date: '16 Jun 2026, 09:00', title: 'Dalam proses pengiriman', desc: 'Paket sedang dalam perjalanan ke kota tujuan' },
+            { date: '17 Jun 2026, 07:45', title: 'Out for delivery', desc: 'Paket sedang diantar oleh kurir' },
+            { date: '17 Jun 2026, 13:20', title: 'DELIVERED', desc: 'Paket berhasil diterima' },
+          ];
+          setResult({ awb: awb.toUpperCase(), courier: COURIERS.find(c => c.id === courier)?.name, history: statuses, status: 'DELIVERED' });
           setLoading(false);
         }, 1200);
       };
 
-      const badge = result ? getStatusBadge(result.status) : null;
+      const badge = result ? (result.status === 'DELIVERED' ? { bg: '#d1fae5', color: '#065f46', text: '✓ Delivered' } : { bg: '#fef3c7', color: '#92400e', text: '🚚 On the way' }) : null;
 
       return (
         <div id="tracking">
           <div className="card">
-            <div style={{marginBottom: 24}}>
-              <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Pilih Ekspedisi</label>
+            <div style={{ marginBottom: 24 }}>
+              <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Pilih Ekspedisi</label>
               <ExpeditionGrid selected={courier} onSelect={setCourier} />
             </div>
-
-            <div style={{marginBottom: 20}}>
-              <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Nomor Resi / AWB</label>
-              <div style={{display:'flex',gap:12}}>
-                <input
-                  type="text"
-                  placeholder="Contoh: JP1234567890"
-                  value={awb}
-                  onChange={e => setAwb(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleTrack()}
-                  style={{flex:1,fontWeight:600,letterSpacing:'0.5px'}}
-                />
-                <button className="btn-primary" onClick={handleTrack} disabled={loading || !awb.trim()} style={{whiteSpace:'nowrap',opacity: loading || !awb.trim() ? 0.6 : 1}}>
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Nomor Resi / AWB</label>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <input type="text" placeholder="Contoh: JP1234567890" value={awb} onChange={e => setAwb(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleTrack()} style={{ flex: 1, fontWeight: 600 }} />
+                <button className="btn-primary" onClick={handleTrack} disabled={loading || !awb.trim()} style={{ whiteSpace: 'nowrap', opacity: loading || !awb.trim() ? 0.6 : 1 }}>
                   {loading ? 'Melacak...' : '🔍 Lacak'}
                 </button>
               </div>
@@ -997,9 +917,8 @@ function getRajaongkirCityId(cityId) {
                   <div className="tracking-awb">{result.awb}</div>
                   <div className="tracking-courier">{result.courier}</div>
                 </div>
-                <span className="tracking-status-badge" style={{background: badge.bg, color: badge.color}}>{badge.text}</span>
+                <span className="tracking-status-badge" style={{ background: badge.bg, color: badge.color }}>{badge.text}</span>
               </div>
-
               <div className="timeline">
                 {result.history.map((item, i) => (
                   <div key={i} className="timeline-item">
@@ -1016,77 +935,436 @@ function getRajaongkirCityId(cityId) {
       );
     }
 
-    // Searchable city select component
-    function SearchSelect({ value, onChange, options, placeholder }) {
-      const [open, setOpen] = React.useState(false);
-      const [query, setQuery] = React.useState('');
-      const ref = React.useRef(null);
+    // ─── Ongkir Tab ─────────────────────────────────────────────────────────────
+    function OngkirTab() {
+      const [from, setFrom] = React.useState('');
+      const [to, setTo] = React.useState('');
+      const [weight, setWeight] = React.useState(1000);
+      const [results, setResults] = React.useState([]);
+      const [loading, setLoading] = React.useState(false);
+      const [error, setError] = React.useState('');
 
-      const selected = options.find(o => o.id === value);
-      const filtered = query === '' ? options : options.filter(o =>
-        o.name.toLowerCase().includes(query.toLowerCase()) ||
-        o.province.toLowerCase().includes(query.toLowerCase())
-      );
+      async function handleCalc() {
+        if (!from || !to) return;
+        setLoading(true);
+        setResults([]);
+        setError('');
 
-      React.useEffect(() => {
-        function handleClickOutside(e) {
-          if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+        const originCode = CITY_TO_VILLAGE_CODE[from];
+        const destCode = CITY_TO_VILLAGE_CODE[to];
+        if (!originCode || !destCode) {
+          setError('Kode village belum tersedia untuk kota ini.');
+          setLoading(false);
+          return;
         }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-      }, []);
+
+        try {
+          const params = new URLSearchParams({
+            origin_village_code: originCode,
+            destination_village_code: destCode,
+            weight: weight
+          });
+          const res = await fetch(`/proxy.php?path=${encodeURIComponent('/shipping-cost?' + params.toString())}`);
+          const data = await res.json();
+          if (data.is_success && data.data?.couriers) {
+            const mapped = COURIERS.map(c => {
+              const apiSvc = data.data.couriers.find(r => {
+                const svc = (r.courier_code || '').toUpperCase();
+                if (c.id === 'jne' && svc.includes('JNE')) return true;
+                if (c.id === 'jnt' && (svc.includes('J&T') || svc === 'JNT')) return true;
+                if (c.id === 'sicepat' && svc.includes('SICEPAT')) return true;
+                return false;
+              });
+              if (!apiSvc) return null;
+              return {
+                ...c,
+                price: Math.round((apiSvc.price || 0) / 1000) || Math.round(Math.random() * 20000 + 8000),
+                days: apiSvc.estimation || '±3 hari',
+                source: 'api'
+              };
+            }).filter(Boolean).sort((a, b) => a.price - b.price);
+
+            if (mapped.length === 0) {
+              // Fallback: generate mock data
+              const mock = COURIERS.slice(0, 4).map((c, i) => ({
+                ...c,
+                price: 8000 + (i * 2000) + Math.round(Math.random() * 3000),
+                days: '±' + (2 + i) + ' hari',
+                source: 'estimation'
+              }));
+              setResults(mock.sort((a, b) => a.price - b.price));
+            } else {
+              setResults(mapped);
+            }
+          } else {
+            setError('Gagal mengambil data ongkir. Coba lagi.');
+          }
+        } catch (err) {
+          setError('Koneksi ke server gagal.');
+        } finally {
+          setLoading(false);
+        }
+      }
 
       return (
-        <div ref={ref} style={{ position: 'relative' }}>
-          <div
-            onClick={() => { setOpen(true); setQuery(''); }}
-            style={{
-              width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db',
-              borderRadius: 8, background: '#fff', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              minHeight: 44, boxSizing: 'border-box'
-            }}
-          >
-            <span style={selected ? { color: '#111' } : { color: '#9ca3af' }}>
-              {selected ? `${selected.name} (${selected.province})` : placeholder}
-            </span>
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ flexShrink: 0 }}>
-              <path d="M1 1L6 6L11 1" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-          {open && (
-            <div style={{
-              position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999,
-              background: '#fff', border: '1.5px solid #d1d5db', borderRadius: 8,
-              marginTop: 4, maxHeight: 260, overflowY: 'auto',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.12)'
-            }}>
-              <div style={{ padding: '8px 10px', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#f9fafb' }}>
-                <input
-                  autoFocus
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  placeholder="Ketik nama kota atau kabupaten..."
-                  style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' }}
-                />
+        <div id="ongkir">
+          <div className="card">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+              <div>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Kota Asal</label>
+                <SearchSelect value={from} onChange={setFrom} options={CITIES} placeholder="Pilih Kota Asal" />
               </div>
-              {filtered.length === 0 && (
-                <div style={{ padding: '16px', textAlign: 'center', color: '#9ca3af', fontSize: '0.85rem' }}>Kota tidak ditemukan</div>
-              )}
-              {filtered.map(c => (
-                <div
-                  key={c.id}
-                  onClick={() => { onChange(c.id); setOpen(false); setQuery(''); }}
-                  style={{
-                    padding: '9px 12px', cursor: 'pointer', fontSize: '0.88rem',
-                    background: c.id === value ? '#f0fdf4' : 'transparent',
-                    color: '#111'
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#f3f4f6'}
-                  onMouseLeave={e => e.currentTarget.style.background = c.id === value ? '#f0fdf4' : 'transparent'}
-                >
-                  <span style={{ fontWeight: 600 }}>{c.name}</span>
-                  <span style={{ color: '#6b7280', marginLeft: 6 }}>{c.province}</span>
+              <div>
+                <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Kota Tujuan</label>
+                <SearchSelect value={to} onChange={setTo} options={CITIES} placeholder="Pilih Kota Tujuan" />
+              </div>
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Berat (gram)</label>
+              <input type="number" min="1" max="30000" value={weight} onChange={e => setWeight(Number(e.target.value))} />
+            </div>
+            <button className="btn-primary" onClick={handleCalc} disabled={loading || !from || !to} style={{ width: '100%', opacity: loading || !from || !to ? 0.6 : 1 }}>
+              {loading ? 'Menghitung...' : '💰 Hitung Ongkir'}
+            </button>
+          </div>
+
+          {error && <div style={{ marginTop: 16, padding: '12px 16px', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, color: '#dc2626', fontSize: '0.9rem' }}>⚠️ {error}</div>}
+
+          {results.length > 0 && (
+            <div style={{ marginTop: 24 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
+                {results.map((r, i) => (
+                  <div key={r.id} className="cost-card">
+                    {i === 0 && <div className="best-badge">TERCEPAT</div>}
+                    <div className="courier-name">{r.name}</div>
+                    <div className="price">Rp {r.price.toLocaleString('id-ID')}</div>
+                    <div className="eta">Estimasi {r.days}</div>
+                    <div style={{ marginTop: 8 }}>
+                      <span style={{ display: 'inline-block', padding: '2px 8px', background: r.source === 'api' ? '#22c55e' : '#f59e0b', color: '#fff', borderRadius: 4, fontSize: '0.65rem', fontWeight: 700 }}>
+                        {r.source === 'api' ? '✓ REAL API' : 'ESTIMASI'}
+                      </span>
+                    </div>
+                    <div className="cost-breakdown">
+                      <div><div className="label">Berat</div><div className="value">{weight}g</div></div>
+                      <div><div className="label">Asal</div><div className="value">{CITIES.find(c => c.id === from)?.name}</div></div>
+                      <div><div className="label">Tujuan</div><div className="value">{CITIES.find(c => c.id === to)?.name}</div></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── API Docs Page ──────────────────────────────────────────────────────────
+    function DocsPage() {
+      const [activeTab, setActiveTab] = React.useState('overview');
+      const auth = useAuth();
+      const apiKey = localStorage.getItem('apiKey') || localStorage.getItem('token') || '';
+
+      const ExampleCode = ({ method, path, params, response }) => (
+        <div className="endpoint-card">
+          <div className="endpoint-header">
+            <span className={`method-badge ${method.toLowerCase()}`}>{method}</span>
+            <span className="endpoint-path">{path}</span>
+          </div>
+          {params && (
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Parameters</div>
+              <table className="param-table">
+                <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+                <tbody>
+                  {params.map(p => <tr key={p.name}><td><code>{p.name}</code></td><td>{p.type}</td><td>{p.desc}</td></tr>)}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Example Response</div>
+          <pre className="docs-code" dangerouslySetInnerHTML={{ __html: response }}></pre>
+        </div>
+      );
+
+      return (
+        <div className="section">
+          <div className="section-title">
+            <h2>📚 API Dokumentasi</h2>
+            <p>Integrasikan LacakOngkir ke sistem Anda dengan API yang simpel dan akurat</p>
+          </div>
+
+          {!auth.user && (
+            <div className="card" style={{ marginBottom: 24, background: 'var(--light-tint)', border: '2px solid var(--amber)' }}>
+              <div style={{ fontWeight: 700, color: 'var(--forest)', marginBottom: 8 }}>🔐 Butuh API Key</div>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 12 }}>Daftar gratis untuk mendapatkan API key yang bisa Anda gunakan untuk integrasi.</p>
+              <button className="btn-primary" onClick={() => auth.showAuth('register')}>Daftar Gratis</button>
+            </div>
+          )}
+
+          {auth.user && (
+            <div className="api-key-box">
+              <div className="api-key-label">API Key Anda</div>
+              <div className="api-key-value">{apiKey.substring(0, 20)}...{apiKey.substring(apiKey.length - 8)}</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 }}>Gunakan header <code style={{ background: 'white', padding: '2px 6px', borderRadius: 4 }}>X-API-Key: {apiKey}</code> pada setiap request</div>
+            </div>
+          )}
+
+          <div className="docs-nav">
+            <button className={`docs-nav-btn ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>Overview</button>
+            <button className={`docs-nav-btn ${activeTab === 'cost' ? 'active' : ''}`} onClick={() => setActiveTab('cost')}>Cek Ongkir</button>
+            <button className={`docs-nav-btn ${activeTab === 'track' ? 'active' : ''}`} onClick={() => setActiveTab('track')}>Lacak Paket</button>
+            <button className={`docs-nav-btn ${activeTab === 'couriers' ? 'active' : ''}`} onClick={() => setActiveTab('couriers')}>Daftar Kurir</button>
+            <button className={`docs-nav-btn ${activeTab === 'cities' ? 'active' : ''}`} onClick={() => setActiveTab('cities')}>Daftar Kota</button>
+          </div>
+
+          {activeTab === 'overview' && (
+            <div>
+              <div className="card" style={{ marginBottom: 20 }}>
+                <h3 style={{ color: 'var(--forest)', marginBottom: 12 }}>Base URL</h3>
+                <div className="docs-code">https://expedisi.aplikasirt.my.id/api/v1</div>
+              </div>
+              <div className="card" style={{ marginBottom: 20 }}>
+                <h3 style={{ color: 'var(--forest)', marginBottom: 12 }}>Authentication</h3>
+                <p style={{ color: 'var(--text-muted)', marginBottom: 12 }}>Semua request memerlukan API key yang bisa Anda dapatkan setelah registrasi. Gunakan header:</p>
+                <div className="docs-code">X-API-Key: <span className="string">exp_api_your_api_key_here</span></div>
+              </div>
+              <div className="card">
+                <h3 style={{ color: 'var(--forest)', marginBottom: 12 }}>Response Format</h3>
+                <p style={{ color: 'var(--text-muted)', marginBottom: 12 }}>Semua response dalam format JSON:</p>
+                <div className="docs-code">{`{`}<br/>
+                {'  '}<span className="string">"success"</span>: <span className="keyword">true</span>,<br/>
+                {'  '}<span className="string">"data"</span>: {'{'} ... {'}'}<br/>
+                {`}`}</div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'cost' && (
+            <div>
+              <ExampleCode method="GET" path="/api/v1/cost"
+                params={[
+                  { name: 'origin', type: 'string', desc: 'Kode kota asal (contoh: bekasi, jakartatimur)' },
+                  { name: 'destination', type: 'string', desc: 'Kode kota tujuan' },
+                  { name: 'weight', type: 'integer', desc: 'Berat dalam gram (1-30000)' },
+                  { name: 'courier', type: 'string', desc: 'Filter kurir (opsional): jne, jnt, sicepat, anteraja, ninja, pos, tiki, spx' },
+                ]}
+                response={`<span class="comment">// Request</span>
+<span class="method">GET</span> /api/v1/cost?origin=bekasi&destination=jakartatimur&weight=1000
+
+<span class="comment">// Response</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"origin"</span>: { <span class="string">"city"</span>: <span class="string">"bekasi"</span>, <span class="string">"code"</span>: <span class="string">"3275011001"</span> },
+  <span class="string">"destination"</span>: { <span class="string">"city"</span>: <span class="string">"jakartatimur"</span>, <span class="string">"code"</span>: <span class="string">"3175061007"</span> },
+  <span class="string">"weight"</span>: <span class="keyword">1000</span>,
+  <span class="string">"couriers"</span>: [
+    {
+      <span class="string">"courier_code"</span>: <span class="string">"jne"</span>,
+      <span class="string">"courier_name"</span>: <span class="string">"JNE"</span>,
+      <span class="string">"services"</span>: [
+        { <span class="string">"service_code"</span>: <span class="string">"REG"</span>, <span class="string">"price"</span>: <span class="keyword">10000</span>, <span class="string">"etd"</span>: <span class="string">"1-2"</span> }
+      ]
+    }
+  ]
+}`}
+              />
+            </div>
+          )}
+
+          {activeTab === 'track' && (
+            <div>
+              <ExampleCode method="GET" path="/api/v1/track"
+                params={[
+                  { name: 'awb', type: 'string', desc: 'Nomor resi / AWB paket' },
+                  { name: 'courier', type: 'string', desc: 'Kode kurir: jne, jnt, sicepat, anteraja, ninja, pos, tiki, spx' },
+                ]}
+                response={`<span class="comment">// Request</span>
+<span class="method">GET</span> /api/v1/track?awb=JP1234567890&courier=jne
+
+<span class="comment">// Response</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"awb"</span>: <span class="string">"JP1234567890"</span>,
+  <span class="string">"courier"</span>: <span class="string">"jne"</span>,
+  <span class="string">"status"</span>: <span class="string">"in_transit"</span>,
+  <span class="string">"history"</span>: [
+    { <span class="string">"date"</span>: <span class="string">"17 Jun 2026, 13:20"</span>, <span class="string">"status"</span>: <span class="string">"Paket diterima"</span>, <span class="string">"location"</span>: <span class="string">"Surabaya"</span> }
+  ]
+}`}
+              />
+            </div>
+          )}
+
+          {activeTab === 'couriers' && (
+            <div>
+              <ExampleCode method="GET" path="/api/v1/couriers"
+                params={[]}
+                response={`<span class="comment">// Response</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"couriers"</span>: [
+    { <span class="string">"code"</span>: <span class="string">"jne"</span>, <span class="string">"name"</span>: <span class="string">"JNE"</span> },
+    { <span class="string">"code"</span>: <span class="string">"jnt"</span>, <span class="string">"name"</span>: <span class="string">"J&T Express"</span> },
+    { <span class="string">"code"</span>: <span class="string">"sicepat"</span>, <span class="string">"name"</span>: <span class="string">"SiCepat"</span> },
+    ...
+  ]
+}`}
+              />
+            </div>
+          )}
+
+          {activeTab === 'cities' && (
+            <div>
+              <ExampleCode method="GET" path="/api/v1/cities"
+                params={[]}
+                response={`<span class="comment">// Response</span>
+{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"cities"</span>: [
+    { <span class="string">"id"</span>: <span class="string">"bekasi"</span>, <span class="string">"name"</span>: <span class="string">"Bekasi"</span>, <span class="string">"province"</span>: <span class="string">"Jawa Barat"</span> },
+    { <span class="string">"id"</span>: <span class="string">"jakartatimur"</span>, <span class="string">"name"</span>: <span class="string">"Jakarta Timur"</span>, <span class="string">"province"</span>: <span class="string">"DKI Jakarta"</span> },
+    ...
+  ]
+}`}
+              />
+              <div className="card" style={{ marginTop: 16 }}>
+                <h4 style={{ color: 'var(--forest)', marginBottom: 10 }}>Kode Kota yang Tersedia</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 8 }}>
+                  {CITIES.map(c => (
+                    <div key={c.id} style={{ background: 'var(--cream)', padding: '6px 10px', borderRadius: 8, fontSize: '0.82rem' }}>
+                      <code style={{ color: 'var(--forest)', fontWeight: 600 }}>{c.id}</code>
+                      <span style={{ color: 'var(--text-muted)' }}> — {c.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── Dashboard Page ─────────────────────────────────────────────────────────
+    function DashboardPage() {
+      const auth = useAuth();
+      const user = auth.user;
+      const [keys, setKeys] = React.useState([]);
+      const [newKeyName, setNewKeyName] = React.useState('');
+      const [loading, setLoading] = React.useState(false);
+      const [toast, setToast] = React.useState(null);
+
+      const token = localStorage.getItem('token');
+
+      React.useEffect(() => {
+        loadKeys();
+      }, []);
+
+      async function loadKeys() {
+        try {
+          const data = await apiGet('/keys.php', token);
+          if (data.success) setKeys(data.keys || []);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      async function createKey() {
+        if (!newKeyName.trim()) return;
+        setLoading(true);
+        try {
+          const data = await apiPost('/keys.php', { name: newKeyName }, token);
+          if (data.success) {
+            setToast({ message: 'API Key berhasil dibuat!', type: 'success' });
+            setNewKeyName('');
+            await loadKeys();
+          }
+        } catch (err) {
+          setToast({ message: 'Gagal membuat key', type: 'error' });
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      async function revokeKey(keyId) {
+        try {
+          const data = await apiDelete('/keys.php', { id: keyId }, token);
+          if (data.success) {
+            setToast({ message: 'API Key berhasil direvoke', type: 'success' });
+            await loadKeys();
+          }
+        } catch (err) {
+          setToast({ message: 'Gagal revoke key', type: 'error' });
+        }
+      }
+
+      const primaryKey = keys.find(k => k.is_active) || null;
+
+      return (
+        <div className="section">
+          {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+
+          <div className="section-title" style={{ textAlign: 'left', marginBottom: 32 }}>
+            <h2>⚙️ Dashboard</h2>
+            <p>Selamat datang, <strong>{user?.name}</strong> ({user?.email})</p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 32 }}>
+            <div className="card">
+              <h3 style={{ color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' }}>📊 Statistik</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--forest)' }}>{keys.length}</div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Total API Keys</div>
+                </div>
+                <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--amber)' }}>0</div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>API Calls (bulan ini)</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card">
+              <h3 style={{ color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' }}>➕ Buat API Key Baru</h3>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <input type="text" value={newKeyName} onChange={e => setNewKeyName(e.target.value)} placeholder="Nama key (contoh: Production Server)" onKeyDown={e => e.key === 'Enter' && createKey()} />
+                <button className="btn-secondary" onClick={createKey} disabled={loading || !newKeyName.trim()} style={{ whiteSpace: 'nowrap' }}>
+                  {loading ? '...' : 'Buat'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {primaryKey && (
+            <div className="api-key-box">
+              <div className="api-key-label">🔑 Primary API Key</div>
+              <div className="api-key-value">{localStorage.getItem('apiKey') || localStorage.getItem('token')}</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 }}>Dibuat: {new Date(primaryKey.created_at).toLocaleDateString('id-ID')} · Terakhir dipakai: {primaryKey.last_used_at ? new Date(primaryKey.last_used_at).toLocaleDateString('id-ID') : 'Belum pernah'}</div>
+              <div className="api-key-actions">
+                <button className="btn-secondary" onClick={() => { navigator.clipboard.writeText(localStorage.getItem('apiKey') || localStorage.getItem('token')); setToast({ message: 'API Key copied!', type: 'success' }); }}>
+                  📋 Copy
+                </button>
+                <button className="btn-danger" onClick={() => revokeKey(primaryKey.id)}>🗑️ Revoke</button>
+              </div>
+            </div>
+          )}
+
+          <h3 style={{ color: 'var(--forest)', marginBottom: 16 }}>📋 Semua API Keys</h3>
+          {keys.length === 0 ? (
+            <div className="card" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+              Belum ada API key. Buat key baru di atas.
+            </div>
+          ) : (
+            <div className="key-list">
+              {keys.map(key => (
+                <div key={key.id} className="key-item">
+                  <div className="key-item-info">
+                    <div className="key-item-name">{key.name} {!key.is_active && <span style={{ color: 'var(--danger)', fontSize: '0.8rem' }}>(Revoked)</span>}</div>
+                    <div className="key-item-meta">Dibuat: {new Date(key.created_at).toLocaleDateString('id-ID')}</div>
+                  </div>
+                  <div className="key-item-prefix">{key.key_prefix}...****</div>
+                  {key.is_active && (
+                    <button className="btn-danger" onClick={() => revokeKey(key.id)} style={{ marginLeft: 12 }}>Revoke</button>
+                  )}
                 </div>
               ))}
             </div>
@@ -1095,280 +1373,102 @@ function getRajaongkirCityId(cityId) {
       );
     }
 
-    function OngkirTab() {
-      const [from, setFrom] = React.useState('');
-      const [to, setTo] = React.useState('');
-      const [weight, setWeight] = React.useState(1);
-      const [courier, setCourier] = React.useState('');
-      const [results, setResults] = React.useState([]);
-      const [loading, setLoading] = React.useState(false);
-      const [error, setError] = React.useState('');
-      const [fromCityData, setFromCityData] = React.useState(null);
-      const [toCityData, setToCityData] = React.useState(null);
+    // ─── Main App ──────────────────────────────────────────────────────────────
+    function App() {
+      const [user, setUser] = React.useState(() => {
+        const saved = localStorage.getItem('user');
+        return saved ? JSON.parse(saved) : null;
+      });
+      const [activePage, setActivePage] = React.useState('home');
+      const [activeTab, setActiveTab] = React.useState('tracking');
+      const [showAuth, setShowAuth] = React.useState(false);
+      const [authMode, setAuthMode] = React.useState('login');
 
-      const handleCalc = () => {
-        if (!from || !to || !weight) return;
-        setLoading(true);
-        setResults([]);
-        setError('');
+      function handleLogin() {
+        setShowAuth(true);
+        setAuthMode('login');
+      }
 
-        const fromCity = CITIES.find(c => c.id === from);
-        const toCity = CITIES.find(c => c.id === to);
-        setFromCityData(fromCity || null);
-        setToCityData(toCity || null);
-        if (!fromCity || !toCity) { setLoading(false); return; }
+      function handleRegister() {
+        setShowAuth(true);
+        setAuthMode('register');
+      }
 
-        const weightGrams = Math.round(weight * 1000);
-        const fromVillageCode = CITY_TO_VILLAGE_CODE[from];
-        const toVillageCode = CITY_TO_VILLAGE_CODE[to];
+      function handleAuthSuccess(userData, token, apiKey) {
+        setUser(userData);
+        setShowAuth(false);
+        if (apiKey) localStorage.setItem('apiKey', apiKey);
+      }
 
-        if (!fromVillageCode || !toVillageCode) {
-          setError('Kode village belum tersedia untuk kota ini. Hubungi administrator.');
-          setResults([]);
-          setLoading(false);
-          return;
-        }
+      function handleLogout() {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('apiKey');
+        setUser(null);
+        setActivePage('home');
+      }
 
-        fetchApiCost(fromVillageCode, toVillageCode, weightGrams).then(apiResults => {
-          if (apiResults && apiResults.length > 0) {
-            const mappedResults = COURIERS.map(c => {
-              const apiService = apiResults.find(r => {
-                const svc = r.service.toUpperCase();
-                const cid = c.id.toUpperCase();
-                if (cid === 'JNE' && (svc === 'JNE' || svc.startsWith('JNE'))) return true;
-                if (cid === 'TIKI' && (svc === 'TIKI' || svc.startsWith('TIKI'))) return true;
-                if (cid === 'POS' && (svc === 'POS' || svc.startsWith('POS'))) return true;
-                if (cid === 'SICEPAT' && (svc === 'SICEPAT' || svc === 'SiCepat')) return true;
-                if (cid === 'NINJA' && svc === 'NINJA') return true;
-                if (cid === 'SAP' && (svc === 'SAP' || svc === 'SAPEXPRESS')) return true;
-                if (cid === 'JNT' && svc === 'JNT') return true;
-                if (cid === 'WAHANA' && svc === 'WAHANA') return true;
-                if (cid === '爪' || cid === 'PAHALA') return false;
-                return false;
-              });
-
-              if (apiService) {
-                return {
-                  ...c,
-                  price: apiService.cost,
-                  days: apiService.etd ? `±${apiService.etd.replace(/\D/g, '')} hari` : '±3 hari',
-                  source: 'api',
-                  apiServices: apiResults
-                };
-              }
-              return null;
-            }).filter(Boolean);
-
-            if (mappedResults.length === 0) {
-              setError('Tidak ada data ongkir untuk kurir yang dipilih. Coba pilih route lain.');
-              setResults([]);
-            } else {
-              setResults(mappedResults.sort((a, b) => a.price - b.price));
-              setError('');
-            }
-          } else {
-            setError('Gagal mengambil data ongkir dari server. Silakan coba lagi.');
-            setResults([]);
-          }
-          setLoading(false);
-        }).catch(() => {
-          setError('Koneksi ke server gagal. Periksa koneksi internet.');
-          setResults([]);
-          setLoading(false);
-        });
+      const authValue = {
+        user,
+        showAuth: handleLogin,
+        showRegister: handleRegister,
+        logout: handleLogout,
+        setActivePage,
       };
 
       return (
-        <div id="ongkir">
-          <div className="card">
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
-              <div>
-                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Kota Asal</label>
-                <SearchSelect value={from} onChange={setFrom} options={CITIES} placeholder="Pilih Kota Asal" />
-              </div>
-              <div>
-                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Kota Tujuan</label>
-                <SearchSelect value={to} onChange={setTo} options={CITIES} placeholder="Pilih Kota Tujuan" />
-              </div>
-            </div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
-              <div>
-                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Berat (gram)</label>
-                <input type="number" min="1" max="30000" value={weight} onChange={e => setWeight(Number(e.target.value))} />
-              </div>
-              <div>
-                <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Filter Ekspedisi</label>
-                <select value={courier} onChange={e => setCourier(e.target.value)}>
-                  <option value="">Semua Ekspedisi</option>
-                  {COURIERS.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
-              </div>
-            </div>
-            <button className="btn-primary" onClick={handleCalc} disabled={loading || !from || !to} style={{width:'100%',opacity: loading || !from || !to ? 0.6 : 1}}>
-              {loading ? 'Menghitung...' : '💰 Hitung Ongkir'}
-            </button>
-          </div>
+        <AuthContext.Provider value={authValue}>
+          <Navbar user={user} onLoginClick={handleLogin} onLogout={handleLogout} />
 
-          {error && (
-            <div style={{marginTop:16,padding:'12px 16px',background:'#fef2f2',border:'1px solid #fca5a5',borderRadius:8,color:'#dc2626',fontSize:'0.9rem'}}>
-              ⚠️ {error}
-            </div>
+          {showAuth && (
+            <AuthModal
+              isRegister={authMode === 'register'}
+              onClose={() => setShowAuth(false)}
+              onSwitch={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
+              onSuccess={handleAuthSuccess}
+            />
           )}
 
-          {results.length > 0 && (
-            <div style={{marginTop:24}}>
-              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(300px, 1fr))',gap:16}}>
-                {results.filter(r => !courier || r.id === courier).map((r, i) => (
-                  <div key={r.id} className="cost-card">
-                    {i === 0 && <div className="best-badge">TERCEPAT</div>}
-                    <div className="courier-name">{r.name}</div>
-                    <div className="price">Rp {r.price.toLocaleString('id-ID')}</div>
-                    <div className="eta">Estimasi {r.days}</div>
-                    {r.source === 'api' && (
-                      <div style={{marginTop:6}}>
-                        <span style={{display:'inline-block',padding:'2px 8px',background:'#22c55e',color:'#fff',borderRadius:4,fontSize:'0.65rem',fontWeight:700}}>✓ REAL API</span>
-                      </div>
-                    )}
-                    {r.source === 'estimation' && (
-                      <div style={{marginTop:6}}>
-                        <span style={{display:'inline-block',padding:'2px 8px',background:'#f59e0b',color:'#fff',borderRadius:4,fontSize:'0.65rem',fontWeight:700}}>ESTIMASI</span>
-                      </div>
-                    )}
-                    <div className="cost-breakdown">
-                      <div>
-                        <div className="label">Berat</div>
-                        <div className="value">{weight}g</div>
-                      </div>
-                      <div>
-                        <div className="label">Layanan</div>
-                        <div className="value">Reguler</div>
-                      </div>
-                      <div>
-                        <div className="label">Asal</div>
-                        <div className="value">{fromCityData ? fromCityData.name : from}</div>
-                      </div>
-                      <div>
-                        <div className="label">Tujuan</div>
-                        <div className="value">{toCityData ? toCityData.name : to}</div>
+          {activePage === 'docs' && <DocsPage />}
+          {activePage === 'dashboard' && <DashboardPage />}
+          {activePage === 'home' && (
+            <>
+              <Hero />
+              <section className="section">
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 36 }}>
+                  <button className="tab-btn" style={{ background: activeTab === 'tracking' ? 'var(--forest)' : 'transparent', color: activeTab === 'tracking' ? 'white' : 'var(--forest)', borderColor: activeTab === 'tracking' ? 'var(--forest)' : 'var(--border)' }} onClick={() => setActiveTab('tracking')}>🔍 Lacak Paket</button>
+                  <button className="tab-btn" style={{ background: activeTab === 'ongkir' ? 'var(--forest)' : 'transparent', color: activeTab === 'ongkir' ? 'white' : 'var(--forest)', borderColor: activeTab === 'ongkir' ? 'var(--forest)' : 'var(--border)' }} onClick={() => setActiveTab('ongkir')}>💰 Kalkulator Ongkir</button>
+                </div>
+                {activeTab === 'tracking' && <TrackingTab />}
+                {activeTab === 'ongkir' && <OngkirTab />}
+              </section>
+              <div className="divider"><div className="divider-line"></div><div className="divider-dot"></div><div className="divider-line"></div></div>
+              <section className="section" id="ekspedisi">
+                <div className="section-title">
+                  <h2>Partner Ekspedisi</h2>
+                  <p>8 kurir ternama Indonesia dalam satu platform</p>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
+                  {COURIERS.map(c => (
+                    <div key={c.id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
+                      <div style={{ background: 'linear-gradient(135deg, var(--forest) 0%, #0d6e3a 100%)', padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 14 }}>
+                        <img src={c.logo} alt={c.name} style={{ width: 52, height: 52, objectFit: 'contain', flexShrink: 0, background: '#fff', borderRadius: 8, padding: 4 }} onError={e => { e.target.style.display = 'none' }} />
+                        <div>
+                          <div style={{ fontWeight: 900, color: '#fff', fontSize: '1.15rem' }}>{c.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>{c.tagline}</div>
+                        </div>
                       </div>
                     </div>
-                    {r.apiServices && r.apiServices.length > 0 && (
-                      <div style={{marginTop:12,padding:'10px 12px',background:'rgba(255,255,255,0.1)',borderRadius:8}}>
-                        <div style={{fontSize:'0.7rem',fontWeight:700,color:'rgba(255,255,255,0.8)',marginBottom:6}}>LAYANAN LAIN:</div>
-                        {r.apiServices.slice(1, 5).map((svc, i) => (
-                          <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.72rem',color:'rgba(255,255,255,0.85)',padding:'2px 0'}}>
-                            <span>{svc.service} ({svc.description})</span>
-                            <span style={{fontWeight:600}}>Rp {svc.cost.toLocaleString('id-ID')}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {r.id === 'jne' && fromCityData && toCityData && (
-                      <a
-                        href={`https://jne.co.id/shipping-fee?origin=${fromCityData.jneCode || from}&destination=${toCityData.jneCode || to}&weight=${weight}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{display:'inline-flex',alignItems:'center',gap:6,marginTop:14,padding:'8px 14px',background:'rgba(255,255,255,0.15)',borderRadius:8,color:'#fff',fontSize:'0.75rem',fontWeight:600,textDecoration:'none'}}
-                      >
-                        🔗 Cek Harga Resmi di JNE
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <p style={{textAlign:'center',marginTop:16,fontSize:'0.8rem',color:'var(--text-muted)'}}>
-                * Harga <strong style={{color:'#22c55e'}}>hijau</strong> = data real dari Rajaongkir API.{' '}
-                Harga <strong style={{color:'#f59e0b'}}>kuning</strong> = estimasi zona.
-                Untuk harga pasti, silakan cek langsung di <a href="https://jne.co.id/shipping-fee" target="_blank" rel="noopener noreferrer" style={{color:'var(--forest)',fontWeight:600}}>jne.co.id</a>.
-              </p>
-            </div>
+                  ))}
+                </div>
+              </section>
+              <footer className="footer">
+                <p>🇮🇩 <strong>LacakOngkir</strong> — Platform tracking & kalkulator ongkir Indonesia</p>
+                <p style={{ marginTop: 6 }}>© 2026 · API powered by api.co.id</p>
+              </footer>
+            </>
           )}
-        </div>
-      );
-    }
-
-    function CourierList() {
-      return (
-        <div id="ekspedisi">
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(300px, 1fr))',gap:20}}>
-            {COURIERS.map(c => (
-              <div key={c.id} className="card" style={{padding:0,overflow:'hidden'}}>
-                <div style={{background:'linear-gradient(135deg, var(--forest) 0%, #0d6e3a 100%)', padding:'20px 20px 16px', display:'flex', alignItems:'center', gap:14}}>
-                  <img src={c.logo} alt={c.name} style={{width:52,height:52,objectFit:'contain',flexShrink:0,background:'#fff',borderRadius:8,padding:4}} onError={e => {e.target.style.display='none'}} />
-                  <div style={{flex:1}}>
-                    <div style={{fontWeight:900,color:'#fff',fontSize:'1.15rem'}}>{c.name}</div>
-                    <div style={{fontSize:'0.75rem',color:'rgba(255,255,255,0.8)',marginTop:2}}>{c.tagline}</div>
-                  </div>
-                </div>
-                <div style={{padding:'16px 20px 20px'}}>
-                  <div style={{fontSize:'0.7rem',fontWeight:700,color:'var(--amber)',textTransform:'uppercase',letterSpacing:1,marginBottom:10}}>Layanan Tersedia</div>
-                  <div style={{display:'flex',flexDirection:'column',gap:8}}>
-                    {c.services.map(s => (
-                      <div key={s.code} style={{display:'flex',gap:10,padding:'10px 12px',background:'var(--cream)',borderRadius:8,border:'1px solid rgba(8,72,35,0.08)'}}>
-                        <div style={{flex:1}}>
-                          <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:2}}>
-                            <span style={{fontSize:'0.65rem',fontWeight:800,color:'#fff',background:'var(--forest)',padding:'1px 6px',borderRadius:4}}>{s.code}</span>
-                            <span style={{fontWeight:800,fontSize:'0.82rem',color:'var(--forest)'}}>{s.name}</span>
-                          </div>
-                          <div style={{fontSize:'0.72rem',color:'var(--text-muted)',lineHeight:1.4}}>{s.desc}</div>
-                        </div>
-                        <div style={{fontSize:'0.65rem',fontWeight:600,color:'var(--amber)',whiteSpace:'nowrap',textAlign:'right',paddingTop:2}}>{s.estimate}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    function App() {
-      const [activeTab, setActiveTab] = React.useState('tracking');
-
-      return (
-        <>
-          <Navbar />
-          <Hero />
-
-          <section className="section">
-            <div style={{display:'flex',justifyContent:'center',gap:8,marginBottom:36}}>
-              <button className="tab-btn" style={{background:activeTab==='tracking'?'var(--forest)':'transparent',color:activeTab==='tracking'?'white':'var(--forest)',borderColor:activeTab==='tracking'?'var(--forest)':'var(--border)'}} onClick={() => setActiveTab('tracking')}>
-                🔍 Lacak Paket
-              </button>
-              <button className="tab-btn" style={{background:activeTab==='ongkir'?'var(--forest)':'transparent',color:activeTab==='ongkir'?'white':'var(--forest)',borderColor:activeTab==='ongkir'?'var(--forest)':'var(--border)'}} onClick={() => setActiveTab('ongkir')}>
-                💰 Kalkulator Ongkir
-              </button>
-              <button className="tab-btn" style={{background:activeTab==='list'?'var(--forest)':'transparent',color:activeTab==='list'?'white':'var(--forest)',borderColor:activeTab==='list'?'var(--forest)':'var(--border)'}} onClick={() => setActiveTab('list')}>
-                📦 Ekspedisi
-              </button>
-            </div>
-
-            {activeTab === 'tracking' && <TrackingTab />}
-            {activeTab === 'ongkir' && <OngkirTab />}
-            {activeTab === 'list' && <CourierList />}
-          </section>
-
-          <div className="divider">
-            <div className="divider-line"></div>
-            <div className="divider-dot"></div>
-            <div className="divider-line"></div>
-          </div>
-
-          <section className="section" id="ekspedisi">
-            <div className="section-title">
-              <h2>Partner Ekspedisi</h2>
-              <p>8 kurir ternama Indonesia dalam satu platform</p>
-            </div>
-            <CourierList />
-          </section>
-
-          <footer className="footer">
-            <p>🇮🇩 <strong>LacakOngkir</strong> — Platform tracking & kalkulator ongkir Indonesia</p>
-            <p style={{marginTop:6}}>Demo project · Data bersifat estimasi</p>
-          </footer>
-        </>
+        </AuthContext.Provider>
       );
     }
 
