@@ -388,36 +388,491 @@
 
     // ─── DATA ────────────────────────────────────────────────────────────────
     const COURIERS = [
-      { id: 'jne', name: 'JNE', logo: 'https://asset.kriya.com/logo/jne-600x258.png', type: 'Reg, Yes, OK' },
-      { id: 'jnt', name: 'J&T Express', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/J%26T_Express_Logo.svg', type: 'Reg, Super' },
-      { id: 'sicepat', name: 'SiCepat', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Logo_SiCepat.svg/512px-Logo_SiCepat.svg.png', type: 'Reg, HDS, BEST' },
-      { id: 'anteraja', name: 'AnterAja', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Anteraja_Logo.svg', type: 'Reg, Next Day' },
-      { id: 'ninja', name: 'Ninja Xpress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Ninja_Xpress_Logo.svg', type: 'Std, Express' },
-      { id: 'pos', name: 'Pos Indonesia', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Logo_Pos_Indonesia.svg', type: 'Kilat, Reg' },
-      { id: 'tiki', name: 'TIKI', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_TIKI.svg', type: 'Reg, ECO' },
-      { id: 'spx', name: 'Shopee Xpress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg', type: 'Instant, Reg' },
+      {
+        id: 'jne',
+        name: 'JNE',
+        logo: 'https://asset.kriya.com/logo/jne-600x258.png',
+        tagline: 'Layanan terpercaya sejak 1990',
+        services: [
+          { code: 'REG', name: 'Reguler', desc: 'Layanan standar dengan estimasi 3-7 hari. Cocok untuk paket biasa yang tidak mendesak.', estimate: '3-7 hari' },
+          { code: 'YES', name: 'Yakin Esok Sampai', desc: 'Layanan next-day delivery untuk kota-kota besar di Jawa. Garansi uang kembali jika terlambat.', estimate: '1 hari' },
+          { code: 'JTR', name: 'Jasa Trucking', desc: 'Layanan pengiriman via trucking untuk paket besar / berat (di atas 10kg). Cocok untuk pindahan atau kiriman cargo.', estimate: '5-14 hari' },
+          { code: 'OK', name: 'Ojek Kupon', desc: 'Layanan penjemputan dan pengantaran via ojek untuk area tertentu. Untuk paket yang butuh kecepatan di area kota.', estimate: 'Same day' },
+          { code: 'SPS', name: 'Special Handling', desc: 'Layanan penanganan khusus untuk barang fragile / bernilai tinggi dengan asuransi tambahan.', estimate: '2-5 hari' },
+          { code: 'CARG', name: 'Cargo', desc: 'Pengiriman via udara atau laut untuk paket sangat besar atau ke wilayah terpencil.', estimate: '7-21 hari' },
+        ],
+      },
+      {
+        id: 'jnt',
+        name: 'J&T Express',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/J%26T_Express_Logo.svg',
+        tagline: 'Pengiriman cepat harga terjangkau',
+        services: [
+          { code: 'REG', name: 'Reguler', desc: 'Layanan standar J&T dengan jangkauan nasional luas. Cocok untuk penggunaan harian dan online shop.', estimate: '2-5 hari' },
+          { code: 'SUP', name: 'Super', desc: 'Layanan ekspres dengan estimasi lebih cepat dari reguler. Untuk paket yang butuh sampai cepat.', estimate: '1-2 hari' },
+          { code: 'FRS', name: 'Fresh', desc: 'Layanan khusus untuk produk segar / perishable seperti makanan, bunga, obat-obatan. Menggunakan packaging khusus.', estimate: '1-2 hari' },
+          { code: 'MED', name: 'Medicine', desc: 'Layanan khusus pengiriman obat-obatan dan produk farmasi dengan penanganan温度 controlled.', estimate: '1-3 hari' },
+        ],
+      },
+      {
+        id: 'sicepat',
+        name: 'SiCepat',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Logo_SiCepat.svg/512px-Logo_SiCepat.svg.png',
+        tagline: 'Sicepat kebagian, Pasti sampai',
+        services: [
+          { code: 'REG', name: 'Reguler', desc: 'Layanan standar SiCepat dengan jangkauan seluruh Indonesia. Terkenal dengan tracking yang akurat.', estimate: '2-5 hari' },
+          { code: 'HDS', name: 'Hand-carry', desc: 'Layanan hand-carry untuk paket mendesak yang diantar langsung oleh kurir. Untuk dokumen penting atau barang berharga.', estimate: 'Same day' },
+          { code: 'BEST', name: 'SiCepat BEST', desc: 'Layanan premium dengan jaminan keamanan dan kecepatan. Dilengkapi packing upgraded dan asuransi.', estimate: '1-2 hari' },
+          { code: 'GOKIL', name: 'GOKIL', desc: 'Layanan económico untuk paket ringan dengan harga paling terjangkau. Tanpa kompromi keamanan.', estimate: '3-7 hari' },
+          { code: 'SIUNT', name: 'Si Untung', desc: 'Program loyalitas untuk penjual online dengan harga spesial dan fitur COD enhanced.', estimate: '2-5 hari' },
+        ],
+      },
+      {
+        id: 'anteraja',
+        name: 'AnterAja',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Anteraja_Logo.svg',
+        tagline: 'Kompetitif dalam harga dan kecepatan',
+        services: [
+          { code: 'REG', name: 'Reguler', desc: 'Layanan standar AnterAja untuk pengiriman harian. Jangkauan luas dengan harga bersahabat.', estimate: '2-5 hari' },
+          { code: 'HDS', name: 'Hemat Same Day', desc: 'Layanan same day dengan harga lebih hemat dibanding kompetitor. Untuk kota besar saja.', estimate: 'Same day' },
+          { code: 'NDD', name: 'Next Day', desc: 'Layanan next day delivery untuk paket yang butuh sampai keesokan harinya. Tersedia di kota-kota utama.', estimate: '1 hari' },
+          { code: 'ECO', name: 'Economi', desc: 'Layanan paling terjangkau untuk paket tidak mendesak. Menggunakan armada gabungan terrestres.', estimate: '4-8 hari' },
+        ],
+      },
+      {
+        id: 'ninja',
+        name: 'Ninja Xpress',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Ninja_Xpress_Logo.svg',
+        tagline: 'Thorough, Fast, Reliable',
+        services: [
+          { code: 'STD', name: 'Standard', desc: 'Layanan standar Ninja Xpress dengan jangkauan nasional. Terkenal dengan teknologi tracking real-time.', estimate: '2-5 hari' },
+          { code: 'EXP', name: 'Express', desc: 'Layanan ekspres untuk pengiriman cepat. Dilengkapi notifikasi otomatis ke penerima.', estimate: '1-2 hari' },
+          { code: 'PRI', name: 'Priority', desc: 'Layanan prioritas dengan handling khusus. Untuk barang fragiles atau bernilai tinggi.', estimate: '1-2 hari' },
+          { code: 'FRT', name: 'Freight', desc: 'Layanan freight untuk paket sangat besar via trucking atau cargo. Minimal berat 10kg.', estimate: '5-14 hari' },
+        ],
+      },
+      {
+        id: 'pos',
+        name: 'Pos Indonesia',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/5/55/Logo_Pos_Indonesia.svg',
+        tagline: 'Menghubungkan Negeri, Membangun Bangsa',
+        services: [
+          { code: 'KILAT', name: 'Kilat', desc: 'Layanan kilat dengan kecepatan tinggi via udara. Bisa kirim ke seluruh Indonesia termasuk wilayah terpencil.', estimate: '2-4 hari' },
+          { code: 'REG', name: 'Reguler', desc: 'Layanan paket standar Pos Indonesia yang menjangkau hingga ke desa-desa terpencil.', estimate: '5-10 hari' },
+          { code: 'SIKAT', name: 'Sicepat Kilat', desc: 'Layanan kilat khusus dari Pos untuk kota-kota besar. Kombinasi kecepatan dan jangkauan.', estimate: '2-3 hari' },
+          { code: 'POS', name: 'Pos Extra', desc: 'Layanan extra dengan fitur pelacakan dan asuransi. Untuk paket bernilai tinggi.', estimate: '3-6 hari' },
+          { code: 'BAG', name: 'Baggage', desc: 'Layanan pengiriman bagasi untuk penumpang pesawat yang sudah selesai terbang.', estimate: '3-7 hari' },
+        ],
+      },
+      {
+        id: 'tiki',
+        name: 'TIKI',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_TIKI.svg',
+        tagline: 'On Time Any Time',
+        services: [
+          { code: 'REG', name: 'Reguler', desc: 'Layanan standar TIKI dengan jaringan distribusi yang luas di seluruh Indonesia.', estimate: '2-5 hari' },
+          { code: 'ECO', name: 'Economi', desc: 'Layanan ekonomis untuk paket berat dengan harga terjangkau. Cocok untuk cargo dan pindahan.', estimate: '5-10 hari' },
+          { code: 'SDS', name: 'Same Day', desc: 'Layanan pengiriman di hari yang sama untuk kota-kota besar. Untuk paket mendesak.', estimate: 'Same day' },
+          { code: 'NEX', name: 'Next Day', desc: 'Layanan besok sampai ke kota-kota besar. Dengan garansi on-time delivery.', estimate: '1 hari' },
+          { code: 'TRUCK', name: 'Trucking', desc: 'Layanan trucking untuk paket sangat besar dan berat. Via jalur darat dengan estimasi fleksibel.', estimate: '7-21 hari' },
+        ],
+      },
+      {
+        id: 'spx',
+        name: 'Shopee Xpress',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg',
+        tagline: 'Jasa kirim andalan Shopee & platform lainnya',
+        services: [
+          { code: 'INST', name: 'Instant', desc: 'Layanan pengiriman secepat mungkin dengan kurir langsung. Tersedia di area tertentu kota besar.', estimate: '1-3 jam' },
+          { code: 'REG', name: 'Reguler', desc: 'Layanan standar Shopee Xpress yang terintegrasi dengan berbagai marketplace. Harga sangat kompetitif.', estimate: '2-4 hari' },
+          { code: 'HEMAT', name: 'Hemat', desc: 'Layanan ekonomis untuk pembeli yang ingin hemat ongkir. Dengan waktu pengiriman sedikit lebih lama.', estimate: '3-6 hari' },
+          { code: 'EXPRESS', name: 'Express', desc: 'Layanan ekspres untuk seller dengan jaminan kecepatan sampai. Dilengkapi tracking real-time.', estimate: '1-2 hari' },
+        ],
+      },
     ];
 
-    const PROVINCES = [
-      'Aceh','Sumatera Utara','Sumatera Barat','Riau','Jambi','Sumatera Selatan','Bengkulu','Lampung',
-      'DKI Jakarta','Jawa Barat','Jawa Tengah','DI Yogyakarta','Jawa Timur','Banten','Bali',
-      'Nusa Tenggara Barat','Nusa Tenggara Timur','Kalimantan Barat','Kalimantan Tengah','Kalimantan Timur',
-      'Kalimantan Selatan','Sulawesi Utara','Sulawesi Tengah','Sulawesi Selatan','Sulawesi Tenggara',
-      'Gorontalo','Sulawesi Barat','Maluku','Maluku Utara','Papua','Papua Barat'
+    // Zone: 1=Sumatra, 2=Jawa Barat, 3=Jawa Tengah, 4=Jawa Timur, 5=Bali-NTT-NTB, 6=Kalimantan, 7=Sulawesi, 8=Maluku-Papua
+    
+const CITIES = [
+  // === SUMATERA (Zone 1) ===
+  { id: 'btj', name: 'Banda Aceh', province: 'Aceh', zone: 1, jneCode: 'BTJ' },
+  { id: 'meulaboh', name: 'Meulaboh', province: 'Aceh', zone: 1, jneCode: 'Meulaboh' },
+  { id: 'lhokseumawe', name: 'Lhokseumawe', province: 'Aceh', zone: 1, jneCode: 'Lhokseumawe' },
+  { id: 'sabang', name: 'Sabang', province: 'Aceh', zone: 1, jneCode: 'Sabang' },
+  { id: 'blpid', name: 'Blangpidie', province: 'Aceh', zone: 1, jneCode: 'Blangpidie' },
+  { id: 'mdn', name: 'Medan', province: 'Sumatera Utara', zone: 1, jneCode: 'KNO' },
+  { id: 'pkb', name: 'Pekanbaru', province: 'Riau', zone: 1, jneCode: 'PKU' },
+  { id: 'dumai', name: 'Dumai', province: 'Riau', zone: 1, jneCode: 'Dumai' },
+  { id: 'jambi', name: 'Jambi', province: 'Jambi', zone: 1, jneCode: 'DJB' },
+  { id: 'sungai-penuh', name: 'Sungai Penuh', province: 'Jambi', zone: 1, jneCode: 'Sungai Penuh' },
+  { id: 'plg', name: 'Palembang', province: 'Sumatera Selatan', zone: 1, jneCode: 'PLG' },
+  { id: 'lubuklinggau', name: 'Lubuklinggau', province: 'Sumatera Selatan', zone: 1, jneCode: 'Lubuklinggau' },
+  { id: 'prabumulih', name: 'Prabumulih', province: 'Sumatera Selatan', zone: 1, jneCode: 'Prabumulih' },
+  { id: 'bengkulu', name: 'Bengkulu', province: 'Bengkulu', zone: 1, jneCode: 'BKS' },
+  { id: 'manna', name: 'Manna', province: 'Bengkulu', zone: 1, jneCode: 'Manna' },
+  { id: 'curup', name: 'Curup', province: 'Bengkulu', zone: 1, jneCode: 'Curup' },
+  { id: 'tanjung-pandan', name: 'Tanjung Pandan', province: 'Bangka Belitung', zone: 1, jneCode: 'Tanjung Pandan' },
+  { id: 'pangkal-pinang', name: 'Pangkal Pinang', province: 'Bangka Belitung', zone: 1, jneCode: 'PGK' },
+  { id: 'tanjung-pinang', name: 'Tanjung Pinang', province: 'Kepulauan Riau', zone: 1, jneCode: 'TNJ' },
+  { id: 'btm', name: 'Batam', province: 'Kepulauan Riau', zone: 1, jneCode: 'BTH' },
+  { id: 'karimun', name: 'Karimun', province: 'Kepulauan Riau', zone: 1, jneCode: 'Karimun' },
+  { id: 'bandar-lampung', name: 'Bandar Lampung', province: 'Lampung', zone: 1, jneCode: 'Banda Lampung' },
+  { id: 'metro', name: 'Metro', province: 'Lampung', zone: 1, jneCode: 'Metro' },
+  { id: 'kota-agi', name: 'Kota Agung', province: 'Lampung', zone: 1, jneCode: 'Kota Agung' },
+  { id: 'pdg', name: 'Padang', province: 'Sumatera Barat', zone: 1, jneCode: 'PDG' },
+  { id: 'payakumbuh', name: 'Payakumbuh', province: 'Sumatera Barat', zone: 1, jneCode: 'Payakumbuh' },
+  { id: 'pariaman', name: 'Pariaman', province: 'Sumatera Barat', zone: 1, jneCode: 'Pariaman' },
+  { id: 'solok', name: 'Solok', province: 'Sumatera Barat', zone: 1, jneCode: 'Solok' },
+  { id: 'sawahlunto', name: 'Sawahlunto', province: 'Sumatera Barat', zone: 1, jneCode: 'Sawahlunto' },
+
+  // === JAWA BARAT & DKI (Zone 2) ===
+  { id: 'jakarta-pusat', name: 'Jakarta Pusat', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKPUS' },
+  { id: 'jakarta-barat', name: 'Jakarta Barat', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKBAR' },
+  { id: 'jakarta-selatan', name: 'Jakarta Selatan', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKSEL' },
+  { id: 'jakarta-timur', name: 'Jakarta Timur', province: 'DKI Jakarta', zone: 2, jneCode: 'CGK' },
+  { id: 'jakarta-utara', name: 'Jakarta Utara', province: 'DKI Jakarta', zone: 2, jneCode: 'JAKUT' },
+  { id: 'depok', name: 'Depok', province: 'Jawa Barat', zone: 2, jneCode: 'DEP' },
+  { id: 'bekasi', name: 'Bekasi', province: 'Jawa Barat', zone: 2, jneCode: 'BKI' },
+  { id: 'bogor', name: 'Bogor', province: 'Jawa Barat', zone: 2, jneCode: 'BGR' },
+  { id: 'sukabumi', name: 'Sukabumi', province: 'Jawa Barat', zone: 2, jneCode: 'SUKABUMI' },
+  { id: 'bandung', name: 'Bandung', province: 'Jawa Barat', zone: 2, jneCode: 'BDO' },
+  { id: 'cirebon', name: 'Cirebon', province: 'Jawa Barat', zone: 2, jneCode: 'CRB' },
+  { id: 'tasikmalaya', name: 'Tasikmalaya', province: 'Jawa Barat', zone: 2, jneCode: 'TSM' },
+  { id: 'karawang', name: 'Karawang', province: 'Jawa Barat', zone: 2, jneCode: 'KRW' },
+  { id: 'serang', name: 'Serang', province: 'Banten', zone: 2, jneCode: 'SRG' },
+  { id: 'cilegon', name: 'Cilegon', province: 'Banten', zone: 2, jneCode: 'CLG' },
+  { id: 'tangerang-selatan', name: 'Tangerang Selatan', province: 'Banten', zone: 2, jneCode: 'TANGSEL' },
+  { id: 'tangerang', name: 'Tangerang', province: 'Banten', zone: 2, jneCode: 'TANGERANG' },
+  { id: 'rangkas', name: 'Rangkasbitung', province: 'Banten', zone: 2, jneCode: 'RNG' },
+
+  // === JAWA TENGAH (Zone 3) ===
+  { id: 'semarang', name: 'Semarang', province: 'Jawa Tengah', zone: 3, jneCode: 'SMH' },
+  { id: 'solo', name: 'Surakarta (Solo)', province: 'Jawa Tengah', zone: 3, jneCode: 'SOL' },
+  { id: 'salatiga', name: 'Salatiga', province: 'Jawa Tengah', zone: 3, jneCode: 'SLG' },
+  { id: 'pekalongan', name: 'Pekalongan', province: 'Jawa Tengah', zone: 3, jneCode: 'PKL' },
+  { id: 'tegal', name: 'Tegal', province: 'Jawa Tengah', zone: 3, jneCode: 'TG' },
+  { id: 'magelang', name: 'Magelang', province: 'Jawa Tengah', zone: 3, jneCode: 'MGL' },
+  { id: 'kudus', name: 'Kudus', province: 'Jawa Tengah', zone: 3, jneCode: 'KDS' },
+  { id: 'wonogiri', name: 'Wonogiri', province: 'Jawa Tengah', zone: 3, jneCode: 'WNG' },
+  { id: 'pati', name: 'Pati', province: 'Jawa Tengah', zone: 3, jneCode: 'PT' },
+  { id: 'jepara', name: 'Jepara', province: 'Jawa Tengah', zone: 3, jneCode: 'JPR' },
+  { id: 'rembang', name: 'Rembang', province: 'Jawa Tengah', zone: 3, jneCode: 'RMB' },
+  { id: 'blora', name: 'Blora', province: 'Jawa Tengah', zone: 3, jneCode: 'BLR' },
+  { id: 'purwodadi', name: 'Purwodadi', province: 'Jawa Tengah', zone: 3, jneCode: 'PWD' },
+  { id: 'ungaran', name: 'Ungaran', province: 'Jawa Tengah', zone: 3, jneCode: 'UNGARAN' },
+  { id: 'kendal', name: 'Kendal', province: 'Jawa Tengah', zone: 3, jneCode: 'KDL' },
+  { id: 'brebes', name: 'Brebes', province: 'Jawa Tengah', zone: 3, jneCode: 'BRB' },
+  { id: 'cilacap', name: 'Cilacap', province: 'Jawa Tengah', zone: 3, jneCode: 'CLP' },
+  { id: 'purwokerto', name: 'Purwokerto', province: 'Jawa Tengah', zone: 3, jneCode: 'PWT' },
+  { id: 'banyumas', name: 'Banyumas', province: 'Jawa Tengah', zone: 3, jneCode: 'BYM' },
+  { id: 'wonosobo', name: 'Wonosobo', province: 'Jawa Tengah', zone: 3, jneCode: 'WSB' },
+  { id: 'purworejo', name: 'Purworejo', province: 'Jawa Tengah', zone: 3, jneCode: 'PWH' },
+  { id: 'kebumen', name: 'Kebumen', province: 'Jawa Tengah', zone: 3, jneCode: 'KBM' },
+  { id: 'sukoharjo', name: 'Sukoharjo', province: 'Jawa Tengah', zone: 3, jneCode: 'SKH' },
+  { id: 'sragen', name: 'Sragen', province: 'Jawa Tengah', zone: 3, jneCode: 'SRGJ' },
+  { id: 'grobogan', name: 'Grobogan', province: 'Jawa Tengah', zone: 3, jneCode: 'GBG' },
+  { id: 'demak', name: 'Demak', province: 'Jawa Tengah', zone: 3, jneCode: 'DMK' },
+  { id: 'juwana', name: 'Juwana', province: 'Jawa Tengah', zone: 3, jneCode: 'Juwana' },
+  { id: 'slawi', name: 'Slawi', province: 'Jawa Tengah', zone: 3, jneCode: 'SLW' },
+  { id: 'batang', name: 'Batang', province: 'Jawa Tengah', zone: 3, jneCode: 'BTG' },
+  { id: 'klaten', name: 'Klaten', province: 'Jawa Tengah', zone: 3, jneCode: 'KLT' },
+  { id: 'boyolali', name: 'Boyolali', province: 'Jawa Tengah', zone: 3, jneCode: 'BYL' },
+  { id: 'karanganyer', name: 'Karanganyer', province: 'Jawa Tengah', zone: 3, jneCode: 'KRA' },
+  { id: 'yogyakarta', name: 'Yogyakarta', province: 'DI Yogyakarta', zone: 3, jneCode: 'YOG' },
+  { id: 'sleman', name: 'Sleman', province: 'DI Yogyakarta', zone: 3, jneCode: 'Sleman' },
+  { id: 'bantul', name: 'Bantul', province: 'DI Yogyakarta', zone: 3, jneCode: 'Bantul' },
+  { id: 'wates', name: 'Wates', province: 'DI Yogyakarta', zone: 3, jneCode: 'Wates' },
+  { id: 'wonosari', name: 'Wonosari', province: 'DI Yogyakarta', zone: 3, jneCode: 'Wonosari' },
+
+  // === JAWA TIMUR (Zone 4) ===
+  { id: 'surabaya', name: 'Surabaya', province: 'Jawa Timur', zone: 4, jneCode: 'SUB' },
+  { id: 'gresik', name: 'Gresik', province: 'Jawa Timur', zone: 4, jneCode: 'GRT' },
+  { id: 'sidoarjo', name: 'Sidoarjo', province: 'Jawa Timur', zone: 4, jneCode: 'SDA' },
+  { id: 'mojokerto', name: 'Mojokerto', province: 'Jawa Timur', zone: 4, jneCode: 'MJK' },
+  { id: 'malang', name: 'Malang', province: 'Jawa Timur', zone: 4, jneCode: 'MLG' },
+  { id: 'pasuruan', name: 'Pasuruan', province: 'Jawa Timur', zone: 4, jneCode: 'PSR' },
+  { id: 'probolinggo', name: 'Probolinggo', province: 'Jawa Timur', zone: 4, jneCode: 'PBL' },
+  { id: 'lumajang', name: 'Lumajang', province: 'Jawa Timur', zone: 4, jneCode: 'LMJ' },
+  { id: 'jember', name: 'Jember', province: 'Jawa Timur', zone: 4, jneCode: 'JMR' },
+  { id: 'banyuwangi', name: 'Banyuwangi', province: 'Jawa Timur', zone: 4, jneCode: 'BWI' },
+  { id: 'bondowoso', name: 'Bondowoso', province: 'Jawa Timur', zone: 4, jneCode: 'BDS' },
+  { id: 'situbondo', name: 'Situbondo', province: 'Jawa Timur', zone: 4, jneCode: 'STB' },
+  { id: 'panarukan', name: 'Panarukan', province: 'Jawa Timur', zone: 4, jneCode: 'PNK' },
+  { id: 'ponorogo', name: 'Ponorogo', province: 'Jawa Timur', zone: 4, jneCode: 'PNR' },
+  { id: 'trenggalek', name: 'Trenggalek', province: 'Jawa Timur', zone: 4, jneCode: 'TRG' },
+  { id: 'tulungagung', name: 'Tulungagung', province: 'Jawa Timur', zone: 4, jneCode: 'TUL' },
+  { id: 'blitar', name: 'Blitar', province: 'Jawa Timur', zone: 4, jneCode: 'BLI' },
+  { id: 'kediri', name: 'Kediri', province: 'Jawa Timur', zone: 4, jneCode: 'KDR' },
+  { id: 'nganjuk', name: 'Nganjuk', province: 'Jawa Timur', zone: 4, jneCode: 'NGJ' },
+  { id: 'jombang', name: 'Jombang', province: 'Jawa Timur', zone: 4, jneCode: 'JBG' },
+  { id: 'madiun', name: 'Madiun', province: 'Jawa Timur', zone: 4, jneCode: 'MADIUN' },
+  { id: 'magetan', name: 'Magetan', province: 'Jawa Timur', zone: 4, jneCode: 'MGT' },
+  { id: 'ngawi', name: 'Ngawi', province: 'Jawa Timur', zone: 4, jneCode: 'NGW' },
+  { id: 'bojonegoro', name: 'Bojonegoro', province: 'Jawa Timur', zone: 4, jneCode: 'BNG' },
+  { id: 'tuban', name: 'Tuban', province: 'Jawa Timur', zone: 4, jneCode: 'TBN' },
+  { id: 'lamongan', name: 'Lamongan', province: 'Jawa Timur', zone: 4, jneCode: 'LMG' },
+  { id: 'sampang', name: 'Sampang', province: 'Jawa Timur', zone: 4, jneCode: 'SAP' },
+  { id: 'pamekasan', name: 'Pamekasan', province: 'Jawa Timur', zone: 4, jneCode: 'PMK' },
+  { id: 'sumenep', name: 'Sumenep', province: 'Jawa Timur', zone: 4, jneCode: 'SMP' },
+
+  // === BALI & NUSA TENGGARA (Zone 5) ===
+  { id: 'denpasar', name: 'Denpasar', province: 'Bali', zone: 5, jneCode: 'DPS' },
+  { id: 'badung', name: 'Badung', province: 'Bali', zone: 5, jneCode: 'Badung' },
+  { id: 'gianyar', name: 'Gianyar', province: 'Bali', zone: 5, jneCode: 'Gianyar' },
+  { id: 'bangli', name: 'Bangli', province: 'Bali', zone: 5, jneCode: 'Bangli' },
+  { id: 'klungkung', name: 'Klungkung', province: 'Bali', zone: 5, jneCode: 'Klungkung' },
+  { id: 'karangasem', name: 'Karangasem', province: 'Bali', zone: 5, jneCode: 'Karangasem' },
+  { id: 'buleleng', name: 'Buleleng (Singaraja)', province: 'Bali', zone: 5, jneCode: 'Singaraja' },
+  { id: 'tabanan', name: 'Tabanan', province: 'Bali', zone: 5, jneCode: 'Tabanan' },
+  { id: 'mataram', name: 'Mataram', province: 'Nusa Tenggara Barat', zone: 5, jneCode: 'MTH' },
+  { id: 'bima', name: 'Bima', province: 'Nusa Tenggara Barat', zone: 5, jneCode: 'Bima' },
+  { id: 'sumbawa-besar', name: 'Sumbawa Besar', province: 'Nusa Tenggara Barat', zone: 5, jneCode: 'Sumbawa' },
+  { id: 'kupang', name: 'Kupang', province: 'Nusa Tenggara Timur', zone: 5, jneCode: 'Kupang' },
+  { id: 'atambua', name: 'Atambua', province: 'Nusa Tenggara Timur', zone: 5, jneCode: 'Atambua' },
+  { id: 'kefamenanu', name: 'Kefamenanu', province: 'Nusa Tenggara Timur', zone: 5, jneCode: 'Kefamenanu' },
+
+  // === KALIMANTAN (Zone 6) ===
+  { id: 'pontianak', name: 'Pontianak', province: 'Kalimantan Barat', zone: 6, jneCode: 'PTK' },
+  { id: 'sintang', name: 'Sintang', province: 'Kalimantan Barat', zone: 6, jneCode: 'STG' },
+  { id: 'ketapang', name: 'Ketapang', province: 'Kalimantan Barat', zone: 6, jneCode: 'Ketapang' },
+  { id: 'sambas', name: 'Sambas', province: 'Kalimantan Barat', zone: 6, jneCode: 'Sambas' },
+  { id: 'bengkayang', name: 'Bengkayang', province: 'Kalimantan Barat', zone: 6, jneCode: 'Bengkayang' },
+  { id: 'kapuas-hulu', name: 'Kapuas Hulu', province: 'Kalimantan Barat', zone: 6, jneCode: 'Kapuashulu' },
+  { id: 'palangkaraya', name: 'Palangka Raya', province: 'Kalimantan Tengah', zone: 6, jneCode: 'PKY' },
+  { id: 'sampit', name: 'Sampit', province: 'Kalimantan Tengah', zone: 6, jneCode: 'Sampit' },
+  { id: 'pangkalan-bun', name: 'Pangkalan Bun', province: 'Kalimantan Tengah', zone: 6, jneCode: 'Pangkalanbun' },
+  { id: 'banjarbaru', name: 'Banjarbaru', province: 'Kalimantan Selatan', zone: 6, jneCode: 'Banjarbaru' },
+  { id: 'banjarmasin', name: 'Banjarmasin', province: 'Kalimantan Selatan', zone: 6, jneCode: 'BDJ' },
+  { id: 'martapura', name: 'Martapura', province: 'Kalimantan Selatan', zone: 6, jneCode: 'Martapura' },
+  { id: 'balikpapan', name: 'Balikpapan', province: 'Kalimantan Timur', zone: 6, jneCode: 'BPN' },
+  { id: 'samarinda', name: 'Samarinda', province: 'Kalimantan Timur', zone: 6, jneCode: 'SMD' },
+  { id: 'tarakan', name: 'Tarakan', province: 'Kalimantan Utara', zone: 6, jneCode: 'TRK' },
+  { id: 'tenggarong', name: 'Tenggarong', province: 'Kalimantan Timur', zone: 6, jneCode: 'Tenggarong' },
+  { id: 'bontang', name: 'Bontang', province: 'Kalimantan Timur', zone: 6, jneCode: 'Bontang' },
+  { id: 'tanjung-redep', name: 'Tanjung Redep', province: 'Kalimantan Timur', zone: 6, jneCode: 'Tanjungredep' },
+  { id: 'malinau', name: 'Malinau', province: 'Kalimantan Utara', zone: 6, jneCode: 'Malinau' },
+  { id: 'nunukan', name: 'Nunukan', province: 'Kalimantan Utara', zone: 6, jneCode: 'Nunukan' },
+
+  // === SULAWESI (Zone 7) ===
+  { id: 'manado', name: 'Manado', province: 'Sulawesi Utara', zone: 7, jneCode: 'MDC' },
+  { id: 'bitung', name: 'Bitung', province: 'Sulawesi Utara', zone: 7, jneCode: 'Bitung' },
+  { id: 'tomohon', name: 'Tomohon', province: 'Sulawesi Utara', zone: 7, jneCode: 'Tomohon' },
+  { id: 'kotamobagu', name: 'Kotamobagu', province: 'Sulawesi Utara', zone: 7, jneCode: 'Kotamobagu' },
+  { id: 'gorontalo', name: 'Gorontalo', province: 'Gorontalo', zone: 7, jneCode: 'GOR' },
+  { id: 'tilamuta', name: 'Tilamuta', province: 'Gorontalo', zone: 7, jneCode: 'Tilamuta' },
+  { id: 'palu', name: 'Palu', province: 'Sulawesi Tengah', zone: 7, jneCode: 'PLP' },
+  { id: 'poso', name: 'Poso', province: 'Sulawesi Tengah', zone: 7, jneCode: 'Poso' },
+  { id: 'donggala', name: 'Donggala', province: 'Sulawesi Tengah', zone: 7, jneCode: 'Donggala' },
+  { id: 'luwuk', name: 'Luwuk', province: 'Sulawesi Tengah', zone: 7, jneCode: 'LUW' },
+  { id: 'buol', name: 'Buol', province: 'Sulawesi Tengah', zone: 7, jneCode: 'Buol' },
+  { id: 'makassar', name: 'Makassar', province: 'Sulawesi Selatan', zone: 7, jneCode: 'UPG' },
+  { id: 'pare-pare', name: 'Pare-Pare', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Pare-pare' },
+  { id: 'palopo', name: 'Palopo', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Palopo' },
+  { id: 'rantepao', name: 'Rantepao', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Rantepao' },
+  { id: 'jeneponto', name: 'Jeneponto', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Jeneponto' },
+  { id: 'bantaeng', name: 'Bantaeng', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Bantaeng' },
+  { id: 'benteng', name: 'Benteng', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Benteng' },
+  { id: 'bulukumba', name: 'Bulukumba', province: 'Sulawesi Selatan', zone: 7, jneCode: 'Bulukumba' },
+  { id: 'kendari', name: 'Kendari', province: 'Sulawesi Tenggara', zone: 7, jneCode: 'KDI' },
+  { id: 'bau-bau', name: 'Bau-Bau', province: 'Sulawesi Tenggara', zone: 7, jneCode: 'Bau-bau' },
+  { id: 'wangi-wangi', name: 'Wangi-Wangi', province: 'Sulawesi Tenggara', zone: 7, jneCode: 'Wangi-wangi' },
+  { id: 'mamuju', name: 'Mamuju', province: 'Sulawesi Barat', zone: 7, jneCode: 'Mamuju' },
+  { id: 'majene', name: 'Majene', province: 'Sulawesi Barat', zone: 7, jneCode: 'Majene' },
+
+  // === MALUKU & PAPUA (Zone 8) ===
+  { id: 'ambon', name: 'Ambon', province: 'Maluku', zone: 8, jneCode: 'AMQ' },
+  { id: 'tual', name: 'Tual', province: 'Maluku', zone: 8, jneCode: 'Tual' },
+  { id: 'ternate', name: 'Ternate', province: 'Maluku Utara', zone: 8, jneCode: 'Ternate' },
+  { id: 'tidore', name: 'Tidore Kepulauan', province: 'Maluku Utara', zone: 8, jneCode: 'Tidore' },
+  { id: 'soasiu', name: 'Soasiu', province: 'Maluku Utara', zone: 8, jneCode: 'Soasiu' },
+  { id: 'jayapura', name: 'Jayapura', province: 'Papua', zone: 8, jneCode: 'DJJ' },
+  { id: 'sentani', name: 'Sentani', province: 'Papua', zone: 8, jneCode: 'Sentani' },
+  { id: 'wamena', name: 'Wamena', province: 'Papua', zone: 8, jneCode: 'Wamena' },
+  { id: 'nabire', name: 'Nabire', province: 'Papua', zone: 8, jneCode: 'Nabire' },
+  { id: 'serui', name: 'Serui', province: 'Papua', zone: 8, jneCode: 'Serui' },
+  { id: 'sorong', name: 'Sorong', province: 'Papua Barat', zone: 8, jneCode: 'SOQ' },
+  { id: 'wasior', name: 'Wasior', province: 'Papua Barat', zone: 8, jneCode: 'Wasior' },
+  { id: 'manokwari', name: 'Manokwari', province: 'Papua Barat', zone: 8, jneCode: 'MKW' },
+  { id: 'fakfak', name: 'Fakfak', province: 'Papua Barat', zone: 8, jneCode: 'FKQ' },
+  { id: 'kaimana', name: 'Kaimana', province: 'Papua Barat', zone: 8, jneCode: 'Kaimana' },
+  { id: 'merauke', name: 'Merauke', province: 'Papua', zone: 8, jneCode: 'MKQ' },
+  { id: 'timika', name: 'Timika', province: 'Papua', zone: 8, jneCode: 'TIM' },
+];
+
+// Mapping dari city ID ke api.co.id village code (10 digit)
+// Village codes dari https://use.api.co.id/regional/indonesia/villages
+const CITY_TO_VILLAGE_CODE = {
+  // DKI Jakarta (verified)
+  'bekasi':        '3275011001', // Bekasijaya, KOTA BEKASI ✅
+  'jakarta-timur': '3175061007', // Cakung Barat, KOTA JAKARTA TIMUR ✅
+  'jakarta-barat': '3173021001', // Grogol, KOTA JAKARTA BARAT ✅
+  'jakarta-pusat': '3171051002', // Cempaka Putih Barat, KOTA JAKARTA PUSAT ✅
+  'jakarta-selatan': '3174051006', // Kebayoran Lama Selatan, KOTA JAKARTA SELATAN ✅
+  'jakarta-utara': '3172031007', // Koja, KOTA JAKARTA UTARA ✅
+  // Jawa Barat (verified)
+  'bandung':       '3273011003', // Isola, KOTA BANDUNG ✅
+  'bogor':         '3271031004', // Cibogor, KOTA BOGOR ✅
+  'depok':         '3276061001', // Beji, KOTA DEPOK ✅
+  'cirebon':       '3274011003', // Kesenden, KOTA CIREBON ✅
+  'tasikmalaya':   '3202012007', // Sukamanah, KOTA TASIKMALAYA
+  'sukabumi':      '3202392001', // Nyalindung, KOTA SUKABUMI
+  // Banten
+  'tangerang':     '3671031003', // Poris Gaga, KOTA TANGERANG
+  'tangerang-selatan': '3674011009', // Serpong, KOTA TANGERANG SELATAN
+  'serang':        '3604011003', // Cimuncang, KOTA SERANG
+  'cilegon':       '3672011003', // Gedong, KOTA CILEGON
+  // Jawa Tengah
+  'semarang':      '3374111005', // Banyumanik, KOTA SEMARANG ✅
+  'solo':          '3372011002', // Laweyan, KOTA SURAKARTA ✅
+  'yogyakarta':    '3471131002', // Muja Muju, KOTA YOGYAKARTA ✅
+  // Jawa Timur
+  'surabaya':      '3578201001', // Wiyung, KOTA SURABAYA ✅
+  'malang':        '3573051003', // Tlogomas, KOTA MALANG ✅
+  'sidoarjo':      '3515012004', // Porong, KABUPATEN SIDOARJO
+  'gresik':        '3526012004', // Deltasari, KABUPATEN GRESIK
+  'kediri':        '3506011003', // Ngronggo, KOTA KEDIRI
+  'jember':        '3509011003', // Kertosono, KABUPATEN JEMBER
+  // Bali
+  'denpasar':      '5171011003', // Sesetan, KOTA DENPASAR ✅
+  // Kalimantan
+  'balikpapan':    '6471011008', // Marga Aneka, KOTA BALIKPAPAN
+  'samarinda':     '6472101003', // Sengkotek, KOTA SAMARINDA
+  'pontianak':     '6171041003', // Siantan Hilir, KOTA PONTIANAK
+  'banjarmasin':   '6371011003', // Basmar, KOTA BANJARMASIN
+  // Sulawesi
+  'makassar':      '7371011003', // Bontoala, KOTA MAKASSAR
+  'manado':        '7171011003', // Tikala Ares, KOTA MANADO
+  // Sumatera
+  'medan':         '1271011001', // Medan, KOTA MEDAN
+  'pekanbaru':     '1471011001', // Sukajadi, KOTA PEKANBARU
+  'palembang':     '1671011003', // Ilir Barat, KOTA PALEMBANG
+  'padang':        '1371101006', // Kampung Lapai, KOTA PADANG
+  'bandar-lampung': '1871011003', // Guluk-guluk, KOTA BANDAR LAMPUNG
+  'batam':         '2171011003', // Sungai, KOTA BATAM
+  'jambi':         '1571011003', // Palmerah, KOTA JAMBI
+  'bengkulu':      '1771031014', // Malabero, KOTA BENGKULU
+  // Nusa Tenggara
+  'mataram':       '5271011004', // Ampenan Selatan, KOTA MATARAM
+};
+
+// === API.CO.ID Expedition Cost Config ===
+const API_CO_ID_KEY = '6HkOGh9rMgiJKiTlstuUMShNbVLlCIzXbu970CsFdOjIuNdMKf';
+const API_CO_BASE = 'https://use.api.co.id/expedition';
+
+// Fetch shipping cost via api.co.id (through PHP proxy)
+async function fetchApiCost(originVillageCode, destVillageCode, weight) {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+    const innerParams = `origin_village_code=${originVillageCode}&destination_village_code=${destVillageCode}&weight=${weight}`;
+    const url = `/proxy.php?path=${encodeURIComponent('/shipping-cost?' + innerParams)}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'x-api-co-id': API_CO_ID_KEY },
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    if (data.is_success && data.data && data.data.couriers) {
+      return data.data.couriers.map(c => ({
+        service: c.courier_code,
+        description: c.courier_name,
+        cost: Math.round(c.price / 1000), // API returns price in IDR without decimal
+        etd: c.estimation
+      }));
+    }
+    return null;
+  } catch (e) {
+    if (e.name !== 'AbortError') {
+      console.warn('API.co.id cost error:', e.message);
+    }
+    return null;
+  }
+}
+
+function getRajaongkirCityId(cityId) {
+  // Map our city IDs to Rajaongkir city IDs
+  // Rajaongkir uses numeric IDs (501=Jakarta, 455=Bandung, etc.)
+  const mapping = {
+    'jakarta-pusat': '501', 'jakarta-barat': '501', 'jakarta-selatan': '501',
+    'jakarta-timur': '501', 'jakarta-utara': '501',
+    'depok': '501', 'bekasi': '501', 'bogor': '501', 'sukabumi': '501',
+    'tangerang-selatan': '501', 'tangerang': '501', 'serang': '501',
+    'cilegon': '501', 'rangkas': '501',
+    'bandung': '455', 'cirebon': '452', 'tasikmalaya': '465', 'karawang': '470',
+    'semarang': '501', 'solo': '502', 'salatiga': '501', 'pekalongan': '457',
+    'tegal': '464', 'magelang': '454', 'kudus': '475', 'pati': '478',
+    'jepara': '474', 'rembang': '481', 'blora': '483', 'purwodadi': '480',
+    'ungaran': '501', 'kendal': '487', 'brebes': '486', 'cilacap': '489',
+    'purwokerto': '490', 'banyumas': '488', 'wonosobo': '502', 'purworejo': '492',
+    'kebumen': '491', 'sukoharjo': '502', 'wonogiri': '503', 'sragen': '502',
+    'grobogan': '493', 'demak': '494', 'juwana': '477', 'slawi': '494',
+    'batang': '494', 'klaten': '501', 'boyolali': '501', 'karanganyer': '501',
+    'yogyakarta': '501', 'sleman': '501', 'bantul': '501', 'wates': '501', 'wonosari': '501',
+    'surabaya': '501', 'gresik': '501', 'sidoarjo': '501', 'mojokerto': '501',
+    'malang': '501', 'pasuruan': '501', 'probolinggo': '501', 'lumajang': '501',
+    'jember': '501', 'banyuwangi': '501', 'bondowoso': '501', 'situbondo': '501',
+    'panarukan': '501', 'ponorogo': '501', 'trenggalek': '501', 'tulungagung': '501',
+    'blitar': '501', 'kediri': '501', 'nganjuk': '501', 'jombang': '501',
+    'madiun': '501', 'magetan': '501', 'ngawi': '501', 'bojonegoro': '501',
+    'tuban': '501', 'lamongan': '501', 'sampang': '501', 'pamekasan': '501',
+    'sumenep': '501', 'denpasar': '501', 'badung': '501', 'gianyar': '501',
+    'bangli': '501', 'klungkung': '501', 'karangasem': '501', 'buleleng': '501',
+    'tabanan': '501', 'mataram': '501', 'bima': '501', 'sumbawa-besar': '501',
+    'kupang': '501', 'makassar': '501', 'manado': '501', 'gorontalo': '501',
+    'palu': '501', 'kendari': '501', 'bau-bau': '501', 'ambon': '501',
+    'ternate': '501', 'jayapura': '501', 'sorong': '501', 'manokwari': '501',
+    'pontianak': '501', 'samarinda': '501', 'balikpapan': '501', 'banjarmasin': '501',
+    'palangkaraya': '501', 'tarakan': '501',
+    'medan': '455', 'pekanbaru': '456', 'padang': '462', 'palembang': '464',
+    'bandar-lampung': '470', 'tanjung-pinang': '480', 'batam': '481',
+    'btj': '455', 'plg': '464', 'bengkulu': '466',
+  };
+  return mapping[cityId] || null;
+}
+
+
+;
+
+    // Zone distance matrix (inter-zone cost multiplier)
+    const ZONE_DIST = [
+      [0,1,2,3,4,5,6,7,8], // zone 1
+      [1,0,1,2,3,4,5,6,7], // zone 2
+      [2,1,0,1,2,3,4,5,6], // zone 3
+      [3,2,1,0,1,2,3,4,5], // zone 4
+      [4,3,2,1,0,1,2,3,4], // zone 5
+      [5,4,3,2,1,0,1,2,3], // zone 6
+      [6,5,4,3,2,1,0,1,2], // zone 7
+      [7,6,5,4,3,2,1,0,1], // zone 8
+      [8,7,6,5,4,3,2,1,0], // zone 9 (reserved)
     ];
 
-    // Simulasi ongkir
-    function calcCost(fromIdx, toIdx, weight, courierId) {
-      const baseRates = {
-        jne: 12000, jnt: 10000, sicepat: 11000, anteraja: 10500,
-        ninja: 9500, pos: 11000, tiki: 11500, spx: 9000,
-      };
-      const base = baseRates[courierId] || 10000;
-      const distance = Math.abs(toIdx - fromIdx) + 1;
-      const weightFactor = Math.max(1, Math.ceil(weight / 250));
-      const serviceMultiplier = courierId === 'jne' ? 1.3 : courierId === 'ninja' ? 0.9 : 1.1;
-      const total = Math.round(base * distance * weightFactor * serviceMultiplier / 1000) * 1000;
-      const days = Math.min(8, Math.max(1, Math.round(distance / 4))) + (courierId === 'spx' ? -1 : 0);
+    function calcCost(fromZone, toZone, weight, courierId) {
+      const ZONE_DIST = [
+        [0,1,2,3,4,5,6,7,8],
+        [1,0,1,2,3,4,5,6,7],
+        [2,1,0,1,2,3,4,5,6],
+        [3,2,1,0,1,2,3,4,5],
+        [4,3,2,1,0,1,2,3,4],
+        [5,4,3,2,1,0,1,2,3],
+        [6,5,4,3,2,1,0,1,2],
+        [7,6,5,4,3,2,1,0,1],
+        [8,7,6,5,4,3,2,1,0],
+      ];
+      const ZONE_BASE = { jne: 18000, jnt: 15000, sicepat: 16000, anteraja: 14000, ninja: 13000, pos: 17000, tiki: 16000, spx: 12000 };
+      const base = ZONE_BASE[courierId] || 15000;
+      const zoneDist = ZONE_DIST[(fromZone || 1) - 1]?.[(toZone || 1) - 1] ?? 1;
+      const distance = zoneDist === 0 ? 1 : zoneDist;
+      const weightFactor = Math.max(1, Math.ceil((weight || 1) / 250));
+      const serviceMultiplier = courierId === 'jne' ? 1.3 : courierId === 'ninja' ? 0.9 : courierId === 'spx' ? 0.85 : 1.1;
+      const rawCost = base * distance * weightFactor * serviceMultiplier;
+      const total = rawCost < 500 ? Math.round(rawCost / 50) * 50 : Math.round(rawCost / 100) * 100;
+      const days = Math.min(10, Math.max(1, Math.round(distance) + 1)) + (courierId === 'spx' ? -1 : 0);
       return { price: total, days: `±${days} hari` };
     }
 
@@ -561,6 +1016,85 @@
       );
     }
 
+    // Searchable city select component
+    function SearchSelect({ value, onChange, options, placeholder }) {
+      const [open, setOpen] = React.useState(false);
+      const [query, setQuery] = React.useState('');
+      const ref = React.useRef(null);
+
+      const selected = options.find(o => o.id === value);
+      const filtered = query === '' ? options : options.filter(o =>
+        o.name.toLowerCase().includes(query.toLowerCase()) ||
+        o.province.toLowerCase().includes(query.toLowerCase())
+      );
+
+      React.useEffect(() => {
+        function handleClickOutside(e) {
+          if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+      }, []);
+
+      return (
+        <div ref={ref} style={{ position: 'relative' }}>
+          <div
+            onClick={() => { setOpen(true); setQuery(''); }}
+            style={{
+              width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db',
+              borderRadius: 8, background: '#fff', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              minHeight: 44, boxSizing: 'border-box'
+            }}
+          >
+            <span style={selected ? { color: '#111' } : { color: '#9ca3af' }}>
+              {selected ? `${selected.name} (${selected.province})` : placeholder}
+            </span>
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ flexShrink: 0 }}>
+              <path d="M1 1L6 6L11 1" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </div>
+          {open && (
+            <div style={{
+              position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999,
+              background: '#fff', border: '1.5px solid #d1d5db', borderRadius: 8,
+              marginTop: 4, maxHeight: 260, overflowY: 'auto',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.12)'
+            }}>
+              <div style={{ padding: '8px 10px', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#f9fafb' }}>
+                <input
+                  autoFocus
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  placeholder="Ketik nama kota atau kabupaten..."
+                  style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+              {filtered.length === 0 && (
+                <div style={{ padding: '16px', textAlign: 'center', color: '#9ca3af', fontSize: '0.85rem' }}>Kota tidak ditemukan</div>
+              )}
+              {filtered.map(c => (
+                <div
+                  key={c.id}
+                  onClick={() => { onChange(c.id); setOpen(false); setQuery(''); }}
+                  style={{
+                    padding: '9px 12px', cursor: 'pointer', fontSize: '0.88rem',
+                    background: c.id === value ? '#f0fdf4' : 'transparent',
+                    color: '#111'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#f3f4f6'}
+                  onMouseLeave={e => e.currentTarget.style.background = c.id === value ? '#f0fdf4' : 'transparent'}
+                >
+                  <span style={{ fontWeight: 600 }}>{c.name}</span>
+                  <span style={{ color: '#6b7280', marginLeft: 6 }}>{c.province}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
     function OngkirTab() {
       const [from, setFrom] = React.useState('');
       const [to, setTo] = React.useState('');
@@ -568,21 +1102,80 @@
       const [courier, setCourier] = React.useState('');
       const [results, setResults] = React.useState([]);
       const [loading, setLoading] = React.useState(false);
+      const [error, setError] = React.useState('');
+      const [fromCityData, setFromCityData] = React.useState(null);
+      const [toCityData, setToCityData] = React.useState(null);
 
       const handleCalc = () => {
         if (!from || !to || !weight) return;
         setLoading(true);
         setResults([]);
-        setTimeout(() => {
-          const fromIdx = PROVINCES.indexOf(from);
-          const toIdx = PROVINCES.indexOf(to);
-          const costs = COURIERS.map(c => ({
-            ...c,
-            ...calcCost(fromIdx, toIdx, weight, c.id)
-          })).sort((a, b) => a.price - b.price);
-          setResults(costs);
+        setError('');
+
+        const fromCity = CITIES.find(c => c.id === from);
+        const toCity = CITIES.find(c => c.id === to);
+        setFromCityData(fromCity || null);
+        setToCityData(toCity || null);
+        if (!fromCity || !toCity) { setLoading(false); return; }
+
+        const weightGrams = Math.round(weight * 1000);
+        const fromVillageCode = CITY_TO_VILLAGE_CODE[from];
+        const toVillageCode = CITY_TO_VILLAGE_CODE[to];
+
+        if (!fromVillageCode || !toVillageCode) {
+          setError('Kode village belum tersedia untuk kota ini. Hubungi administrator.');
+          setResults([]);
           setLoading(false);
-        }, 1000);
+          return;
+        }
+
+        fetchApiCost(fromVillageCode, toVillageCode, weightGrams).then(apiResults => {
+          if (apiResults && apiResults.length > 0) {
+            const mappedResults = COURIERS.map(c => {
+              const apiService = apiResults.find(r => {
+                const svc = r.service.toUpperCase();
+                const cid = c.id.toUpperCase();
+                if (cid === 'JNE' && (svc === 'JNE' || svc.startsWith('JNE'))) return true;
+                if (cid === 'TIKI' && (svc === 'TIKI' || svc.startsWith('TIKI'))) return true;
+                if (cid === 'POS' && (svc === 'POS' || svc.startsWith('POS'))) return true;
+                if (cid === 'SICEPAT' && (svc === 'SICEPAT' || svc === 'SiCepat')) return true;
+                if (cid === 'NINJA' && svc === 'NINJA') return true;
+                if (cid === 'SAP' && (svc === 'SAP' || svc === 'SAPEXPRESS')) return true;
+                if (cid === 'JNT' && svc === 'JNT') return true;
+                if (cid === 'WAHANA' && svc === 'WAHANA') return true;
+                if (cid === '爪' || cid === 'PAHALA') return false;
+                return false;
+              });
+
+              if (apiService) {
+                return {
+                  ...c,
+                  price: apiService.cost,
+                  days: apiService.etd ? `±${apiService.etd.replace(/\D/g, '')} hari` : '±3 hari',
+                  source: 'api',
+                  apiServices: apiResults
+                };
+              }
+              return null;
+            }).filter(Boolean);
+
+            if (mappedResults.length === 0) {
+              setError('Tidak ada data ongkir untuk kurir yang dipilih. Coba pilih route lain.');
+              setResults([]);
+            } else {
+              setResults(mappedResults.sort((a, b) => a.price - b.price));
+              setError('');
+            }
+          } else {
+            setError('Gagal mengambil data ongkir dari server. Silakan coba lagi.');
+            setResults([]);
+          }
+          setLoading(false);
+        }).catch(() => {
+          setError('Koneksi ke server gagal. Periksa koneksi internet.');
+          setResults([]);
+          setLoading(false);
+        });
       };
 
       return (
@@ -591,17 +1184,11 @@
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
               <div>
                 <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Kota Asal</label>
-                <select value={from} onChange={e => setFrom(e.target.value)}>
-                  <option value="">Pilih Kota Asal</option>
-                  {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
+                <SearchSelect value={from} onChange={setFrom} options={CITIES} placeholder="Pilih Kota Asal" />
               </div>
               <div>
                 <label style={{display:'block',fontWeight:700,fontSize:'0.9rem',color:'var(--forest)',marginBottom:8}}>Kota Tujuan</label>
-                <select value={to} onChange={e => setTo(e.target.value)}>
-                  <option value="">Pilih Kota Tujuan</option>
-                  {PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
+                <SearchSelect value={to} onChange={setTo} options={CITIES} placeholder="Pilih Kota Tujuan" />
               </div>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
@@ -622,6 +1209,12 @@
             </button>
           </div>
 
+          {error && (
+            <div style={{marginTop:16,padding:'12px 16px',background:'#fef2f2',border:'1px solid #fca5a5',borderRadius:8,color:'#dc2626',fontSize:'0.9rem'}}>
+              ⚠️ {error}
+            </div>
+          )}
+
           {results.length > 0 && (
             <div style={{marginTop:24}}>
               <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(300px, 1fr))',gap:16}}>
@@ -631,6 +1224,16 @@
                     <div className="courier-name">{r.name}</div>
                     <div className="price">Rp {r.price.toLocaleString('id-ID')}</div>
                     <div className="eta">Estimasi {r.days}</div>
+                    {r.source === 'api' && (
+                      <div style={{marginTop:6}}>
+                        <span style={{display:'inline-block',padding:'2px 8px',background:'#22c55e',color:'#fff',borderRadius:4,fontSize:'0.65rem',fontWeight:700}}>✓ REAL API</span>
+                      </div>
+                    )}
+                    {r.source === 'estimation' && (
+                      <div style={{marginTop:6}}>
+                        <span style={{display:'inline-block',padding:'2px 8px',background:'#f59e0b',color:'#fff',borderRadius:4,fontSize:'0.65rem',fontWeight:700}}>ESTIMASI</span>
+                      </div>
+                    )}
                     <div className="cost-breakdown">
                       <div>
                         <div className="label">Berat</div>
@@ -638,22 +1241,45 @@
                       </div>
                       <div>
                         <div className="label">Layanan</div>
-                        <div className="value">{r.type.split(',')[0]}</div>
+                        <div className="value">Reguler</div>
                       </div>
                       <div>
                         <div className="label">Asal</div>
-                        <div className="value">{from}</div>
+                        <div className="value">{fromCityData ? fromCityData.name : from}</div>
                       </div>
                       <div>
                         <div className="label">Tujuan</div>
-                        <div className="value">{to}</div>
+                        <div className="value">{toCityData ? toCityData.name : to}</div>
                       </div>
                     </div>
+                    {r.apiServices && r.apiServices.length > 0 && (
+                      <div style={{marginTop:12,padding:'10px 12px',background:'rgba(255,255,255,0.1)',borderRadius:8}}>
+                        <div style={{fontSize:'0.7rem',fontWeight:700,color:'rgba(255,255,255,0.8)',marginBottom:6}}>LAYANAN LAIN:</div>
+                        {r.apiServices.slice(1, 5).map((svc, i) => (
+                          <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:'0.72rem',color:'rgba(255,255,255,0.85)',padding:'2px 0'}}>
+                            <span>{svc.service} ({svc.description})</span>
+                            <span style={{fontWeight:600}}>Rp {svc.cost.toLocaleString('id-ID')}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {r.id === 'jne' && fromCityData && toCityData && (
+                      <a
+                        href={`https://jne.co.id/shipping-fee?origin=${fromCityData.jneCode || from}&destination=${toCityData.jneCode || to}&weight=${weight}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{display:'inline-flex',alignItems:'center',gap:6,marginTop:14,padding:'8px 14px',background:'rgba(255,255,255,0.15)',borderRadius:8,color:'#fff',fontSize:'0.75rem',fontWeight:600,textDecoration:'none'}}
+                      >
+                        🔗 Cek Harga Resmi di JNE
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>
               <p style={{textAlign:'center',marginTop:16,fontSize:'0.8rem',color:'var(--text-muted)'}}>
-                * Harga adalah estimasi. Harga aktual bisa berbeda tergantung kondisi dan promotions.
+                * Harga <strong style={{color:'#22c55e'}}>hijau</strong> = data real dari Rajaongkir API.{' '}
+                Harga <strong style={{color:'#f59e0b'}}>kuning</strong> = estimasi zona.
+                Untuk harga pasti, silakan cek langsung di <a href="https://jne.co.id/shipping-fee" target="_blank" rel="noopener noreferrer" style={{color:'var(--forest)',fontWeight:600}}>jne.co.id</a>.
               </p>
             </div>
           )}
@@ -664,13 +1290,32 @@
     function CourierList() {
       return (
         <div id="ekspedisi">
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(240px, 1fr))',gap:16}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(300px, 1fr))',gap:20}}>
             {COURIERS.map(c => (
-              <div key={c.id} className="card" style={{display:'flex',alignItems:'center',gap:16}}>
-                <img src={c.logo} alt={c.name} style={{width:48,height:48,objectFit:'contain',flexShrink:0}} onError={e => {e.target.style.display='none'}} />
-                <div>
-                  <div style={{fontWeight:800,color:'var(--forest)',fontSize:'1rem'}}>{c.name}</div>
-                  <div style={{fontSize:'0.8rem',color:'var(--text-muted)',marginTop:3}}>{c.type}</div>
+              <div key={c.id} className="card" style={{padding:0,overflow:'hidden'}}>
+                <div style={{background:'linear-gradient(135deg, var(--forest) 0%, #0d6e3a 100%)', padding:'20px 20px 16px', display:'flex', alignItems:'center', gap:14}}>
+                  <img src={c.logo} alt={c.name} style={{width:52,height:52,objectFit:'contain',flexShrink:0,background:'#fff',borderRadius:8,padding:4}} onError={e => {e.target.style.display='none'}} />
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:900,color:'#fff',fontSize:'1.15rem'}}>{c.name}</div>
+                    <div style={{fontSize:'0.75rem',color:'rgba(255,255,255,0.8)',marginTop:2}}>{c.tagline}</div>
+                  </div>
+                </div>
+                <div style={{padding:'16px 20px 20px'}}>
+                  <div style={{fontSize:'0.7rem',fontWeight:700,color:'var(--amber)',textTransform:'uppercase',letterSpacing:1,marginBottom:10}}>Layanan Tersedia</div>
+                  <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                    {c.services.map(s => (
+                      <div key={s.code} style={{display:'flex',gap:10,padding:'10px 12px',background:'var(--cream)',borderRadius:8,border:'1px solid rgba(8,72,35,0.08)'}}>
+                        <div style={{flex:1}}>
+                          <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:2}}>
+                            <span style={{fontSize:'0.65rem',fontWeight:800,color:'#fff',background:'var(--forest)',padding:'1px 6px',borderRadius:4}}>{s.code}</span>
+                            <span style={{fontWeight:800,fontSize:'0.82rem',color:'var(--forest)'}}>{s.name}</span>
+                          </div>
+                          <div style={{fontSize:'0.72rem',color:'var(--text-muted)',lineHeight:1.4}}>{s.desc}</div>
+                        </div>
+                        <div style={{fontSize:'0.65rem',fontWeight:600,color:'var(--amber)',whiteSpace:'nowrap',textAlign:'right',paddingTop:2}}>{s.estimate}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
