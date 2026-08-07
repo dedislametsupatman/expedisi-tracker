@@ -1,4 +1,7 @@
-FROM nginx:alpine
-COPY index.html /usr/share/nginx/html/index.html
-RUN mkdir -p /tmp/nginx_cache
-EXPOSE 80
+FROM php:8-cli-alpine
+WORKDIR /var/www/html
+COPY index.html .
+COPY proxy.php .
+COPY server.php .
+EXPOSE 3000
+CMD ["php", "-S", "0.0.0.0:3000", "-t", "/var/www/html"]
