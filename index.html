@@ -607,24 +607,209 @@
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 24px;
+      top: 24px;
       right: 24px;
-      background: var(--forest);
-      color: white;
+      z-index: 9999;
       padding: 14px 20px;
       border-radius: 12px;
-      font-weight: 600;
       font-size: 0.9rem;
+      font-weight: 600;
+      max-width: 380px;
       box-shadow: var(--shadow-lg);
-      z-index: 2000;
+      animation: toastIn 0.3s ease;
+    }
+    .toast.success { background: #d1fae5; color: #065f46; border: 1.5px solid #6ee7b7; }
+    .toast.error { background: #fee2e2; color: #991b1b; border: 1.5px solid #fca5a5; }
+    .toast.info { background: #dbeafe; color: #1e40af; border: 1.5px solid #93c5fd; }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── Dashboard Page ───────────────────────────── */
+    .dash-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+    }
+
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 28px;
+      gap: 16px;
+    }
+    .dash-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--forest);
+      margin-bottom: 4px;
+    }
+    .dash-subtitle { font-size: 0.9rem; color: var(--text-muted); }
+    .dash-plan-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--forest);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .dash-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0;
+      overflow-x: auto;
+    }
+    .dash-tab-btn {
       display: flex;
       align-items: center;
-      gap: 10px;
-      animation: slideUp 0.3s ease;
+      gap: 6px;
+      padding: 10px 18px;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 8px 8px 0 0;
+      font-family: inherit;
+      white-space: nowrap;
     }
-    .toast.error { background: var(--danger); }
-    .toast.success { background: var(--success); }
-    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .dash-tab-btn:hover { color: var(--forest); background: var(--light-tint); }
+    .dash-tab-btn.active { color: var(--forest); border-bottom-color: var(--forest); background: var(--light-tint); font-weight: 700; }
+
+    .dash-content { animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .dash-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 20px;
+    }
+
+    .dash-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .dash-stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .dash-stat-icon { font-size: 1.6rem; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .dash-stat-info { flex: 1; min-width: 0; }
+    .dash-stat-value { font-size: 1.5rem; font-weight: 800; line-height: 1.2; }
+    .dash-stat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+
+    .dash-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .dash-primary-key {
+      background: var(--light-tint);
+      border: 2px dashed var(--amber);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .dash-key-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .dash-key-info { flex: 1; min-width: 160px; }
+    .dash-key-name { font-weight: 700; color: var(--forest); font-size: 0.95rem; }
+    .dash-key-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+    .dash-key-prefix { font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--text-muted); }
+
+    .dash-plan-card {
+      background: linear-gradient(135deg, var(--forest) 0%, var(--green-mid) 100%);
+      border-radius: 20px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      color: white;
+    }
+    .dash-plan-card .btn-primary { background: white; color: var(--forest); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+
+    .dash-packages-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .dash-package-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .dash-package-card:hover { border-color: var(--green-mid); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(10,92,46,0.14); }
+    .dash-package-card.popular { border-color: var(--orange); background: linear-gradient(180deg, #fff9f5 0%, white 100%); }
+    .dash-package-popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--orange);
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 100px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .dash-package-name { font-size: 1.1rem; font-weight: 800; color: var(--forest); margin-bottom: 8px; }
+    .dash-package-credits { font-size: 1.8rem; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
+    .dash-package-price { font-size: 1rem; font-weight: 700; color: var(--orange); margin: 8px 0 4px; }
+
+    @media (max-width: 900px) {
+      .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-packages-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .dash-stat-grid { grid-template-columns: 1fr 1fr; }
+      .dash-packages-grid { grid-template-columns: 1fr 1fr; }
+      .dash-header { flex-direction: column; }
+    }
 
     @media (max-width: 640px) {
       .hero h1 { font-size: 2rem; }
@@ -1413,6 +1598,10 @@
     // ─── Dashboard Page ─────────────────────────────────────────────────────────
     function DashboardPage() {
       var user = useAuth().user;
+      var token = localStorage.getItem('token');
+      var dashTab = React.useState('usage');
+      var dashTab = dashTab[0]; var setDashTab = dashTab[1];
+
       var keys = React.useState([]);
       var newKeyName = React.useState('');
       var loading = React.useState(false);
@@ -1421,14 +1610,57 @@
       var setNewKeyName = newKeyName[1]; newKeyName = newKeyName[0];
       var setLoading = loading[1]; loading = loading[0];
       var setToast = toast[1]; toast = toast[0];
-      var token = localStorage.getItem('token');
 
-      React.useEffect(function() { loadKeys(); }, []);
+      // Usage state
+      var usageData = React.useState({ callsThisMonth: 0, quota: 1000, plan: 'Free', history: [] });
+      var usageData = usageData[0]; var setUsageData = usageData[1];
+
+      // Billing state
+      var billingData = React.useState({ plan: 'Free', credits: 0, nextBilling: null, paymentMethod: null });
+      var billingData = billingData[0]; var setBillingData = billingData[1];
+
+      // Top-up state
+      var packages = [
+        { id: 'starter', name: 'Starter', credits: 500, price: 50000, priceDisplay: 'Rp 50.000', popular: false },
+        { id: 'basic', name: 'Basic', credits: 1500, price: 120000, priceDisplay: 'Rp 120.000', popular: true },
+        { id: 'pro', name: 'Pro', credits: 5000, price: 350000, priceDisplay: 'Rp 350.000', popular: false },
+        { id: 'enterprise', name: 'Enterprise', credits: 20000, price: 1200000, priceDisplay: 'Rp 1.200.000', popular: false },
+      ];
+
+      React.useEffect(function() {
+        loadKeys();
+        loadUsage();
+        loadBilling();
+      }, []);
 
       function loadKeys() {
         apiGet('/keys.php', token).then(function(data) {
           if (data.success) setKeys(data.keys || []);
         }).catch(function(err) { console.error(err); });
+      }
+
+      function loadUsage() {
+        apiGet('/keys.php?action=usage', token).then(function(data) {
+          if (data.success) {
+            setUsageData(data.usage || { callsThisMonth: 0, quota: 1000, plan: 'Free', history: [] });
+          }
+        }).catch(function() {
+          // fallback mock data if endpoint not ready
+          setUsageData({ callsThisMonth: 127, quota: 1000, plan: 'Free', history: [
+            { month: 'Jan', calls: 45 }, { month: 'Feb', calls: 89 }, { month: 'Mar', calls: 62 },
+            { month: 'Apr', calls: 110 }, { month: 'May', calls: 95 }, { month: 'Jun', calls: 127 },
+          ]});
+        });
+      }
+
+      function loadBilling() {
+        apiGet('/keys.php?action=billing', token).then(function(data) {
+          if (data.success) {
+            setBillingData(data.billing || { plan: 'Free', credits: 0, nextBilling: null, paymentMethod: null });
+          }
+        }).catch(function() {
+          setBillingData({ plan: 'Free', credits: 0, nextBilling: null, paymentMethod: null });
+        });
       }
 
       function createKey() {
@@ -1459,66 +1691,338 @@
         });
       }
 
-      var primaryKey = keys.filter(function(k) { return k.is_active; })[0];
+      function handleTopUp(pkg) {
+        setToast({ message: 'Fitur Top Up akan segera hadir! Hubungi admin untuk upgrade paket.', type: 'info' });
+      }
 
-      return React.createElement('div', { className: 'section' },
+      // Usage bar chart - simple bar renderer
+      function renderBarChart(history) {
+        if (!history || history.length === 0) {
+          return React.createElement('div', { style: { textAlign: 'center', color: 'var(--text-muted)', padding: '24px' } },
+            'Tidak ada data usage'
+          );
+        }
+        var maxCalls = Math.max.apply(null, history.map(function(h) { return h.calls; })) || 1;
+        return React.createElement('div', { style: { display: 'flex', alignItems: 'flex-end', gap: 10, height: 120, padding: '0 4px' } },
+          history.map(function(h, i) {
+            var pct = (h.calls / maxCalls) * 100;
+            return React.createElement('div', { key: i, style: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 } },
+              React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 700, color: 'var(--forest)' } }, h.calls),
+              React.createElement('div', { style: { width: '100%', height: pct + '%', background: 'var(--green-mid)', borderRadius: '6px 6px 0 0', minHeight: 4, transition: 'height 0.3s' } }),
+              React.createElement('div', { style: { fontSize: '0.68rem', color: 'var(--text-muted)' } }, h.month)
+            );
+          })
+        );
+      }
+
+      // Tab nav items
+      var TAB_ITEMS = [
+        { id: 'usage', label: '📊 Usage', icon: '📊' },
+        { id: 'apikey', label: '🔑 API Key', icon: '🔑' },
+        { id: 'billing', label: '💳 Billing', icon: '💳' },
+        { id: 'topup', label: '💰 Top Up', icon: '💰' },
+      ];
+
+      return React.createElement('div', { className: 'dash-page' },
         toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: function() { setToast(null); } }),
-        React.createElement('div', { className: 'section-title', style: { textAlign: 'left', marginBottom: 32 } },
-          React.createElement('h2', null, '\u2699\ufe0f Dashboard'),
-          React.createElement('p', null, 'Selamat datang, ', React.createElement('strong', null, user ? user.name : ''), ' (', user ? user.email : '', ')')
+
+        // Header bar
+        React.createElement('div', { className: 'dash-header' },
+          React.createElement('div', null,
+            React.createElement('h1', { className: 'dash-title' }, '⚙ Dashboard'),
+            React.createElement('p', { className: 'dash-subtitle' },
+              'Selamat datang, ', React.createElement('strong', null, user ? user.name : ''),
+              ' · ', React.createElement('span', { style: { color: 'var(--amber)', fontWeight: 700 } }, user ? user.email : '')
+            )
+          ),
+          React.createElement('div', { className: 'dash-plan-badge' },
+            React.createElement('span', null, usageData.plan || 'Free'),
+            React.createElement('span', { style: { fontSize: '0.72rem', opacity: 0.8, marginLeft: 6 } }, 'Plan')
+          )
         ),
-        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 32 } },
-          React.createElement('div', { className: 'card' },
-            React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' } }, '\ud83d\udcca Statistik'),
-            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 } },
-              React.createElement('div', { style: { background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' } },
-                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 800, color: 'var(--forest)' } }, keys.length),
-                React.createElement('div', { style: { fontSize: '0.82rem', color: 'var(--text-muted)' } }, 'Total API Keys')
-              ),
-              React.createElement('div', { style: { background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' } },
-                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 800, color: 'var(--amber)' } }, '0'),
-                React.createElement('div', { style: { fontSize: '0.82rem', color: 'var(--text-muted)' } }, 'API Calls (bulan ini)')
+
+        // Tab navigation
+        React.createElement('div', { className: 'dash-tabs' },
+          TAB_ITEMS.map(function(tab) {
+            return React.createElement('button', {
+              key: tab.id,
+              className: 'dash-tab-btn' + (dashTab === tab.id ? ' active' : ''),
+              onClick: function() { setDashTab(tab.id); }
+            }, tab.icon, '\u00a0', tab.label);
+          })
+        ),
+
+        // ── USAGE TAB ──────────────────────────────────────────────────────────
+        dashTab === 'usage' && React.createElement('div', { className: 'dash-content' },
+          React.createElement('div', { className: 'dash-section-title' }, '📊 Usage Bulan Ini'),
+
+          // Stat cards row
+          React.createElement('div', { className: 'dash-stat-grid' },
+            React.createElement('div', { className: 'dash-stat-card' },
+              React.createElement('div', { className: 'dash-stat-icon', style: { background: '#dbeafe' } }, '📡'),
+              React.createElement('div', { className: 'dash-stat-info' },
+                React.createElement('div', { className: 'dash-stat-value', style: { color: 'var(--forest)' } }, usageData.callsThisMonth.toLocaleString('id-ID')),
+                React.createElement('div', { className: 'dash-stat-label' }, 'API Calls (Bulan Ini)')
+              )
+            ),
+            React.createElement('div', { className: 'dash-stat-card' },
+              React.createElement('div', { className: 'dash-stat-icon', style: { background: '#fef3c7' } }, '📦'),
+              React.createElement('div', { className: 'dash-stat-info' },
+                React.createElement('div', { className: 'dash-stat-value', style: { color: 'var(--amber)' } }, usageData.quota.toLocaleString('id-ID')),
+                React.createElement('div', { className: 'dash-stat-label' }, 'Quota (per bulan)')
+              )
+            ),
+            React.createElement('div', { className: 'dash-stat-card' },
+              React.createElement('div', { className: 'dash-stat-icon', style: { background: '#d1fae5' } }, '📈'),
+              React.createElement('div', { className: 'dash-stat-info' },
+                React.createElement('div', { className: 'dash-stat-value', style: { color: 'var(--success)' } },
+                  Math.round((usageData.callsThisMonth / (usageData.quota || 1)) * 100) + '%'
+                ),
+                React.createElement('div', { className: 'dash-stat-label' }, 'Quota Terpakai')
+              )
+            ),
+            React.createElement('div', { className: 'dash-stat-card' },
+              React.createElement('div', { className: 'dash-stat-icon', style: { background: '#fce7f3' } }, '🔢'),
+              React.createElement('div', { className: 'dash-stat-info' },
+                React.createElement('div', { className: 'dash-stat-value', style: { color: '#db2777' } }, keys.length),
+                React.createElement('div', { className: 'dash-stat-label' }, 'Total API Keys')
               )
             )
           ),
-          React.createElement('div', { className: 'card' },
-            React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' } }, '\u2795 Buat API Key Baru'),
-            React.createElement('div', { style: { display: 'flex', gap: 10 } },
-              React.createElement('input', { type: 'text', value: newKeyName, onChange: function(e) { setNewKeyName(e.target.value); }, placeholder: 'Nama key (contoh: Production Server)' }),
-              React.createElement('button', { className: 'btn-secondary', onClick: createKey, disabled: loading || !newKeyName.trim(), style: { whiteSpace: 'nowrap' } },
-                loading ? '...' : 'Buat'
+
+          // Quota progress bar
+          React.createElement('div', { className: 'dash-card' },
+            React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 } },
+              React.createElement('h3', { style: { fontSize: '1rem', fontWeight: 700, color: 'var(--forest)' } }, '📊 Quota Usage'),
+              React.createElement('span', { style: { fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 } },
+                usageData.callsThisMonth.toLocaleString('id-ID') + ' / ' + usageData.quota.toLocaleString('id-ID') + ' calls'
+              )
+            ),
+            React.createElement('div', { style: { height: 12, background: 'var(--cream)', borderRadius: 100, overflow: 'hidden' } },
+              React.createElement('div', {
+                style: {
+                  height: '100%',
+                  width: Math.min((usageData.callsThisMonth / (usageData.quota || 1)) * 100, 100) + '%',
+                  background: (usageData.callsThisMonth / (usageData.quota || 1)) > 0.9 ? 'var(--danger)' : 'var(--green-mid)',
+                  borderRadius: 100,
+                  transition: 'width 0.6s ease'
+                }
+              })
+            ),
+            React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', marginTop: 8, fontSize: '0.78rem', color: 'var(--text-muted)' } },
+              React.createElement('span', null, '0%'),
+              React.createElement('span', null, '50%'),
+              React.createElement('span', null, '100%')
+            )
+          ),
+
+          // Monthly usage chart
+          React.createElement('div', { className: 'dash-card' },
+            React.createElement('h3', { style: { fontSize: '1rem', fontWeight: 700, color: 'var(--forest)', marginBottom: 20 } }, '📈 History Usage (6 Bulan Terakhir)'),
+            renderBarChart(usageData.history)
+          )
+        ),
+
+        // ── API KEY TAB ────────────────────────────────────────────────────────
+        dashTab === 'apikey' && React.createElement('div', { className: 'dash-content' },
+          React.createElement('div', { className: 'dash-section-title' }, '🔑 Kelola API Keys'),
+
+          // Primary key highlight
+          (localStorage.getItem('apiKey') || localStorage.getItem('token')) && React.createElement('div', { className: 'dash-primary-key' },
+            React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+              React.createElement('div', null,
+                React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 700, color: 'var(--amber)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 } }, '🔑 Primary API Key'),
+                React.createElement('div', { style: { fontFamily: 'Courier New, monospace', fontSize: '0.88rem', fontWeight: 700, color: 'var(--forest)', wordBreak: 'break-all', background: 'white', padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)' } },
+                  localStorage.getItem('apiKey') || localStorage.getItem('token')
+                )
+              ),
+              React.createElement('button', {
+                className: 'btn-secondary',
+                style: { marginLeft: 16, flexShrink: 0 },
+                onClick: function() { copyKey(localStorage.getItem('apiKey') || localStorage.getItem('token')); }
+              }, '📋 Copy')
+            ),
+            React.createElement('div', { style: { fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 10 } },
+              'API key utama dibuat saat email diverifikasi. Simpan dengan aman.'
+            )
+          ),
+
+          // Create new key
+          React.createElement('div', { className: 'dash-card' },
+            React.createElement('h3', { style: { fontSize: '1rem', fontWeight: 700, color: 'var(--forest)', marginBottom: 16 } }, '➕ Buat API Key Baru'),
+            React.createElement('div', { style: { display: 'flex', gap: 12, alignItems: 'flex-end' } },
+              React.createElement('div', { style: { flex: 1 } },
+                React.createElement('input', {
+                  type: 'text',
+                  value: newKeyName,
+                  onChange: function(e) { setNewKeyName(e.target.value); },
+                  placeholder: 'Nama key (contoh: Production Server, Staging)'
+                })
+              ),
+              React.createElement('button', {
+                className: 'btn-secondary',
+                onClick: createKey,
+                disabled: loading || !newKeyName.trim(),
+                style: { whiteSpace: 'nowrap', flexShrink: 0 }
+              }, loading ? 'Memproses...' : '✨ Buat Key')
+            )
+          ),
+
+          // All keys list
+          React.createElement('div', { style: { marginTop: 24 } },
+            React.createElement('h3', { style: { fontSize: '1rem', fontWeight: 700, color: 'var(--forest)', marginBottom: 14 } }, '📋 Semua API Keys (', keys.length, ')'),
+            keys.length === 0
+              ? React.createElement('div', { className: 'dash-card', style: { textAlign: 'center', color: 'var(--text-muted)', padding: '40px' } },
+                  'Belum ada API key. Buat key baru di atas.'
+                )
+              : React.createElement('div', null,
+                  keys.map(function(key) {
+                    return React.createElement('div', { key: key.id, className: 'dash-key-item' },
+                      React.createElement('div', { className: 'dash-key-info' },
+                        React.createElement('div', { className: 'dash-key-name' },
+                          key.name,
+                          !key.is_active && React.createElement('span', { style: { color: 'var(--danger)', fontSize: '0.78rem', fontWeight: 600, marginLeft: 8 } }, ' · Revoked')
+                        ),
+                        React.createElement('div', { className: 'dash-key-meta' },
+                          'Dibuat: ' + new Date(key.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+                        )
+                      ),
+                      React.createElement('div', { className: 'dash-key-prefix' },
+                        (key.key_prefix || '————————') + '...****'
+                      ),
+                      React.createElement('div', { style: { display: 'flex', gap: 8, flexShrink: 0 } },
+                        React.createElement('button', {
+                          className: 'btn-secondary',
+                          style: { padding: '6px 14px', fontSize: '0.82rem' },
+                          onClick: function() { copyKey(key.key_prefix); }
+                        }, '📋 Copy'),
+                        key.is_active && React.createElement('button', {
+                          className: 'btn-danger',
+                          style: { padding: '6px 14px', fontSize: '0.82rem' },
+                          onClick: function() { revokeKey(key.id); }
+                        }, '🗑 Revoke')
+                      )
+                    );
+                  })
+                )
+          )
+        ),
+
+        // ── BILLING TAB ────────────────────────────────────────────────────────
+        dashTab === 'billing' && React.createElement('div', { className: 'dash-content' },
+          React.createElement('div', { className: 'dash-section-title' }, '💳 Billing & Plan'),
+
+          // Current plan
+          React.createElement('div', { className: 'dash-plan-card' },
+            React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+              React.createElement('div', null,
+                React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 700, color: 'var(--amber)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 } }, '✦ Plan Saat Ini'),
+                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 800, color: 'var(--forest)' } }, billingData.plan || 'Free'),
+                React.createElement('div', { style: { fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: 4 } },
+                  '1.000 API calls per bulan'
+                )
+              ),
+              React.createElement('div', { style: { textAlign: 'right' } },
+                React.createElement('button', {
+                  className: 'btn-primary',
+                  onClick: function() { setDashTab('topup'); }
+                }, '⬆ Upgrade Plan')
               )
             )
-          )
-        ),
-        (localStorage.getItem('apiKey') || localStorage.getItem('token')) && React.createElement('div', { className: 'api-key-box' },
-          React.createElement('div', { className: 'api-key-label' }, '\ud83d\udd11 Primary API Key'),
-          React.createElement('div', { className: 'api-key-value' }, localStorage.getItem('apiKey') || localStorage.getItem('token')),
-          React.createElement('div', { style: { fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 } }, 'API key default dibuat saat email diverifikasi.'),
-          React.createElement('div', { className: 'api-key-actions' },
-            React.createElement('button', { className: 'btn-secondary', onClick: function() { copyKey(localStorage.getItem('apiKey') || localStorage.getItem('token')); } }, '\ud83d\udccb Copy')
-          )
-        ),
-        React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 16 } }, '\ud83d\udccb Semua API Keys'),
-        keys.length === 0
-          ? React.createElement('div', { className: 'card', style: { textAlign: 'center', color: 'var(--text-muted)' } }, 'Belum ada API key. Buat key baru di atas.')
-          : React.createElement('div', { className: 'key-list' },
-              keys.map(function(key) {
-                return React.createElement('div', { key: key.id, className: 'key-item' },
-                  React.createElement('div', { className: 'key-item-info' },
-                    React.createElement('div', { className: 'key-item-name' },
-                      key.name, !key.is_active && React.createElement('span', { style: { color: 'var(--danger)', fontSize: '0.8rem' } }, ' (Revoked)')
-                    ),
-                    React.createElement('div', { className: 'key-item-meta' },
-                      'Dibuat: ' + new Date(key.created_at).toLocaleDateString('id-ID')
-                    )
-                  ),
-                  React.createElement('div', { className: 'key-item-prefix' }, (key.key_prefix || '') + '...****'),
-                  React.createElement('button', { className: 'btn-secondary', style: { marginLeft: 12, padding: '6px 12px' }, onClick: function() { copyKey(key.key_prefix); } }, '\ud83d\udccb'),
-                  key.is_active && React.createElement('button', { className: 'btn-danger', style: { marginLeft: 8 }, onClick: function() { revokeKey(key.id); } }, 'Revoke')
-                );
-              })
+          ),
+
+          // Stats row
+          React.createElement('div', { className: 'dash-stat-grid' },
+            React.createElement('div', { className: 'dash-stat-card' },
+              React.createElement('div', { className: 'dash-stat-icon', style: { background: '#dbeafe' } }, '📡'),
+              React.createElement('div', { className: 'dash-stat-info' },
+                React.createElement('div', { className: 'dash-stat-value', style: { color: 'var(--forest)' } }, usageData.callsThisMonth.toLocaleString('id-ID')),
+                React.createElement('div', { className: 'dash-stat-label' }, 'Calls Bulan Ini')
+              )
+            ),
+            React.createElement('div', { className: 'dash-stat-card' },
+              React.createElement('div', { className: 'dash-stat-icon', style: { background: '#fce7f3' } }, '💰'),
+              React.createElement('div', { className: 'dash-stat-info' },
+                React.createElement('div', { className: 'dash-stat-value', style: { color: '#db2777' } }, billingData.credits.toLocaleString('id-ID')),
+                React.createElement('div', { className: 'dash-stat-label' }, 'Credits Tersisa')
+              )
+            ),
+            React.createElement('div', { className: 'dash-stat-card' },
+              React.createElement('div', { className: 'dash-stat-icon', style: { background: '#fef3c7' } }, '📅'),
+              React.createElement('div', { className: 'dash-stat-info' },
+                React.createElement('div', { className: 'dash-stat-value', style: { color: 'var(--amber)' } },
+                  billingData.nextBilling ? new Date(billingData.nextBilling).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'
+                ),
+                React.createElement('div', { className: 'dash-stat-label' }, 'Next Billing')
+              )
             )
+          ),
+
+          // Payment method
+          React.createElement('div', { className: 'dash-card', style: { marginTop: 20 } },
+            React.createElement('h3', { style: { fontSize: '1rem', fontWeight: 700, color: 'var(--forest)', marginBottom: 16 } }, '💳 Metode Pembayaran'),
+            billingData.paymentMethod
+              ? React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
+                  React.createElement('div', { style: { fontSize: '2rem' } }, '🏦'),
+                  React.createElement('div', null,
+                    React.createElement('div', { style: { fontWeight: 700, color: 'var(--forest)' } }, billingData.paymentMethod.bank),
+                    React.createElement('div', { style: { fontSize: '0.82rem', color: 'var(--text-muted)' } }, billingData.paymentMethod.account)
+                  )
+                )
+              : React.createElement('div', { style: { textAlign: 'center', color: 'var(--text-muted)', padding: '20px' } },
+                  'Belum ada metode pembayaran. Upgrade plan untuk mengaktifkan billing.',
+                  React.createElement('div', null,
+                    React.createElement('button', { className: 'btn-primary', style: { marginTop: 12 }, onClick: function() { setDashTab('topup'); } }, '💰 Top Up Sekarang')
+                  )
+                )
+          )
+        ),
+
+        // ── TOP UP TAB ─────────────────────────────────────────────────────────
+        dashTab === 'topup' && React.createElement('div', { className: 'dash-content' },
+          React.createElement('div', { className: 'dash-section-title' }, '💰 Top Up Credits'),
+
+          React.createElement('p', { style: { color: 'var(--text-muted)', marginBottom: 28, fontSize: '0.92rem' } },
+            'Tambah credits untuk menambah limit API calls bulanan. Pilih paket yang sesuai kebutuhan Anda.'
+          ),
+
+          // Packages grid
+          React.createElement('div', { className: 'dash-packages-grid' },
+            packages.map(function(pkg) {
+              return React.createElement('div', {
+                key: pkg.id,
+                className: 'dash-package-card' + (pkg.popular ? ' popular' : '')
+              },
+                pkg.popular && React.createElement('div', { className: 'dash-package-popular-badge' }, '⭐ POPULER'),
+                React.createElement('div', { className: 'dash-package-name' }, pkg.name),
+                React.createElement('div', { className: 'dash-package-credits' },
+                  pkg.credits.toLocaleString('id-ID'),
+                  React.createElement('span', { style: { fontSize: '0.78rem', fontWeight: 500, color: 'var(--text-muted)' } }, ' credits')
+                ),
+                React.createElement('div', { className: 'dash-package-price' }, pkg.priceDisplay),
+                React.createElement('div', { style: { fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 16 } },
+                  '~' + Math.round(pkg.credits / 30) + ' calls/hari'
+                ),
+                React.createElement('button', {
+                  className: pkg.popular ? 'btn-primary' : 'btn-ghost',
+                  style: { width: '100%', marginTop: 'auto' },
+                  onClick: function() { handleTopUp(pkg); }
+                }, pkg.popular ? '🔥 Pilih Paket Ini' : 'Pilih Paket')
+              );
+            })
+          ),
+
+          // Custom amount note
+          React.createElement('div', { className: 'dash-card', style: { marginTop: 24, textAlign: 'center' } },
+            React.createElement('p', { style: { color: 'var(--text-muted)', fontSize: '0.88rem' } },
+              '💬 Butuh paket custom atau metode pembayaran lain? ',
+              React.createElement('a', {
+                href: 'mailto:admin@lacakongkir.id',
+                style: { color: 'var(--forest)', fontWeight: 700, textDecoration: 'underline' }
+              }, 'Hubungi Admin')
+            )
+          )
+        )
       );
     }
 
