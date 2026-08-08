@@ -1,13 +1,12 @@
 FROM php:8-fpm-alpine
-RUN apk add --no-cache nginx curl mysql-client
+RUN apk add --no-cache nginx curl mysql-client php85-pdo_mysql
 WORKDIR /var/www/html
 
 # Copy all files
 COPY . .
 
-# Enable MySQL and SQLite PDO extensions
-RUN echo "extension=pdo_mysql" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini \
-    && echo "extension=pdo" >> /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini \
+# Enable MySQL and SQLite PDO extensions (use prebuilt php85 package)
+RUN echo "extension=/usr/lib/php85/modules/pdo_mysql.so" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini \
     && echo "extension=pdo_sqlite" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini \
     && echo "extension=pdo" >> /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini
 
@@ -30,7 +29,7 @@ RUN printf '%s\n' \
     '    location ~ ^/api/ {' \
     '        try_files $uri $uri/ /router.php?$query_string;' \
     '    }' \
-    '    location ~ \\.php$ {' \
+    '    location ~ \.php$ {' \
     '        fastcgi_pass 127.0.0.1:9000;' \
     '        fastcgi_index index.php;' \
     '        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;' \
