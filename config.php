@@ -39,6 +39,18 @@ define('API_CO_ID_BASE_URL', 'https://use.api.co.id/expedition');
 define('RAJAONGKIR_KEY', getenv('RAJAONGKIR_KEY') ?: '');
 define('RAJAONGKIR_BASE_URL', 'https://rajaongkir.komerce.id/api/v1');
 
+// ── MySQL Database ────────────────────────────────────────────
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_PORT', getenv('DB_PORT') ?: '3306');
+define('DB_NAME', getenv('DB_NAME') ?: 'expedisi_tracker');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+
+// ── App URL (used in email links) ─────────────────────────────────────────────
+define('APP_URL', getenv('APP_URL') ?: 'https://expedisi.aplikasirt.my.id');
+define('SENDER_EMAIL', getenv('SENDER_EMAIL') ?: 'noreply@expedisi.aplikasirt.my.id');
+define('SENDER_NAME', getenv('SENDER_NAME') ?: 'LacakOngkir');
+
 // ── OAuth ──────────────────────────────────────────────────────
 define('GOOGLE_CLIENT_ID', getenv('GOOGLE_CLIENT_ID') ?: '');
 define('GOOGLE_CLIENT_SECRET', getenv('GOOGLE_CLIENT_SECRET') ?: '');

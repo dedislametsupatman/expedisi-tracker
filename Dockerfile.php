@@ -1,13 +1,15 @@
 FROM php:8-fpm-alpine
-RUN apk add --no-cache nginx curl
+RUN apk add --no-cache nginx curl mysql-client
 WORKDIR /var/www/html
 
 # Copy all files
 COPY . .
 
-# Enable SQLite
-RUN echo "extension=pdo_sqlite" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini \
- && echo "extension=pdo" >> /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini
+# Enable MySQL and SQLite PDO extensions
+RUN echo "extension=pdo_mysql" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini \
+    && echo "extension=pdo" >> /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini \
+    && echo "extension=pdo_sqlite" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini \
+    && echo "extension=pdo" >> /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlite.ini
 
 # PHP-FPM config
 RUN printf '%s\n' \
