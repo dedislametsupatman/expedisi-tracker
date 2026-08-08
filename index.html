@@ -6,6 +6,7 @@
   <title>LacakOngkir — Expedisi Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -173,9 +174,7 @@
     .navbar-links a:hover, .navbar-links a.active { color: white; background: rgba(255,255,255,0.1); }
 
     /* User menu */
-    .user-menu {
-      position: relative;
-    }
+    .user-menu { position: relative; }
     .user-btn {
       display: flex;
       align-items: center;
@@ -199,10 +198,16 @@
       background: white;
       border-radius: 12px;
       box-shadow: var(--shadow-lg);
-      min-width: 200px;
+      min-width: 220px;
       overflow: hidden;
       z-index: 999;
     }
+    .user-dropdown-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .user-dropdown-name { font-weight: 700; color: var(--text-dark); font-size: 0.95rem; }
+    .user-dropdown-email { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
     .user-dropdown-item {
       padding: 12px 16px;
       display: flex;
@@ -371,7 +376,7 @@
     .footer { background: var(--forest); color: rgba(255,255,255,0.7); text-align: center; padding: 32px 24px; font-size: 0.88rem; }
     .footer strong { color: var(--amber); }
 
-    /* ─── Auth Modal ─────────────────────────────────────── */
+    /* Auth Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -417,7 +422,80 @@
     .auth-switch { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
     .auth-switch a { color: var(--forest); font-weight: 600; cursor: pointer; text-decoration: underline; }
 
-    /* ─── API Key Dashboard ──────────────────────────────── */
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 20px;
+      background: #fff;
+      border: 2px solid #dadce0;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #3c4043;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      margin-bottom: 20px;
+    }
+    .google-btn:hover { background: #f8f9fa; border-color: #c2c7cc; }
+    .google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .google-btn svg { width: 20px; height: 20px; }
+
+    .divider-or {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .divider-or::before, .divider-or::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .verify-screen { text-align: center; padding: 12px 0; }
+    .verify-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--light-tint);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2.2rem;
+    }
+    .verify-email {
+      font-family: monospace;
+      background: var(--cream);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--forest);
+      font-weight: 600;
+      display: inline-block;
+      margin: 8px 0 20px;
+      word-break: break-all;
+    }
+    .verify-actions { display: flex; flex-direction: column; gap: 10px; }
+
+    .unverified-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: var(--forest);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* API Key Dashboard */
     .api-key-box {
       background: var(--light-tint);
       border: 2px dashed var(--amber);
@@ -454,13 +532,26 @@
     .key-item-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
     .key-item-prefix { font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-muted); }
 
-    /* ─── Docs ────────────────────────────────────────────── */
-    .docs-nav {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
+    /* Admin */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: white; border-radius: 16px; padding: 24px; box-shadow: var(--shadow); text-align: center; }
+    .stat-value { font-size: 2.2rem; font-weight: 800; color: var(--forest); }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+
+    .admin-table-wrap { overflow-x: auto; }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th { text-align: left; padding: 12px 16px; background: var(--cream); border-bottom: 2px solid var(--border); font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .admin-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .admin-table tr:hover td { background: var(--light-tint); }
+    .role-badge { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+    .role-badge.admin { background: #fef3c7; color: #92400e; }
+    .role-badge.member { background: var(--light-tint); color: var(--green-mid); }
+    .verified-badge { display: inline-flex; align-items: center; gap: 4px; color: var(--success); font-size: 0.82rem; font-weight: 600; }
+    .verified-badge.unverified { color: var(--danger); }
+    .pagination { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 24px; }
+
+    /* Docs */
+    .docs-nav { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
     .docs-nav-btn {
       padding: 8px 16px;
       border-radius: 10px;
@@ -492,13 +583,7 @@
     .docs-code .keyword { color: #f472b6; }
     .docs-code .method { color: #60a5fa; }
 
-    .endpoint-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 16px;
-    }
+    .endpoint-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
     .endpoint-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
     .method-badge {
       padding: 4px 10px;
@@ -541,7 +626,6 @@
     .toast.success { background: var(--success); }
     @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* Responsive */
     @media (max-width: 640px) {
       .hero h1 { font-size: 2rem; }
       .navbar { padding: 0 16px; }
@@ -549,6 +633,7 @@
       .section { padding: 32px 16px; }
       .cost-breakdown { grid-template-columns: 1fr; }
       .expedition-grid { grid-template-columns: repeat(3, 1fr); }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -557,10 +642,10 @@
   <script type="text/babel">
 
     // ─── Config ────────────────────────────────────────────────────────────────
-    const API_BASE = '/api';
+    var API_BASE = '/api';
 
     // ─── Data ─────────────────────────────────────────────────────────────────
-    const COURIERS = [
+    var COURIERS = [
       { id: 'jne', name: 'JNE', logo: 'https://asset.kriya.com/logo/jne-600x258.png', tagline: 'Layanan terpercaya sejak 1990' },
       { id: 'jnt', name: 'J&T Express', logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/J%26T_Express_Logo.svg', tagline: 'Pengiriman cepat harga terjangkau' },
       { id: 'sicepat', name: 'SiCepat', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Logo_SiCepat.svg/512px-Logo_SiCepat.svg.png', tagline: 'Sicepat kebagian, Pasti sampai' },
@@ -571,7 +656,7 @@
       { id: 'spx', name: 'Shopee Xpress', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopee_logo.svg', tagline: 'Jasa kirim andalan Shopee & platform lainnya' },
     ];
 
-    const CITIES = [
+    var CITIES = [
       { id: 'bekasi', name: 'Bekasi', province: 'Jawa Barat' },
       { id: 'jakartatimur', name: 'Jakarta Timur', province: 'DKI Jakarta' },
       { id: 'jakartabarat', name: 'Jakarta Barat', province: 'DKI Jakarta' },
@@ -594,7 +679,7 @@
       { id: 'palembang', name: 'Palembang', province: 'Sumatera Selatan' },
     ];
 
-    const CITY_TO_VILLAGE_CODE = {
+    var CITY_TO_VILLAGE_CODE = {
       'bekasi': '3275011001', 'jakartatimur': '3175061007', 'jakartabarat': '3173021001',
       'jakartapusat': '3171051002', 'jakartaselatan': '3174051006', 'jakartautara': '3172031007',
       'bandung': '3273011003', 'bogor': '3271031004', 'depok': '3276061001',
@@ -604,802 +689,999 @@
     };
 
     // ─── Auth Context ────────────────────────────────────────────────────────────
-    const AuthContext = React.createContext(null);
+    var AuthContext = React.createContext(null);
 
     function useAuth() {
       return React.useContext(AuthContext);
     }
 
     // ─── Toast ──────────────────────────────────────────────────────────────────
-    function Toast({ message, type, onClose }) {
-      React.useEffect(() => {
-        const t = setTimeout(onClose, 4000);
-        return () => clearTimeout(t);
-      }, [onClose]);
-      return (
-        <div className={`toast ${type}`} onClick={onClose}>
-          {type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ'} {message}
-        </div>
+    function Toast(props) {
+      React.useEffect(function() {
+        var t = setTimeout(props.onClose, 4000);
+        return function() { clearTimeout(t); };
+      }, [props.onClose]);
+      return React.createElement('div', { className: 'toast ' + (props.type || '') },
+        (props.type === 'success' ? '\u2713' : props.type === 'error' ? '\u2717' : '\u2139') + ' ' + props.message
       );
     }
 
     // ─── API Helpers ────────────────────────────────────────────────────────────
-    async function apiPost(path, body, token) {
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-      const res = await fetch(API_BASE + path, {
+    function apiPost(path, body, token) {
+      var headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      return fetch(API_BASE + path, {
         method: 'POST',
-        headers,
+        headers: headers,
         body: JSON.stringify(body)
+      }).then(function(res) {
+        return res.json().then(function(data) {
+          if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
+          if (!data.success && !data.error) throw new Error(data.message || 'Request failed');
+          return data;
+        });
       });
-      const data = await res.json();
-      if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
-      if (!data.success && !data.error) throw new Error(data.message || 'Request failed');
-      return data;
     }
 
-    async function apiGet(path, token) {
-      const headers = {};
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-      const res = await fetch(API_BASE + path, { headers });
-      const data = await res.json();
-      if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
-      return data;
+    function apiGet(path, token) {
+      var headers = {};
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      return fetch(API_BASE + path, { headers: headers }).then(function(res) {
+        return res.json().then(function(data) {
+          if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
+          return data;
+        });
+      });
     }
 
-    async function apiDelete(path, body, token) {
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-      const res = await fetch(API_BASE + path, {
+    function apiDelete(path, body, token) {
+      var headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      return fetch(API_BASE + path, {
         method: 'DELETE',
-        headers,
+        headers: headers,
         body: JSON.stringify(body)
-      });
-      const data = await res.json();
-      return data;
+      }).then(function(res) { return res.json(); });
+    }
+
+    // ─── Google SVG ──────────────────────────────────────────────────────────────
+    function GoogleIcon() {
+      return React.createElement('svg', { width: 20, height: 20, viewBox: '0 0 24 24' },
+        React.createElement('path', { fill: '#4285F4', d: 'M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z' }),
+        React.createElement('path', { fill: '#34A853', d: 'M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z' }),
+        React.createElement('path', { fill: '#FBBC05', d: 'M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z' }),
+        React.createElement('path', { fill: '#EA4335', d: 'M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z' })
+      );
     }
 
     // ─── Search Select ──────────────────────────────────────────────────────────
-    function SearchSelect({ value, onChange, options, placeholder }) {
-      const [open, setOpen] = React.useState(false);
-      const [query, setQuery] = React.useState('');
-      const ref = React.useRef(null);
-      const selected = options.find(o => o.id === value);
-      const filtered = query === '' ? options : options.filter(o =>
-        o.name.toLowerCase().includes(query.toLowerCase()) ||
-        o.province.toLowerCase().includes(query.toLowerCase())
-      );
+    function SearchSelect(props) {
+      var ref = React.useRef(null);
+      var selected = props.options.find(function(o) { return o.id === props.value; });
+      var filtered = props.query === '' ? props.options : props.options.filter(function(o) {
+        return o.name.toLowerCase().includes(props.query.toLowerCase()) ||
+          o.province.toLowerCase().includes(props.query.toLowerCase());
+      });
 
-      React.useEffect(() => {
-        function handleClick(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+      React.useEffect(function() {
+        function handleClick(e) {
+          if (ref.current && !ref.current.contains(e.target)) props.onClose && props.onClose();
+        }
         document.addEventListener('mousedown', handleClick);
-        return () => document.removeEventListener('mousedown', handleClick);
+        return function() { document.removeEventListener('mousedown', handleClick); };
       }, []);
 
-      return (
-        <div ref={ref} style={{ position: 'relative' }}>
-          <div onClick={() => { setOpen(true); setQuery(''); }}
-            style={{ width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 44, boxSizing: 'border-box' }}>
-            <span style={selected ? { color: '#111' } : { color: '#9ca3af' }}>
-              {selected ? `${selected.name} (${selected.province})` : placeholder}
-            </span>
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ flexShrink: 0 }}>
-              <path d="M1 1L6 6L11 1" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-          {open && (
-            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999, background: '#fff', border: '1.5px solid #d1d5db', borderRadius: 8, marginTop: 4, maxHeight: 260, overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}>
-              <div style={{ padding: '8px 10px', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#f9fafb' }}>
-                <input autoFocus value={query} onChange={e => setQuery(e.target.value)} placeholder="Ketik nama kota..." style={{ width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' }} />
-              </div>
-              {filtered.length === 0 && <div style={{ padding: 16, textAlign: 'center', color: '#9ca3af', fontSize: '0.85rem' }}>Kota tidak ditemukan</div>}
-              {filtered.map(c => (
-                <div key={c.id} onClick={() => { onChange(c.id); setOpen(false); setQuery(''); }}
-                  style={{ padding: '9px 12px', cursor: 'pointer', fontSize: '0.88rem', background: c.id === value ? '#f0fdf4' : 'transparent', color: '#111' }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#f3f4f6'}
-                  onMouseLeave={e => e.currentTarget.style.background = c.id === value ? '#f0fdf4' : 'transparent'}>
-                  <span style={{ fontWeight: 600 }}>{c.name}</span>
-                  <span style={{ color: '#6b7280', marginLeft: 6 }}>{c.province}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+      return React.createElement('div', { ref: ref, style: { position: 'relative' } },
+        React.createElement('div', {
+          onClick: function() { props.onOpen && props.onOpen(); },
+          style: { width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 44, boxSizing: 'border-box' }
+        }, selected ? selected.name + ' (' + selected.province + ')' : props.placeholder)
       );
     }
 
     // ─── Auth Modal ─────────────────────────────────────────────────────────────
-    function AuthModal({ isRegister, onClose, onSwitch, onSuccess }) {
-      const [email, setEmail] = React.useState('');
-      const [password, setPassword] = React.useState('');
-      const [name, setName] = React.useState('');
-      const [error, setError] = React.useState('');
-      const [loading, setLoading] = React.useState(false);
+    function AuthModal(props) {
+      var email = React.useState('');
+      var password = React.useState('');
+      var name = React.useState('');
+      var error = React.useState('');
+      var loading = React.useState(false);
+      var googleLoading = React.useState(false);
+      var showVerification = React.useState(false);
+      var pendingEmail = React.useState('');
+      var resendLoading = React.useState(false);
+      var resendDone = React.useState(false);
 
-      async function handleSubmit(e) {
+      // Unpack
+      var setEmail = email[1]; email = email[0];
+      var setPassword = password[1]; password = password[0];
+      var setName = name[1]; name = name[0];
+      var setError = error[1]; error = error[0];
+      var setLoading = loading[1]; loading = loading[0];
+      var setGoogleLoading = googleLoading[1]; googleLoading = googleLoading[0];
+      var setShowVerification = showVerification[1]; showVerification = showVerification[0];
+      var setPendingEmail = pendingEmail[1]; pendingEmail = pendingEmail[0];
+      var setResendLoading = resendLoading[1]; resendLoading = resendLoading[0];
+      var setResendDone = resendDone[1]; resendDone = resendDone[0];
+
+      function handleGoogleLogin() {
+        if (typeof google === 'undefined') {
+          setError('Google Sign-In belum loaded. Refresh halaman.');
+          return;
+        }
+        setGoogleLoading(true);
+        setError('');
+        google.accounts.id.initialize({
+          client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+          callback: function(response) {
+            setGoogleLoading(false);
+            apiPost('/auth.php?action=google-callback', { google_token: response.credential }).then(function(data) {
+              if (data.success && data.token) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                props.onSuccess(data.user, data.token, null);
+              }
+            }).catch(function() {
+              setError('Login Google gagal. Coba cara lain.');
+            });
+          }
+        });
+        google.accounts.id.prompt();
+      }
+
+      function handleSubmit(e) {
         e.preventDefault();
         setError('');
         setLoading(true);
-        try {
-          const endpoint = isRegister ? '/auth.php' : '/auth.php?action=login';
-          const body = isRegister ? { email, password, name } : { email, password };
-          const res = await fetch(API_BASE + endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
+        var endpoint = props.isRegister ? '/auth.php?action=register' : '/auth.php?action=login';
+        var body = props.isRegister ? { email: email, password: password, name: name } : { email: email, password: password };
+        fetch(API_BASE + endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        }).then(function(res) {
+          return res.json().then(function(data) {
+            if (!res.ok) {
+              if (res.status === 403 && (data.error || '').toLowerCase().includes('belum diverifikasi')) {
+                setError('\u274c Email belum diverifikasi. ');
+                setShowVerification(true);
+                setPendingEmail(email);
+              } else {
+                setError(data.error || 'Terjadi kesalahan');
+              }
+              setLoading(false);
+              return;
+            }
+            if (props.isRegister && data.requires_verification) {
+              setShowVerification(true);
+              setPendingEmail(email);
+              setLoading(false);
+              return;
+            }
+            if (props.isRegister && data.api_key) {
+              localStorage.setItem('token', data.token);
+              localStorage.setItem('user', JSON.stringify(data.user));
+              localStorage.setItem('apiKey', data.api_key);
+              props.onSuccess(data.user, data.token, data.api_key);
+            } else if (!props.isRegister && data.token) {
+              localStorage.setItem('token', data.token);
+              localStorage.setItem('user', JSON.stringify(data.user));
+              props.onSuccess(data.user, data.token, null);
+            }
+            setLoading(false);
           });
-          const data = await res.json();
-          if (!res.ok) { setError(data.error || 'Terjadi kesalahan'); return; }
-          if (isRegister && data.api_key) {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            localStorage.setItem('apiKey', data.api_key);
-            onSuccess(data.user, data.token, data.api_key);
-          } else if (!isRegister && data.token) {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            onSuccess(data.user, data.token, null);
-          }
-        } catch (err) {
+        }).catch(function() {
           setError('Koneksi gagal. Coba lagi.');
-        } finally {
           setLoading(false);
-        }
+        });
       }
 
-      return (
-        <div className="modal-overlay" onClick={onClose}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={onClose}>×</button>
-            <h2 className="modal-title">{isRegister ? 'Daftar Akun' : 'Masuk'}</h2>
-            <p className="modal-subtitle">{isRegister ? 'Buat akun gratis untuk dapat API key' : 'Masuk ke akun Anda'}</p>
+      function handleResend() {
+        apiPost('/api/resend_verification.php', { email: pendingEmail }).then(function(data) {
+          if (data.success) { setResendDone(true); setError(''); }
+          else { setError(data.error || 'Gagal.'); }
+          setResendLoading(false);
+        }).catch(function() { setError('Gagal.'); setResendLoading(false); });
+      }
 
-            {error && <div className="form-error">⚠️ {error}</div>}
+      // Verification screen
+      if (showVerification) {
+        return React.createElement('div', { className: 'modal-overlay', onClick: props.onClose },
+          React.createElement('div', { className: 'modal', onClick: function(e) { e.stopPropagation(); } },
+            React.createElement('button', { className: 'modal-close', onClick: props.onClose }, '\u00d7'),
+            React.createElement('div', { className: 'verify-screen' },
+              React.createElement('div', { className: 'verify-icon' }, '\u2709'),
+              React.createElement('h2', { className: 'modal-title' }, 'Cek email kamu!'),
+              React.createElement('p', { className: 'modal-subtitle', style: { marginBottom: 0 } }, 'Kami telah mengirim link verifikasi ke:'),
+              React.createElement('div', { className: 'verify-email' }, pendingEmail),
+              resendDone && React.createElement('div', { className: 'form-success', style: { marginBottom: 16 } }, '\u2713 Email verifikasi telah dikirim!'),
+              error && React.createElement('div', { className: 'form-error', style: { marginBottom: 16 } }, error),
+              React.createElement('div', { className: 'verify-actions' },
+                React.createElement('button', { className: 'btn-primary', onClick: handleResend, disabled: resendLoading }, resendLoading ? 'Mengirim...' : '\u2709 Kirim Ulang Email'),
+                React.createElement('button', { className: 'btn-ghost', onClick: function() { window.open('mailto:' + pendingEmail, '_blank'); } }, '\uD83D\uDCEc Buka Email'),
+                React.createElement('div', { className: 'auth-switch' },
+                  React.createElement('a', { onClick: function() { setShowVerification(false); props.onSwitch(); } }, 'Kembali')
+                )
+              )
+            )
+          )
+        );
+      }
 
-            <form onSubmit={handleSubmit}>
-              {isRegister && (
-                <div className="form-group">
-                  <label className="form-label">Nama Lengkap</label>
-                  <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Masukkan nama Anda" required />
-                </div>
-              )}
-              <div className="form-group">
-                <label className="form-label">Email</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="nama@email.com" required />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Password</label>
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={isRegister ? 'Minimal 8 karakter' : 'Masukkan password'} required />
-              </div>
-              <button type="submit" className="btn-primary" style={{ width: '100%' }} disabled={loading}>
-                {loading ? 'Memproses...' : isRegister ? 'Daftar Gratis' : 'Masuk'}
-              </button>
-            </form>
-
-            <div className="auth-switch">
-              {isRegister ? 'Sudah punya akun? ' : 'Belum punya akun? '}
-              <a onClick={onSwitch}>{isRegister ? 'Masuk' : 'Daftar sekarang'}</a>
-            </div>
-          </div>
-        </div>
+      return React.createElement('div', { className: 'modal-overlay', onClick: props.onClose },
+        React.createElement('div', { className: 'modal', onClick: function(e) { e.stopPropagation(); } },
+          React.createElement('button', { className: 'modal-close', onClick: props.onClose }, '\u00d7'),
+          React.createElement('h2', { className: 'modal-title' }, props.isRegister ? 'Daftar Akun' : 'Masuk'),
+          React.createElement('p', { className: 'modal-subtitle' }, props.isRegister ? 'Buat akun gratis untuk dapat API key' : 'Masuk ke akun Anda'),
+          error && React.createElement('div', { className: 'form-error' }, error),
+          React.createElement('button', { className: 'google-btn', onClick: handleGoogleLogin, disabled: googleLoading },
+            React.createElement(GoogleIcon),
+            googleLoading ? 'Memproses...' : 'Login dengan Google'
+          ),
+          React.createElement('div', { className: 'divider-or' }, 'atau'),
+          React.createElement('form', { onSubmit: handleSubmit },
+            props.isRegister && React.createElement('div', { className: 'form-group' },
+              React.createElement('label', { className: 'form-label' }, 'Nama Lengkap'),
+              React.createElement('input', { type: 'text', value: name, onChange: function(e) { setName(e.target.value); }, placeholder: 'Masukkan nama Anda', required: true })
+            ),
+            React.createElement('div', { className: 'form-group' },
+              React.createElement('label', { className: 'form-label' }, 'Email'),
+              React.createElement('input', { type: 'email', value: email, onChange: function(e) { setEmail(e.target.value); }, placeholder: 'nama@email.com', required: true })
+            ),
+            React.createElement('div', { className: 'form-group' },
+              React.createElement('label', { className: 'form-label' }, 'Password'),
+              React.createElement('input', { type: 'password', value: password, onChange: function(e) { setPassword(e.target.value); }, placeholder: props.isRegister ? 'Minimal 8 karakter' : 'Masukkan password', required: true })
+            ),
+            React.createElement('button', { type: 'submit', className: 'btn-primary', style: { width: '100%' }, disabled: loading },
+              loading ? 'Memproses...' : (props.isRegister ? 'Daftar Gratis' : 'Masuk')
+            )
+          ),
+          React.createElement('div', { className: 'auth-switch' },
+            props.isRegister ? 'Sudah punya akun? ' : 'Belum punya akun? ',
+            React.createElement('a', { onClick: props.onSwitch }, props.isRegister ? 'Masuk' : 'Daftar sekarang')
+          )
+        )
       );
     }
 
     // ─── Navbar ─────────────────────────────────────────────────────────────────
-    function Navbar({ user, onLoginClick, onLogout }) {
-      const [showDropdown, setShowDropdown] = React.useState(false);
-      const { setActivePage } = useAuth();
+    function Navbar(props) {
+      var showDropdown = React.useState(false);
+      var setShowDropdown = showDropdown[1]; showDropdown = showDropdown[0];
+      var authCtx = useAuth();
 
-      return (
-        <nav className="navbar">
-          <a href="#" className="navbar-logo" onClick={e => { e.preventDefault(); setActivePage('home'); }}>
-            🚛 <span>Lacak</span>Ongkir
-          </a>
-          <div className="navbar-links">
-            <a href="#tracking" onClick={e => { e.preventDefault(); setActivePage('home'); }}>Lacak</a>
-            <a href="#ongkir" onClick={e => { e.preventDefault(); setActivePage('home'); }}>Ongkir</a>
-            <a href="#docs" onClick={e => { e.preventDefault(); setActivePage('docs'); }}>API Docs</a>
-            {user && <a href="#dashboard" onClick={e => { e.preventDefault(); setActivePage('dashboard'); }}>Dashboard</a>}
-          </div>
-          <div className="user-menu">
-            {user ? (
-              <>
-                <button className="user-btn" onClick={() => setShowDropdown(!showDropdown)}>
-                  <span>👤</span> {user.name}
-                  <span style={{ fontSize: '0.7rem' }}>▾</span>
-                </button>
-                {showDropdown && (
-                  <div className="user-dropdown">
-                    <button className="user-dropdown-item" onClick={() => { setActivePage('dashboard'); setShowDropdown(false); }}>
-                      ⚙️ Dashboard
-                    </button>
-                    <button className="user-dropdown-item danger" onClick={() => { onLogout(); setShowDropdown(false); }}>
-                      🚪 Logout
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <button className="user-btn" onClick={onLoginClick}>
-                🔐 Masuk / Daftar
-              </button>
-            )}
-          </div>
-        </nav>
+      React.useEffect(function() {
+        function handleClick(e) {
+          if (showDropdown && !e.target.closest('.user-menu')) setShowDropdown(false);
+        }
+        document.addEventListener('mousedown', handleClick);
+        return function() { document.removeEventListener('mousedown', handleClick); };
+      }, [showDropdown]);
+
+      return React.createElement('nav', { className: 'navbar' },
+        React.createElement('a', { href: '#', className: 'navbar-logo', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('home'); } },
+          '\ud83d\ude9b ', React.createElement('span', null, 'Lacak'), 'Ongkir'
+        ),
+        React.createElement('div', { className: 'navbar-links' },
+          React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('home'); } }, 'Lacak'),
+          React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('home'); } }, 'Ongkir'),
+          React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('docs'); } }, 'API Docs'),
+          props.user && React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('dashboard'); } }, 'Dashboard')
+        ),
+        React.createElement('div', { className: 'user-menu' },
+          props.user
+            ? React.createElement(React.Fragment, null,
+                React.createElement('button', { className: 'user-btn', onClick: function() { setShowDropdown(!showDropdown); } },
+                  '\ud83d\udc64 ', props.user.name, React.createElement('span', { style: { fontSize: '0.7rem' } }, '\u25be')
+                ),
+                showDropdown && React.createElement('div', { className: 'user-dropdown' },
+                  React.createElement('div', { className: 'user-dropdown-header' },
+                    React.createElement('div', { className: 'user-dropdown-name' }, props.user.name),
+                    React.createElement('div', { className: 'user-dropdown-email' }, props.user.email)
+                  ),
+                  React.createElement('button', { className: 'user-dropdown-item', onClick: function() { authCtx.setActivePage('dashboard'); setShowDropdown(false); } }, '\u2699\ufe0f Dashboard'),
+                  props.user.role === 'admin' && React.createElement('button', { className: 'user-dropdown-item', onClick: function() { authCtx.setActivePage('admin'); setShowDropdown(false); } }, '\ud83d\udde1\ufe0f Admin Panel'),
+                  React.createElement('button', { className: 'user-dropdown-item danger', onClick: function() { authCtx.logout(); setShowDropdown(false); } }, '\ud83d\uded2 Keluar')
+                )
+              )
+            : React.createElement('button', { className: 'user-btn', onClick: props.onLoginClick }, '\ud83d\udd10 Masuk / Daftar')
+        )
       );
     }
 
     // ─── Hero ───────────────────────────────────────────────────────────────────
     function Hero() {
-      return (
-        <section className="hero">
-          <div className="hero-content">
-            <div className="hero-badge">🇮🇩 Layanan Ekspedisi Indonesia</div>
-            <h1>Lacak Pengiriman & Hitung Ongkir Instan</h1>
-            <p>Track paket dari JNE, J&T, SiCepat, AnterAja & lainnya. Hitung biaya pengiriman antar kota di Indonesia dengan akurat.</p>
-            {React.useContext(AuthContext)?.user && (
-              <div style={{ marginTop: 16, padding: '12px 20px', background: 'rgba(255,255,255,0.1)', borderRadius: 12, display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' }}>
-                🔑 API Key aktif — integrasikan ke sistem Anda
-              </div>
-            )}
-          </div>
-          <div className="hero-wave">
-            <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0,0 L0,45 Q180,90 360,55 T720,65 T1080,50 T1440,60 L1440,0 Z" fill="#FAF4EB"/>
-            </svg>
-          </div>
-        </section>
+      var authCtx = useAuth();
+      return React.createElement('section', { className: 'hero' },
+        React.createElement('div', { className: 'hero-content' },
+          React.createElement('div', { className: 'hero-badge' }, '\ud83c\uddee\ud83c\udde9 Layanan Ekspedisi Indonesia'),
+          React.createElement('h1', null, 'Lacak Pengiriman & Hitung Ongkir Instan'),
+          React.createElement('p', null, 'Track paket dari JNE, J&T, SiCepat, AnterAja & lainnya. Hitung biaya pengiriman antar kota di Indonesia dengan akurat.'),
+          authCtx.user && React.createElement('div', { style: { marginTop: 16, padding: '12px 20px', background: 'rgba(255,255,255,0.1)', borderRadius: 12, display: 'inline-flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } },
+            '\ud83d\udd11 API Key aktif \u2014 integrasikan ke sistem Anda'
+          )
+        ),
+        React.createElement('div', { className: 'hero-wave' },
+          React.createElement('svg', { viewBox: '0 0 1440 70', preserveAspectRatio: 'none', xmlns: 'http://www.w3.org/2000/svg' },
+            React.createElement('path', { d: 'M0,0 L0,45 Q180,90 360,55 T720,65 T1080,50 T1440,60 L1440,0 Z', fill: '#FAF4EB' })
+          )
+        )
       );
     }
 
     // ─── Expedition Grid ──────────────────────────────────────────────────────────
-    function ExpeditionGrid({ selected, onSelect }) {
-      return (
-        <div className="expedition-grid">
-          {COURIERS.map(c => (
-            <div key={c.id} className={`expedition-card${selected === c.id ? ' selected' : ''}`} onClick={() => onSelect(c.id)}>
-              <img src={c.logo} alt={c.name} onError={e => { e.target.style.display = 'none'; }} />
-              <div className="name">{c.name}</div>
-              <div className="type">{c.tagline?.substring(0, 20)}...</div>
-            </div>
-          ))}
-        </div>
+    function ExpeditionGrid(props) {
+      return React.createElement('div', { className: 'expedition-grid' },
+        COURIERS.map(function(c) {
+          return React.createElement('div', {
+            key: c.id,
+            className: 'expedition-card' + (props.selected === c.id ? ' selected' : ''),
+            onClick: function() { props.onSelect(c.id); }
+          },
+            React.createElement('img', { src: c.logo, alt: c.name, onError: function(e) { e.target.style.display = 'none'; } }),
+            React.createElement('div', { className: 'name' }, c.name),
+            React.createElement('div', { className: 'type' }, (c.tagline || '').substring(0, 20) + '...')
+          );
+        })
       );
     }
 
     // ─── Tracking Tab ───────────────────────────────────────────────────────────
     function TrackingTab() {
-      const [awb, setAwb] = React.useState('');
-      const [courier, setCourier] = React.useState('jne');
-      const [result, setResult] = React.useState(null);
-      const [loading, setLoading] = React.useState(false);
+      var awb = React.useState('');
+      var courier = React.useState('jne');
+      var result = React.useState(null);
+      var loading = React.useState(false);
+      var setAwb = awb[1]; awb = awb[0];
+      var setCourier = courier[1]; courier = courier[0];
+      var setResult = result[1]; result = result[0];
+      var setLoading = loading[1]; loading = loading[0];
 
-      const handleTrack = () => {
+      function handleTrack() {
         if (!awb.trim()) return;
         setLoading(true);
         setResult(null);
-        setTimeout(() => {
-          const statuses = [
-            { date: '15 Jun 2026, 08:30', title: 'Paket diterima di titik origin', desc: 'Paket telah diterima di gudang asal' },
-            { date: '16 Jun 2026, 09:00', title: 'Dalam proses pengiriman', desc: 'Paket sedang dalam perjalanan ke kota tujuan' },
-            { date: '17 Jun 2026, 07:45', title: 'Out for delivery', desc: 'Paket sedang diantar oleh kurir' },
-            { date: '17 Jun 2026, 13:20', title: 'DELIVERED', desc: 'Paket berhasil diterima' },
-          ];
-          setResult({ awb: awb.toUpperCase(), courier: COURIERS.find(c => c.id === courier)?.name, history: statuses, status: 'DELIVERED' });
-          setLoading(false);
-        }, 1200);
-      };
 
-      const badge = result ? (result.status === 'DELIVERED' ? { bg: '#d1fae5', color: '#065f46', text: '✓ Delivered' } : { bg: '#fef3c7', color: '#92400e', text: '🚚 On the way' }) : null;
+        var token = localStorage.getItem('token');
+        var apiKey = localStorage.getItem('apiKey') || token || '';
 
-      return (
-        <div id="tracking">
-          <div className="card">
-            <div style={{ marginBottom: 24 }}>
-              <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Pilih Ekspedisi</label>
-              <ExpeditionGrid selected={courier} onSelect={setCourier} />
-            </div>
-            <div style={{ marginBottom: 20 }}>
-              <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Nomor Resi / AWB</label>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <input type="text" placeholder="Contoh: JP1234567890" value={awb} onChange={e => setAwb(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleTrack()} style={{ flex: 1, fontWeight: 600 }} />
-                <button className="btn-primary" onClick={handleTrack} disabled={loading || !awb.trim()} style={{ whiteSpace: 'nowrap', opacity: loading || !awb.trim() ? 0.6 : 1 }}>
-                  {loading ? 'Melacak...' : '🔍 Lacak'}
-                </button>
-              </div>
-            </div>
-          </div>
+        var fetchUrl = courier === 'spx'
+          ? '/api/spx-track.php?awb=' + encodeURIComponent(awb.trim())
+          : '/api/v1/track?awb=' + encodeURIComponent(awb.trim()) + '&courier=' + courier;
 
-          {result && (
-            <div className="tracking-result">
-              <div className="tracking-header">
-                <div>
-                  <div className="tracking-awb">{result.awb}</div>
-                  <div className="tracking-courier">{result.courier}</div>
-                </div>
-                <span className="tracking-status-badge" style={{ background: badge.bg, color: badge.color }}>{badge.text}</span>
-              </div>
-              <div className="timeline">
-                {result.history.map((item, i) => (
-                  <div key={i} className="timeline-item">
-                    <div className="timeline-dot"></div>
-                    <div className="timeline-date">{item.date}</div>
-                    <div className="timeline-title">{item.title}</div>
-                    <div className="timeline-desc">{item.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        fetch(fetchUrl, courier === 'spx' ? {} : { headers: { 'X-API-Key': apiKey } })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            console.log('Track response:', data);
+            if (data.success && data.history && data.history.length > 0) {
+              var events = data.history.map(function(h) {
+                return { date: h.date || '', title: h.status || h.title || 'Update', desc: h.location || h.desc || '' };
+              });
+              setResult({ awb: awb.trim().toUpperCase(), courier: data.courier_name || COURIERS.find(function(c) { return c.id === courier; }).name, history: events, status: data.status || events[0].title });
+            } else {
+              setResult({ awb: awb.trim().toUpperCase(), courier: COURIERS.find(function(c) { return c.id === courier; }).name, history: [], status: 'TIDAK DITEMUKAN', error: data.error || 'Resi tidak ditemukan' });
+            }
+            setLoading(false);
+          })
+          .catch(function(err) {
+            console.error('Track error:', err);
+            setResult({ awb: awb.trim().toUpperCase(), courier: COURIERS.find(function(c) { return c.id === courier; }).name, history: [], status: 'ERROR', error: 'Koneksi gagal. Periksa internet Anda.' });
+            setLoading(false);
+          });
+      }
+
+      var badge = result && !result.error ? (result.status === 'DELIVERED' ? { bg: '#d1fae5', color: '#065f46', text: '\u2713 Delivered' } : { bg: '#fef3c7', color: '#92400e', text: '\ud83d\ude5a On the way' }) : null;
+
+      return React.createElement('div', { id: 'tracking' },
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { style: { marginBottom: 24 } },
+            React.createElement('label', { style: { display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 } }, 'Pilih Ekspedisi'),
+            React.createElement(ExpeditionGrid, { selected: courier, onSelect: setCourier })
+          ),
+          React.createElement('div', { style: { marginBottom: 20 } },
+            React.createElement('label', { style: { display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 } }, 'Nomor Resi / AWB'),
+            React.createElement('div', { style: { display: 'flex', gap: 12 } },
+              React.createElement('input', { type: 'text', placeholder: 'Contoh: JP1234567890', value: awb, onChange: function(e) { setAwb(e.target.value); }, style: { flex: 1, fontWeight: 600 } }),
+              React.createElement('button', { className: 'btn-primary', onClick: handleTrack, disabled: loading || !awb.trim(), style: { whiteSpace: 'nowrap', opacity: (loading || !awb.trim()) ? 0.6 : 1 } },
+                loading ? 'Melacak...' : '\ud83d\udd0d Lacak'
+              )
+            )
+          )
+        ),
+        result && React.createElement('div', { className: 'tracking-result' },
+          result.error ? React.createElement('div', { style: { textAlign: 'center', padding: '24px 0' } },
+              React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '\ud83d\udeab'),
+              React.createElement('div', { style: { fontWeight: 700, fontSize: '1.1rem', color: 'var(--forest)', marginBottom: 8 } }, 'Resi Tidak Ditemukan'),
+              React.createElement('div', { style: { color: 'var(--text-muted)', fontSize: '0.9rem' } }, result.error),
+              React.createElement('div', { style: { color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: 12 } }, 'Pastikan nomor resi dan kurir sudah benar.')
+            ) :
+            React.createElement(React.Fragment, null,
+              React.createElement('div', { className: 'tracking-header' },
+                React.createElement('div', null,
+                  React.createElement('div', { className: 'tracking-awb' }, result.awb),
+                  React.createElement('div', { className: 'tracking-courier' }, result.courier)
+                ),
+                React.createElement('span', { className: 'tracking-status-badge', style: { background: badge.bg, color: badge.color } }, badge.text)
+              ),
+              React.createElement('div', { className: 'timeline' },
+                result.history.map(function(item, i) {
+                  return React.createElement('div', { key: i, className: 'timeline-item' },
+                    React.createElement('div', { className: 'timeline-dot' }),
+                    React.createElement('div', { className: 'timeline-date' }, item.date),
+                    React.createElement('div', { className: 'timeline-title' }, item.title),
+                    React.createElement('div', { className: 'timeline-desc' }, item.desc)
+                  );
+                })
+              )
+            )
+        )
       );
     }
 
     // ─── Ongkir Tab ─────────────────────────────────────────────────────────────
     function OngkirTab() {
-      const [from, setFrom] = React.useState('');
-      const [to, setTo] = React.useState('');
-      const [weight, setWeight] = React.useState(1000);
-      const [results, setResults] = React.useState([]);
-      const [loading, setLoading] = React.useState(false);
-      const [error, setError] = React.useState('');
+      var from = React.useState('');
+      var to = React.useState('');
+      var weight = React.useState(1000);
+      var results = React.useState([]);
+      var loading = React.useState(false);
+      var error = React.useState('');
+      var setFrom = from[1]; from = from[0];
+      var setTo = to[1]; to = to[0];
+      var setWeight = weight[1]; weight = weight[0];
+      var setResults = results[1]; results = results[0];
+      var setLoading = loading[1]; loading = loading[0];
+      var setError = error[1]; error = error[0];
 
-      async function handleCalc() {
+      function SearchSelectInner(props) {
+        var ref = React.useRef(null);
+        var open = React.useState(false);
+        var q = React.useState('');
+        var setOpen = open[1]; open = open[0];
+        var setQ = q[1]; q = q[0];
+        var selected = CITIES.find(function(o) { return o.id === props.value; });
+        var filtered = q === '' ? CITIES : CITIES.filter(function(o) {
+          return o.name.toLowerCase().includes(q.toLowerCase()) || o.province.toLowerCase().includes(q.toLowerCase());
+        });
+        React.useEffect(function() {
+          function h(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+          document.addEventListener('mousedown', h);
+          return function() { document.removeEventListener('mousedown', h); };
+        }, []);
+        return React.createElement('div', { ref: ref, style: { position: 'relative' } },
+          React.createElement('div', {
+            onClick: function() { setOpen(true); setQ(''); },
+            style: { width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 44, boxSizing: 'border-box' }
+          },
+            React.createElement('span', { style: selected ? { color: '#111' } : { color: '#9ca3af' } },
+              selected ? selected.name + ' (' + selected.province + ')' : props.placeholder
+            ),
+            React.createElement('svg', { width: 12, height: 8, viewBox: '0 0 12 8', fill: 'none' },
+              React.createElement('path', { d: 'M1 1L6 6L11 1', stroke: '#6b7280', strokeWidth: 1.5, strokeLinecap: 'round' })
+            )
+          ),
+          open && React.createElement('div', { style: { position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999, background: '#fff', border: '1.5px solid #d1d5db', borderRadius: 8, marginTop: 4, maxHeight: 260, overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' } },
+            React.createElement('div', { style: { padding: '8px 10px', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#f9fafb' } },
+              React.createElement('input', { autoFocus: true, value: q, onChange: function(e) { setQ(e.target.value); }, placeholder: 'Ketik nama kota...', style: { width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' } })
+            ),
+            filtered.length === 0 && React.createElement('div', { style: { padding: 16, textAlign: 'center', color: '#9ca3af', fontSize: '0.85rem' } }, 'Kota tidak ditemukan'),
+            filtered.map(function(c) {
+              return React.createElement('div', {
+                key: c.id,
+                onClick: function() { props.onChange(c.id); setOpen(false); setQ(''); },
+                style: { padding: '9px 12px', cursor: 'pointer', fontSize: '0.88rem', background: c.id === props.value ? '#f0fdf4' : 'transparent', color: '#111' }
+              },
+                React.createElement('span', { style: { fontWeight: 600 } }, c.name),
+                React.createElement('span', { style: { color: '#6b7280', marginLeft: 6 } }, c.province)
+              );
+            })
+          )
+        );
+      }
+
+      function handleCalc() {
         if (!from || !to) return;
         setLoading(true);
         setResults([]);
         setError('');
-
-        const originCode = CITY_TO_VILLAGE_CODE[from];
-        const destCode = CITY_TO_VILLAGE_CODE[to];
+        var originCode = CITY_TO_VILLAGE_CODE[from];
+        var destCode = CITY_TO_VILLAGE_CODE[to];
         if (!originCode || !destCode) {
           setError('Kode village belum tersedia untuk kota ini.');
           setLoading(false);
           return;
         }
-
-        try {
-          const params = new URLSearchParams({
-            origin_village_code: originCode,
-            destination_village_code: destCode,
-            weight: weight
-          });
-          const res = await fetch(`/proxy.php?path=${encodeURIComponent('/shipping-cost?' + params.toString())}`);
-          const data = await res.json();
-          if (data.is_success && data.data?.couriers) {
-            const mapped = COURIERS.map(c => {
-              const apiSvc = data.data.couriers.find(r => {
-                const svc = (r.courier_code || '').toUpperCase();
-                if (c.id === 'jne' && svc.includes('JNE')) return true;
-                if (c.id === 'jnt' && (svc.includes('J&T') || svc === 'JNT')) return true;
-                if (c.id === 'sicepat' && svc.includes('SICEPAT')) return true;
-                return false;
-              });
-              if (!apiSvc) return null;
-              return {
-                ...c,
-                price: Math.round((apiSvc.price || 0) / 1000) || Math.round(Math.random() * 20000 + 8000),
-                days: apiSvc.estimation || '±3 hari',
-                source: 'api'
-              };
-            }).filter(Boolean).sort((a, b) => a.price - b.price);
-
-            if (mapped.length === 0) {
-              // Fallback: generate mock data
-              const mock = COURIERS.slice(0, 4).map((c, i) => ({
-                ...c,
-                price: 8000 + (i * 2000) + Math.round(Math.random() * 3000),
-                days: '±' + (2 + i) + ' hari',
-                source: 'estimation'
-              }));
-              setResults(mock.sort((a, b) => a.price - b.price));
+        var params = new URLSearchParams({
+          origin_village_code: originCode,
+          destination_village_code: destCode,
+          weight: weight
+        });
+        fetch('/proxy.php?path=' + encodeURIComponent('/shipping-cost?' + params.toString()))
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            if (data.is_success && data.data && data.data.couriers) {
+              var mapped = COURIERS.map(function(c) {
+                var apiSvc = data.data.couriers.find(function(r) {
+                  var svc = (r.courier_code || '').toUpperCase();
+                  if (c.id === 'jne' && svc.includes('JNE')) return true;
+                  if (c.id === 'jnt' && (svc.includes('J&T') || svc === 'JNT')) return true;
+                  if (c.id === 'sicepat' && svc.includes('SICEPAT')) return true;
+                  return false;
+                });
+                if (!apiSvc) return null;
+                return { id: c.id, name: c.name, price: Math.round((apiSvc.price || 0) / 1000) || Math.round(Math.random() * 20000 + 8000), days: apiSvc.estimation || '\u00b13 hari', source: 'api' };
+              }).filter(Boolean).sort(function(a, b) { return a.price - b.price; });
+              if (mapped.length === 0) {
+                var mock = COURIERS.slice(0, 4).map(function(c, i) {
+                  return { id: c.id, name: c.name, price: 8000 + (i * 2000) + Math.round(Math.random() * 3000), days: '\u00b1' + (2 + i) + ' hari', source: 'estimation' };
+                });
+                setResults(mock.sort(function(a, b) { return a.price - b.price; }));
+              } else {
+                setResults(mapped);
+              }
             } else {
-              setResults(mapped);
+              setError('Gagal mengambil data ongkir. Coba lagi.');
             }
-          } else {
-            setError('Gagal mengambil data ongkir. Coba lagi.');
-          }
-        } catch (err) {
-          setError('Koneksi ke server gagal.');
-        } finally {
-          setLoading(false);
-        }
+            setLoading(false);
+          })
+          .catch(function() {
+            setError('Koneksi ke server gagal.');
+            setLoading(false);
+          });
       }
 
-      return (
-        <div id="ongkir">
-          <div className="card">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-              <div>
-                <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Kota Asal</label>
-                <SearchSelect value={from} onChange={setFrom} options={CITIES} placeholder="Pilih Kota Asal" />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Kota Tujuan</label>
-                <SearchSelect value={to} onChange={setTo} options={CITIES} placeholder="Pilih Kota Tujuan" />
-              </div>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 }}>Berat (gram)</label>
-              <input type="number" min="1" max="30000" value={weight} onChange={e => setWeight(Number(e.target.value))} />
-            </div>
-            <button className="btn-primary" onClick={handleCalc} disabled={loading || !from || !to} style={{ width: '100%', opacity: loading || !from || !to ? 0.6 : 1 }}>
-              {loading ? 'Menghitung...' : '💰 Hitung Ongkir'}
-            </button>
-          </div>
-
-          {error && <div style={{ marginTop: 16, padding: '12px 16px', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, color: '#dc2626', fontSize: '0.9rem' }}>⚠️ {error}</div>}
-
-          {results.length > 0 && (
-            <div style={{ marginTop: 24 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
-                {results.map((r, i) => (
-                  <div key={r.id} className="cost-card">
-                    {i === 0 && <div className="best-badge">TERCEPAT</div>}
-                    <div className="courier-name">{r.name}</div>
-                    <div className="price">Rp {r.price.toLocaleString('id-ID')}</div>
-                    <div className="eta">Estimasi {r.days}</div>
-                    <div style={{ marginTop: 8 }}>
-                      <span style={{ display: 'inline-block', padding: '2px 8px', background: r.source === 'api' ? '#22c55e' : '#f59e0b', color: '#fff', borderRadius: 4, fontSize: '0.65rem', fontWeight: 700 }}>
-                        {r.source === 'api' ? '✓ REAL API' : 'ESTIMASI'}
-                      </span>
-                    </div>
-                    <div className="cost-breakdown">
-                      <div><div className="label">Berat</div><div className="value">{weight}g</div></div>
-                      <div><div className="label">Asal</div><div className="value">{CITIES.find(c => c.id === from)?.name}</div></div>
-                      <div><div className="label">Tujuan</div><div className="value">{CITIES.find(c => c.id === to)?.name}</div></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+      return React.createElement('div', { id: 'ongkir' },
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 } },
+            React.createElement('div', null,
+              React.createElement('label', { style: { display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 } }, 'Kota Asal'),
+              React.createElement(SearchSelectInner, { value: from, onChange: setFrom, placeholder: 'Pilih Kota Asal' })
+            ),
+            React.createElement('div', null,
+              React.createElement('label', { style: { display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 } }, 'Kota Tujuan'),
+              React.createElement(SearchSelectInner, { value: to, onChange: setTo, placeholder: 'Pilih Kota Tujuan' })
+            )
+          ),
+          React.createElement('div', { style: { marginBottom: 16 } },
+            React.createElement('label', { style: { display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 } }, 'Berat (gram)'),
+            React.createElement('input', { type: 'number', min: 1, max: 30000, value: weight, onChange: function(e) { setWeight(Number(e.target.value)); } })
+          ),
+          React.createElement('button', { className: 'btn-primary', onClick: handleCalc, disabled: loading || !from || !to, style: { width: '100%', opacity: (loading || !from || !to) ? 0.6 : 1 } },
+            loading ? 'Menghitung...' : '\ud83d\udcb0 Hitung Ongkir'
+          )
+        ),
+        error && React.createElement('div', { style: { marginTop: 16, padding: '12px 16px', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, color: '#dc2626', fontSize: '0.9rem' } }, '\u26a0\ufe0f ' + error),
+        results.length > 0 && React.createElement('div', { style: { marginTop: 24 } },
+          React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 } },
+            results.map(function(r, i) {
+              return React.createElement('div', { key: r.id, className: 'cost-card' },
+                i === 0 && React.createElement('div', { className: 'best-badge' }, 'TERCEPAT'),
+                React.createElement('div', { className: 'courier-name' }, r.name),
+                React.createElement('div', { className: 'price' }, 'Rp ' + r.price.toLocaleString('id-ID')),
+                React.createElement('div', { className: 'eta' }, 'Estimasi ' + r.days),
+                React.createElement('div', { style: { marginTop: 8 } },
+                  React.createElement('span', { style: { display: 'inline-block', padding: '2px 8px', background: r.source === 'api' ? '#22c55e' : '#f59e0b', color: '#fff', borderRadius: 4, fontSize: '0.65rem', fontWeight: 700 } },
+                    r.source === 'api' ? '\u2713 REAL API' : 'ESTIMASI'
+                  )
+                ),
+                React.createElement('div', { className: 'cost-breakdown' },
+                  React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Berat'), React.createElement('div', { className: 'value' }, weight + 'g')),
+                  React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Asal'), React.createElement('div', { className: 'value' }, CITIES.find(function(c) { return c.id === from; }).name)),
+                  React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Tujuan'), React.createElement('div', { className: 'value' }, CITIES.find(function(c) { return c.id === to; }).name))
+                )
+              );
+            })
+          )
+        )
       );
     }
 
     // ─── API Docs Page ──────────────────────────────────────────────────────────
     function DocsPage() {
-      const [activeTab, setActiveTab] = React.useState('overview');
-      const auth = useAuth();
-      const apiKey = localStorage.getItem('apiKey') || localStorage.getItem('token') || '';
+      var activeTab = React.useState('overview');
+      var setActiveTab = activeTab[1]; activeTab = activeTab[0];
+      var authCtx = useAuth();
+      var apiKey = localStorage.getItem('apiKey') || localStorage.getItem('token') || '';
 
-      const ExampleCode = ({ method, path, params, response }) => (
-        <div className="endpoint-card">
-          <div className="endpoint-header">
-            <span className={`method-badge ${method.toLowerCase()}`}>{method}</span>
-            <span className="endpoint-path">{path}</span>
-          </div>
-          {params && (
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Parameters</div>
-              <table className="param-table">
-                <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
-                <tbody>
-                  {params.map(p => <tr key={p.name}><td><code>{p.name}</code></td><td>{p.type}</td><td>{p.desc}</td></tr>)}
-                </tbody>
-              </table>
-            </div>
-          )}
-          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Example Response</div>
-          <pre className="docs-code" dangerouslySetInnerHTML={{ __html: response }}></pre>
-        </div>
-      );
+      function ExampleCode(props) {
+        return React.createElement('div', { className: 'endpoint-card' },
+          React.createElement('div', { className: 'endpoint-header' },
+            React.createElement('span', { className: 'method-badge ' + props.method.toLowerCase() }, props.method),
+            React.createElement('span', { className: 'endpoint-path' }, props.path)
+          ),
+          props.params && React.createElement('div', { style: { marginBottom: 12 } },
+            React.createElement('div', { style: { fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 } }, 'Parameters'),
+            React.createElement('table', { className: 'param-table' },
+              React.createElement('thead', null, React.createElement('tr', null,
+                React.createElement('th', null, 'Name'), React.createElement('th', null, 'Type'), React.createElement('th', null, 'Description')
+              )),
+              React.createElement('tbody', null,
+                props.params.map(function(p) {
+                  return React.createElement('tr', { key: p.name },
+                    React.createElement('td', null, React.createElement('code', null, p.name)),
+                    React.createElement('td', null, p.type),
+                    React.createElement('td', null, p.desc)
+                  );
+                })
+              )
+            )
+          ),
+          React.createElement('div', { style: { fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 } }, 'Example Response'),
+          React.createElement('pre', { className: 'docs-code', dangerouslySetInnerHTML: { __html: props.response } })
+        );
+      }
 
-      return (
-        <div className="section">
-          <div className="section-title">
-            <h2>📚 API Dokumentasi</h2>
-            <p>Integrasikan LacakOngkir ke sistem Anda dengan API yang simpel dan akurat</p>
-          </div>
-
-          {!auth.user && (
-            <div className="card" style={{ marginBottom: 24, background: 'var(--light-tint)', border: '2px solid var(--amber)' }}>
-              <div style={{ fontWeight: 700, color: 'var(--forest)', marginBottom: 8 }}>🔐 Butuh API Key</div>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 12 }}>Daftar gratis untuk mendapatkan API key yang bisa Anda gunakan untuk integrasi.</p>
-              <button className="btn-primary" onClick={() => auth.showAuth('register')}>Daftar Gratis</button>
-            </div>
-          )}
-
-          {auth.user && (
-            <div className="api-key-box">
-              <div className="api-key-label">API Key Anda</div>
-              <div className="api-key-value">{apiKey.substring(0, 20)}...{apiKey.substring(apiKey.length - 8)}</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 }}>Gunakan header <code style={{ background: 'white', padding: '2px 6px', borderRadius: 4 }}>X-API-Key: {apiKey}</code> pada setiap request</div>
-            </div>
-          )}
-
-          <div className="docs-nav">
-            <button className={`docs-nav-btn ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>Overview</button>
-            <button className={`docs-nav-btn ${activeTab === 'cost' ? 'active' : ''}`} onClick={() => setActiveTab('cost')}>Cek Ongkir</button>
-            <button className={`docs-nav-btn ${activeTab === 'track' ? 'active' : ''}`} onClick={() => setActiveTab('track')}>Lacak Paket</button>
-            <button className={`docs-nav-btn ${activeTab === 'couriers' ? 'active' : ''}`} onClick={() => setActiveTab('couriers')}>Daftar Kurir</button>
-            <button className={`docs-nav-btn ${activeTab === 'cities' ? 'active' : ''}`} onClick={() => setActiveTab('cities')}>Daftar Kota</button>
-          </div>
-
-          {activeTab === 'overview' && (
-            <div>
-              <div className="card" style={{ marginBottom: 20 }}>
-                <h3 style={{ color: 'var(--forest)', marginBottom: 12 }}>Base URL</h3>
-                <div className="docs-code">https://expedisi.aplikasirt.my.id/api/v1</div>
-              </div>
-              <div className="card" style={{ marginBottom: 20 }}>
-                <h3 style={{ color: 'var(--forest)', marginBottom: 12 }}>Authentication</h3>
-                <p style={{ color: 'var(--text-muted)', marginBottom: 12 }}>Semua request memerlukan API key yang bisa Anda dapatkan setelah registrasi. Gunakan header:</p>
-                <div className="docs-code">X-API-Key: <span className="string">exp_api_your_api_key_here</span></div>
-              </div>
-              <div className="card">
-                <h3 style={{ color: 'var(--forest)', marginBottom: 12 }}>Response Format</h3>
-                <p style={{ color: 'var(--text-muted)', marginBottom: 12 }}>Semua response dalam format JSON:</p>
-                <div className="docs-code">{`{`}<br/>
-                {'  '}<span className="string">"success"</span>: <span className="keyword">true</span>,<br/>
-                {'  '}<span className="string">"data"</span>: {'{'} ... {'}'}<br/>
-                {`}`}</div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'cost' && (
-            <div>
-              <ExampleCode method="GET" path="/api/v1/cost"
-                params={[
-                  { name: 'origin', type: 'string', desc: 'Kode kota asal (contoh: bekasi, jakartatimur)' },
-                  { name: 'destination', type: 'string', desc: 'Kode kota tujuan' },
-                  { name: 'weight', type: 'integer', desc: 'Berat dalam gram (1-30000)' },
-                  { name: 'courier', type: 'string', desc: 'Filter kurir (opsional): jne, jnt, sicepat, anteraja, ninja, pos, tiki, spx' },
-                ]}
-                response={`<span class="comment">// Request</span>
-<span class="method">GET</span> /api/v1/cost?origin=bekasi&destination=jakartatimur&weight=1000
-
-<span class="comment">// Response</span>
-{
-  <span class="string">"success"</span>: <span class="keyword">true</span>,
-  <span class="string">"origin"</span>: { <span class="string">"city"</span>: <span class="string">"bekasi"</span>, <span class="string">"code"</span>: <span class="string">"3275011001"</span> },
-  <span class="string">"destination"</span>: { <span class="string">"city"</span>: <span class="string">"jakartatimur"</span>, <span class="string">"code"</span>: <span class="string">"3175061007"</span> },
-  <span class="string">"weight"</span>: <span class="keyword">1000</span>,
-  <span class="string">"couriers"</span>: [
-    {
-      <span class="string">"courier_code"</span>: <span class="string">"jne"</span>,
-      <span class="string">"courier_name"</span>: <span class="string">"JNE"</span>,
-      <span class="string">"services"</span>: [
-        { <span class="string">"service_code"</span>: <span class="string">"REG"</span>, <span class="string">"price"</span>: <span class="keyword">10000</span>, <span class="string">"etd"</span>: <span class="string">"1-2"</span> }
-      ]
-    }
-  ]
-}`}
-              />
-            </div>
-          )}
-
-          {activeTab === 'track' && (
-            <div>
-              <ExampleCode method="GET" path="/api/v1/track"
-                params={[
-                  { name: 'awb', type: 'string', desc: 'Nomor resi / AWB paket' },
-                  { name: 'courier', type: 'string', desc: 'Kode kurir: jne, jnt, sicepat, anteraja, ninja, pos, tiki, spx' },
-                ]}
-                response={`<span class="comment">// Request</span>
-<span class="method">GET</span> /api/v1/track?awb=JP1234567890&courier=jne
-
-<span class="comment">// Response</span>
-{
-  <span class="string">"success"</span>: <span class="keyword">true</span>,
-  <span class="string">"awb"</span>: <span class="string">"JP1234567890"</span>,
-  <span class="string">"courier"</span>: <span class="string">"jne"</span>,
-  <span class="string">"status"</span>: <span class="string">"in_transit"</span>,
-  <span class="string">"history"</span>: [
-    { <span class="string">"date"</span>: <span class="string">"17 Jun 2026, 13:20"</span>, <span class="string">"status"</span>: <span class="string">"Paket diterima"</span>, <span class="string">"location"</span>: <span class="string">"Surabaya"</span> }
-  ]
-}`}
-              />
-            </div>
-          )}
-
-          {activeTab === 'couriers' && (
-            <div>
-              <ExampleCode method="GET" path="/api/v1/couriers"
-                params={[]}
-                response={`<span class="comment">// Response</span>
-{
-  <span class="string">"success"</span>: <span class="keyword">true</span>,
-  <span class="string">"couriers"</span>: [
-    { <span class="string">"code"</span>: <span class="string">"jne"</span>, <span class="string">"name"</span>: <span class="string">"JNE"</span> },
-    { <span class="string">"code"</span>: <span class="string">"jnt"</span>, <span class="string">"name"</span>: <span class="string">"J&T Express"</span> },
-    { <span class="string">"code"</span>: <span class="string">"sicepat"</span>, <span class="string">"name"</span>: <span class="string">"SiCepat"</span> },
-    ...
-  ]
-}`}
-              />
-            </div>
-          )}
-
-          {activeTab === 'cities' && (
-            <div>
-              <ExampleCode method="GET" path="/api/v1/cities"
-                params={[]}
-                response={`<span class="comment">// Response</span>
-{
-  <span class="string">"success"</span>: <span class="keyword">true</span>,
-  <span class="string">"cities"</span>: [
-    { <span class="string">"id"</span>: <span class="string">"bekasi"</span>, <span class="string">"name"</span>: <span class="string">"Bekasi"</span>, <span class="string">"province"</span>: <span class="string">"Jawa Barat"</span> },
-    { <span class="string">"id"</span>: <span class="string">"jakartatimur"</span>, <span class="string">"name"</span>: <span class="string">"Jakarta Timur"</span>, <span class="string">"province"</span>: <span class="string">"DKI Jakarta"</span> },
-    ...
-  ]
-}`}
-              />
-              <div className="card" style={{ marginTop: 16 }}>
-                <h4 style={{ color: 'var(--forest)', marginBottom: 10 }}>Kode Kota yang Tersedia</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 8 }}>
-                  {CITIES.map(c => (
-                    <div key={c.id} style={{ background: 'var(--cream)', padding: '6px 10px', borderRadius: 8, fontSize: '0.82rem' }}>
-                      <code style={{ color: 'var(--forest)', fontWeight: 600 }}>{c.id}</code>
-                      <span style={{ color: 'var(--text-muted)' }}> — {c.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+      return React.createElement('div', { className: 'section' },
+        React.createElement('div', { className: 'section-title' },
+          React.createElement('h2', null, '\ud83d\udcda API Dokumentasi'),
+          React.createElement('p', null, 'Integrasikan LacakOngkir ke sistem Anda dengan API yang simpel dan akurat')
+        ),
+        !authCtx.user && React.createElement('div', { className: 'card', style: { marginBottom: 24, background: 'var(--light-tint)', border: '2px solid var(--amber)' } },
+          React.createElement('div', { style: { fontWeight: 700, color: 'var(--forest)', marginBottom: 8 } }, '\ud83d\udd10 Butuh API Key'),
+          React.createElement('p', { style: { color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 12 } }, 'Daftar gratis untuk mendapatkan API key yang bisa Anda gunakan untuk integrasi.'),
+          React.createElement('button', { className: 'btn-primary', onClick: function() { authCtx.showAuth('register'); } }, 'Daftar Gratis')
+        ),
+        authCtx.user && React.createElement('div', { className: 'api-key-box' },
+          React.createElement('div', { className: 'api-key-label' }, 'API Key Anda'),
+          React.createElement('div', { className: 'api-key-value' }, apiKey.substring(0, 20) + '...' + apiKey.substring(apiKey.length - 8)),
+          React.createElement('div', { style: { fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 } },
+            'Gunakan header ', React.createElement('code', { style: { background: 'white', padding: '2px 6px', borderRadius: 4 } }, 'X-API-Key'), ' pada setiap request'
+          )
+        ),
+        React.createElement('div', { className: 'docs-nav' },
+          ['overview', 'cost', 'track', 'couriers', 'cities'].map(function(tab) {
+            var labels = { overview: 'Overview', cost: 'Cek Ongkir', track: 'Lacak Paket', couriers: 'Daftar Kurir', cities: 'Daftar Kota' };
+            return React.createElement('button', {
+              key: tab,
+              className: 'docs-nav-btn' + (activeTab === tab ? ' active' : ''),
+              onClick: function() { setActiveTab(tab); }
+            }, labels[tab]);
+          })
+        ),
+        activeTab === 'overview' && React.createElement('div', null,
+          React.createElement('div', { className: 'card', style: { marginBottom: 20 } },
+            React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 12 } }, 'Base URL'),
+            React.createElement('div', { className: 'docs-code' }, 'https://expedisi.aplikasirt.my.id/api/v1')
+          ),
+          React.createElement('div', { className: 'card', style: { marginBottom: 20 } },
+            React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 12 } }, 'Authentication'),
+            React.createElement('p', { style: { color: 'var(--text-muted)', marginBottom: 12 } }, 'Semua request memerlukan API key. Gunakan header:'),
+            React.createElement('div', { className: 'docs-code' }, 'X-API-Key: ', React.createElement('span', { className: 'string' }, 'exp_api_your_api_key_here'))
+          ),
+          React.createElement('div', { className: 'card' },
+            React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 12 } }, 'Response Format'),
+            React.createElement('p', { style: { color: 'var(--text-muted)', marginBottom: 12 } }, 'Semua response dalam format JSON:'),
+            React.createElement('div', { className: 'docs-code' },
+              '{\n  ', React.createElement('span', { className: 'string' }, '"success"'), ': ', React.createElement('span', { className: 'keyword' }, 'true'), ',\n  ', React.createElement('span', { className: 'string' }, '"data"'), ': { ... }\n}'
+            )
+          )
+        ),
+        activeTab === 'cost' && React.createElement('div', null,
+          React.createElement(ExampleCode, {
+            method: 'GET',
+            path: '/api/v1/cost',
+            params: [
+              { name: 'origin', type: 'string', desc: 'Kode kota asal' },
+              { name: 'destination', type: 'string', desc: 'Kode kota tujuan' },
+              { name: 'weight', type: 'integer', desc: 'Berat dalam gram (1-30000)' },
+              { name: 'courier', type: 'string', desc: 'Filter kurir (opsional)' },
+            ],
+            response: '<span class="comment">// Request</span>\n<span class="method">GET</span> /api/v1/cost?origin=bekasi&destination=jakartatimur&weight=1000\n\n<span class="comment">// Response</span>\n{\n  <span class="string">"success"</span>: <span class="keyword">true</span>,\n  <span class="string">"couriers"</span>: [\n    { <span class="string">"courier_code"</span>: <span class="string">"jne"</span>, <span class="string">"price"</span>: <span class="keyword">10000</span>, <span class="string">"etd"</span>: <span class="string">"1-2"</span> }\n  ]\n}'
+          })
+        ),
+        activeTab === 'track' && React.createElement('div', null,
+          React.createElement(ExampleCode, {
+            method: 'GET',
+            path: '/api/v1/track',
+            params: [
+              { name: 'awb', type: 'string', desc: 'Nomor resi / AWB paket' },
+              { name: 'courier', type: 'string', desc: 'Kode kurir: jne, jnt, sicepat, anteraja, ninja, pos, tiki, spx' },
+            ],
+            response: '<span class="comment">// Request</span>\n<span class="method">GET</span> /api/v1/track?awb=JP1234567890&courier=jne\n\n<span class="comment">// Response</span>\n{\n  <span class="string">"success"</span>: <span class="keyword">true</span>,\n  <span class="string">"awb"</span>: <span class="string">"JP1234567890"</span>,\n  <span class="string">"status"</span>: <span class="string">"in_transit"</span>,\n  <span class="string">"history"</span>: [\n    { <span class="string">"date"</span>: <span class="string">"17 Jun 2026, 13:20"</span>, <span class="string">"status"</span>: <span class="string">"Paket diterima"</span> }\n  ]\n}'
+          })
+        ),
+        activeTab === 'couriers' && React.createElement('div', null,
+          React.createElement(ExampleCode, {
+            method: 'GET',
+            path: '/api/v1/couriers',
+            params: [],
+            response: '<span class="comment">// Response</span>\n{\n  <span class="string">"success"</span>: <span class="keyword">true</span>,\n  <span class="string">"couriers"</span>: [\n    { <span class="string">"code"</span>: <span class="string">"jne"</span>, <span class="string">"name"</span>: <span class="string">"JNE"</span> },\n    { <span class="string">"code"</span>: <span class="string">"jnt"</span>, <span class="string">"name"</span>: <span class="string">"J&T Express"</span> }\n  ]\n}'
+          })
+        ),
+        activeTab === 'cities' && React.createElement('div', null,
+          React.createElement(ExampleCode, {
+            method: 'GET',
+            path: '/api/v1/cities',
+            params: [],
+            response: '<span class="comment">// Response</span>\n{\n  <span class="string">"success"</span>: <span class="keyword">true</span>,\n  <span class="string">"cities"</span>: [\n    { <span class="string">"id"</span>: <span class="string">"bekasi"</span>, <span class="string">"name"</span>: <span class="string">"Bekasi"</span>, <span class="string">"province"</span>: <span class="string">"Jawa Barat"</span> }\n  ]\n}'
+          }),
+          React.createElement('div', { className: 'card', style: { marginTop: 16 } },
+            React.createElement('h4', { style: { color: 'var(--forest)', marginBottom: 10 } }, 'Kode Kota yang Tersedia'),
+            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 8 } },
+              CITIES.map(function(c) {
+                return React.createElement('div', { key: c.id, style: { background: 'var(--cream)', padding: '6px 10px', borderRadius: 8, fontSize: '0.82rem' } },
+                  React.createElement('code', { style: { color: 'var(--forest)', fontWeight: 600 } }, c.id),
+                  React.createElement('span', { style: { color: 'var(--text-muted)' } }, ' \u2014 ' + c.name)
+                );
+              })
+            )
+          )
+        )
       );
     }
 
     // ─── Dashboard Page ─────────────────────────────────────────────────────────
     function DashboardPage() {
-      const auth = useAuth();
-      const user = auth.user;
-      const [keys, setKeys] = React.useState([]);
-      const [newKeyName, setNewKeyName] = React.useState('');
-      const [loading, setLoading] = React.useState(false);
-      const [toast, setToast] = React.useState(null);
+      var user = useAuth().user;
+      var keys = React.useState([]);
+      var newKeyName = React.useState('');
+      var loading = React.useState(false);
+      var toast = React.useState(null);
+      var setKeys = keys[1]; keys = keys[0];
+      var setNewKeyName = newKeyName[1]; newKeyName = newKeyName[0];
+      var setLoading = loading[1]; loading = loading[0];
+      var setToast = toast[1]; toast = toast[0];
+      var token = localStorage.getItem('token');
 
-      const token = localStorage.getItem('token');
+      React.useEffect(function() { loadKeys(); }, []);
 
-      React.useEffect(() => {
-        loadKeys();
-      }, []);
-
-      async function loadKeys() {
-        try {
-          const data = await apiGet('/keys.php', token);
+      function loadKeys() {
+        apiGet('/keys.php', token).then(function(data) {
           if (data.success) setKeys(data.keys || []);
-        } catch (err) {
-          console.error(err);
-        }
+        }).catch(function(err) { console.error(err); });
       }
 
-      async function createKey() {
+      function createKey() {
         if (!newKeyName.trim()) return;
         setLoading(true);
-        try {
-          const data = await apiPost('/keys.php', { name: newKeyName }, token);
+        apiPost('/keys.php', { name: newKeyName }, token).then(function(data) {
           if (data.success) {
             setToast({ message: 'API Key berhasil dibuat!', type: 'success' });
             setNewKeyName('');
-            await loadKeys();
+            loadKeys();
           }
-        } catch (err) {
-          setToast({ message: 'Gagal membuat key', type: 'error' });
-        } finally {
-          setLoading(false);
-        }
+        }).catch(function() { setToast({ message: 'Gagal membuat key', type: 'error' }); })
+          .finally(function() { setLoading(false); });
       }
 
-      async function revokeKey(keyId) {
-        try {
-          const data = await apiDelete('/keys.php', { id: keyId }, token);
+      function revokeKey(keyId) {
+        apiDelete('/keys.php', { id: keyId }, token).then(function(data) {
           if (data.success) {
             setToast({ message: 'API Key berhasil direvoke', type: 'success' });
-            await loadKeys();
+            loadKeys();
           }
-        } catch (err) {
-          setToast({ message: 'Gagal revoke key', type: 'error' });
-        }
+        }).catch(function() { setToast({ message: 'Gagal revoke key', type: 'error' }); });
       }
 
-      const primaryKey = keys.find(k => k.is_active) || null;
+      function copyKey(text) {
+        navigator.clipboard.writeText(text).then(function() {
+          setToast({ message: 'API Key copied!', type: 'success' });
+        });
+      }
 
-      return (
-        <div className="section">
-          {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      var primaryKey = keys.filter(function(k) { return k.is_active; })[0];
 
-          <div className="section-title" style={{ textAlign: 'left', marginBottom: 32 }}>
-            <h2>⚙️ Dashboard</h2>
-            <p>Selamat datang, <strong>{user?.name}</strong> ({user?.email})</p>
-          </div>
+      return React.createElement('div', { className: 'section' },
+        toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: function() { setToast(null); } }),
+        React.createElement('div', { className: 'section-title', style: { textAlign: 'left', marginBottom: 32 } },
+          React.createElement('h2', null, '\u2699\ufe0f Dashboard'),
+          React.createElement('p', null, 'Selamat datang, ', React.createElement('strong', null, user ? user.name : ''), ' (', user ? user.email : '', ')')
+        ),
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 32 } },
+          React.createElement('div', { className: 'card' },
+            React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' } }, '\ud83d\udcca Statistik'),
+            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 } },
+              React.createElement('div', { style: { background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' } },
+                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 800, color: 'var(--forest)' } }, keys.length),
+                React.createElement('div', { style: { fontSize: '0.82rem', color: 'var(--text-muted)' } }, 'Total API Keys')
+              ),
+              React.createElement('div', { style: { background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' } },
+                React.createElement('div', { style: { fontSize: '2rem', fontWeight: 800, color: 'var(--amber)' } }, '0'),
+                React.createElement('div', { style: { fontSize: '0.82rem', color: 'var(--text-muted)' } }, 'API Calls (bulan ini)')
+              )
+            )
+          ),
+          React.createElement('div', { className: 'card' },
+            React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' } }, '\u2795 Buat API Key Baru'),
+            React.createElement('div', { style: { display: 'flex', gap: 10 } },
+              React.createElement('input', { type: 'text', value: newKeyName, onChange: function(e) { setNewKeyName(e.target.value); }, placeholder: 'Nama key (contoh: Production Server)' }),
+              React.createElement('button', { className: 'btn-secondary', onClick: createKey, disabled: loading || !newKeyName.trim(), style: { whiteSpace: 'nowrap' } },
+                loading ? '...' : 'Buat'
+              )
+            )
+          )
+        ),
+        (localStorage.getItem('apiKey') || localStorage.getItem('token')) && React.createElement('div', { className: 'api-key-box' },
+          React.createElement('div', { className: 'api-key-label' }, '\ud83d\udd11 Primary API Key'),
+          React.createElement('div', { className: 'api-key-value' }, localStorage.getItem('apiKey') || localStorage.getItem('token')),
+          React.createElement('div', { style: { fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 } }, 'API key default dibuat saat email diverifikasi.'),
+          React.createElement('div', { className: 'api-key-actions' },
+            React.createElement('button', { className: 'btn-secondary', onClick: function() { copyKey(localStorage.getItem('apiKey') || localStorage.getItem('token')); } }, '\ud83d\udccb Copy')
+          )
+        ),
+        React.createElement('h3', { style: { color: 'var(--forest)', marginBottom: 16 } }, '\ud83d\udccb Semua API Keys'),
+        keys.length === 0
+          ? React.createElement('div', { className: 'card', style: { textAlign: 'center', color: 'var(--text-muted)' } }, 'Belum ada API key. Buat key baru di atas.')
+          : React.createElement('div', { className: 'key-list' },
+              keys.map(function(key) {
+                return React.createElement('div', { key: key.id, className: 'key-item' },
+                  React.createElement('div', { className: 'key-item-info' },
+                    React.createElement('div', { className: 'key-item-name' },
+                      key.name, !key.is_active && React.createElement('span', { style: { color: 'var(--danger)', fontSize: '0.8rem' } }, ' (Revoked)')
+                    ),
+                    React.createElement('div', { className: 'key-item-meta' },
+                      'Dibuat: ' + new Date(key.created_at).toLocaleDateString('id-ID')
+                    )
+                  ),
+                  React.createElement('div', { className: 'key-item-prefix' }, (key.key_prefix || '') + '...****'),
+                  React.createElement('button', { className: 'btn-secondary', style: { marginLeft: 12, padding: '6px 12px' }, onClick: function() { copyKey(key.key_prefix); } }, '\ud83d\udccb'),
+                  key.is_active && React.createElement('button', { className: 'btn-danger', style: { marginLeft: 8 }, onClick: function() { revokeKey(key.id); } }, 'Revoke')
+                );
+              })
+            )
+      );
+    }
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 32 }}>
-            <div className="card">
-              <h3 style={{ color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' }}>📊 Statistik</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--forest)' }}>{keys.length}</div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Total API Keys</div>
-                </div>
-                <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 16, textAlign: 'center' }}>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--amber)' }}>0</div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>API Calls (bulan ini)</div>
-                </div>
-              </div>
-            </div>
+    // ─── Admin Panel Page ───────────────────────────────────────────────────────
+    function AdminPage() {
+      var user = useAuth().user;
+      var token = localStorage.getItem('token');
+      var users = React.useState([]);
+      var stats = React.useState({ total: 0, verified: 0, totalKeys: 0 });
+      var page = React.useState(1);
+      var totalPages = React.useState(1);
+      var loading = React.useState(false);
+      var toast = React.useState(null);
+      var setUsers = users[1]; users = users[0];
+      var setStats = stats[1]; stats = stats[0];
+      var setPage = page[1]; page = page[0];
+      var setTotalPages = totalPages[1]; totalPages = totalPages[0];
+      var setLoading = loading[1]; loading = loading[0];
+      var setToast = toast[1]; toast = toast[0];
 
-            <div className="card">
-              <h3 style={{ color: 'var(--forest)', marginBottom: 20, fontSize: '1.2rem' }}>➕ Buat API Key Baru</h3>
-              <div style={{ display: 'flex', gap: 10 }}>
-                <input type="text" value={newKeyName} onChange={e => setNewKeyName(e.target.value)} placeholder="Nama key (contoh: Production Server)" onKeyDown={e => e.key === 'Enter' && createKey()} />
-                <button className="btn-secondary" onClick={createKey} disabled={loading || !newKeyName.trim()} style={{ whiteSpace: 'nowrap' }}>
-                  {loading ? '...' : 'Buat'}
-                </button>
-              </div>
-            </div>
-          </div>
+      React.useEffect(function() { loadUsers(); }, [page]);
+      React.useEffect(function() { loadStats(); }, []);
 
-          {primaryKey && (
-            <div className="api-key-box">
-              <div className="api-key-label">🔑 Primary API Key</div>
-              <div className="api-key-value">{localStorage.getItem('apiKey') || localStorage.getItem('token')}</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 }}>Dibuat: {new Date(primaryKey.created_at).toLocaleDateString('id-ID')} · Terakhir dipakai: {primaryKey.last_used_at ? new Date(primaryKey.last_used_at).toLocaleDateString('id-ID') : 'Belum pernah'}</div>
-              <div className="api-key-actions">
-                <button className="btn-secondary" onClick={() => { navigator.clipboard.writeText(localStorage.getItem('apiKey') || localStorage.getItem('token')); setToast({ message: 'API Key copied!', type: 'success' }); }}>
-                  📋 Copy
-                </button>
-                <button className="btn-danger" onClick={() => revokeKey(primaryKey.id)}>🗑️ Revoke</button>
-              </div>
-            </div>
-          )}
+      function loadUsers() {
+        setLoading(true);
+        apiGet('/auth.php?action=admin/users&page=' + page, token).then(function(data) {
+          if (data.success) {
+            setUsers(data.users || []);
+            setTotalPages(data.pagination ? data.pagination.total_pages : 1);
+            setStats(function(prev) {
+              return Object.assign({}, prev, {
+                total: data.pagination ? data.pagination.total : 0,
+                verified: (data.users || []).filter(function(u) { return u.is_verified; }).length
+              });
+            });
+          }
+          setLoading(false);
+        }).catch(function() { setToast({ message: 'Gagal memuat data', type: 'error' }); setLoading(false); });
+      }
 
-          <h3 style={{ color: 'var(--forest)', marginBottom: 16 }}>📋 Semua API Keys</h3>
-          {keys.length === 0 ? (
-            <div className="card" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-              Belum ada API key. Buat key baru di atas.
-            </div>
-          ) : (
-            <div className="key-list">
-              {keys.map(key => (
-                <div key={key.id} className="key-item">
-                  <div className="key-item-info">
-                    <div className="key-item-name">{key.name} {!key.is_active && <span style={{ color: 'var(--danger)', fontSize: '0.8rem' }}>(Revoked)</span>}</div>
-                    <div className="key-item-meta">Dibuat: {new Date(key.created_at).toLocaleDateString('id-ID')}</div>
-                  </div>
-                  <div className="key-item-prefix">{key.key_prefix}...****</div>
-                  {key.is_active && (
-                    <button className="btn-danger" onClick={() => revokeKey(key.id)} style={{ marginLeft: 12 }}>Revoke</button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+      function loadStats() {
+        apiGet('/auth.php?action=admin/keys', token).then(function(data) {
+          if (data.success) setStats(function(prev) { return Object.assign({}, prev, { totalKeys: (data.keys || []).length }); });
+        }).catch(function() {});
+      }
+
+      function exportCSV() {
+        var headers = ['ID', 'Name', 'Email', 'Role', 'Verified', 'Joined'];
+        var rows = users.map(function(u) {
+          return [u.id, u.name, u.email, u.role, u.is_verified ? 'Yes' : 'No', new Date(u.created_at).toLocaleDateString('id-ID')];
+        });
+        var csv = [headers].concat(rows).map(function(r) { return r.join(','); }).join('\n');
+        var blob = new Blob([csv], { type: 'text/csv' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'users_export_page' + page + '.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      if (user && user.role !== 'admin') {
+        return React.createElement('div', { className: 'section', style: { textAlign: 'center', padding: '80px 24px' } },
+          React.createElement('h2', { style: { color: 'var(--danger)', marginBottom: 16 } }, 'Akses Ditolak'),
+          React.createElement('p', { style: { color: 'var(--text-muted)' } }, 'Halaman ini hanya untuk admin.'),
+          React.createElement('button', { className: 'btn-primary', style: { marginTop: 20 }, onClick: function() { useAuth().setActivePage('home'); } }, 'Kembali ke Beranda')
+        );
+      }
+
+      return React.createElement('div', { className: 'section' },
+        toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: function() { setToast(null); } }),
+        React.createElement('div', { className: 'section-title', style: { textAlign: 'left', marginBottom: 32 } },
+          React.createElement('h2', null, '\ud83d\udde1\ufe0f Admin Panel'),
+          React.createElement('p', null, 'Kelola pengguna dan API keys')
+        ),
+        React.createElement('div', { className: 'stats-grid' },
+          React.createElement('div', { className: 'stat-card' },
+            React.createElement('div', { className: 'stat-value' }, stats.total),
+            React.createElement('div', { className: 'stat-label' }, 'Total Users')
+          ),
+          React.createElement('div', { className: 'stat-card' },
+            React.createElement('div', { className: 'stat-value', style: { color: 'var(--success)' } }, stats.verified),
+            React.createElement('div', { className: 'stat-label' }, 'Verified Users')
+          ),
+          React.createElement('div', { className: 'stat-card' },
+            React.createElement('div', { className: 'stat-value', style: { color: 'var(--amber)' } }, stats.totalKeys),
+            React.createElement('div', { className: 'stat-label' }, 'Total API Keys')
+          )
+        ),
+        React.createElement('div', { className: 'card', style: { padding: 0, overflow: 'hidden' } },
+          React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px', borderBottom: '1px solid var(--border)' } },
+            React.createElement('h3', { style: { color: 'var(--forest)', margin: 0 } }, '\ud83d\udccb Daftar Pengguna'),
+            React.createElement('button', { className: 'btn-secondary', style: { fontSize: '0.85rem', padding: '8px 16px' }, onClick: exportCSV }, '\ud83d\udce5 Export CSV')
+          ),
+          loading
+            ? React.createElement('div', { style: { padding: 40, textAlign: 'center', color: 'var(--text-muted)' } }, 'Memuat...')
+            : React.createElement('div', { className: 'admin-table-wrap' },
+                React.createElement('table', { className: 'admin-table' },
+                  React.createElement('thead', null,
+                    React.createElement('tr', null,
+                      React.createElement('th', null, 'ID'),
+                      React.createElement('th', null, 'Name'),
+                      React.createElement('th', null, 'Email'),
+                      React.createElement('th', null, 'Role'),
+                      React.createElement('th', null, 'Verified'),
+                      React.createElement('th', null, 'Joined')
+                    )
+                  ),
+                  React.createElement('tbody', null,
+                    users.map(function(u) {
+                      return React.createElement('tr', { key: u.id },
+                        React.createElement('td', { style: { fontWeight: 700, color: 'var(--text-muted)' } }, '#' + u.id),
+                        React.createElement('td', { style: { fontWeight: 600 } }, u.name),
+                        React.createElement('td', { style: { color: 'var(--text-muted)' } }, u.email),
+                        React.createElement('td', null, React.createElement('span', { className: 'role-badge ' + (u.role || 'member') }, u.role || 'member')),
+                        React.createElement('td', null,
+                          React.createElement('span', { className: 'verified-badge' + (u.is_verified ? '' : ' unverified') },
+                            u.is_verified ? '\u2713 Verified' : '\u2717 Unverified'
+                          )
+                        ),
+                        React.createElement('td', { style: { color: 'var(--text-muted)', fontSize: '0.82rem' } }, new Date(u.created_at).toLocaleDateString('id-ID'))
+                      );
+                    }),
+                    users.length === 0 && React.createElement('tr', null,
+                      React.createElement('td', { colSpan: 6, style: { textAlign: 'center', padding: 32, color: 'var(--text-muted)' } }, 'Tidak ada data pengguna.')
+                    )
+                  )
+                )
+              ),
+          totalPages > 1 && React.createElement('div', { className: 'pagination' },
+            React.createElement('button', { className: 'btn-ghost', style: { padding: '8px 16px' }, disabled: page <= 1, onClick: function() { setPage(Math.max(1, page - 1)); } }, '\u2190 Prev'),
+            React.createElement('span', { style: { color: 'var(--text-muted)', fontSize: '0.9rem' } }, 'Halaman ' + page + ' dari ' + totalPages),
+            React.createElement('button', { className: 'btn-ghost', style: { padding: '8px 16px' }, disabled: page >= totalPages, onClick: function() { setPage(Math.min(totalPages, page + 1)); } }, 'Next \u2192')
+          )
+        )
       );
     }
 
     // ─── Main App ──────────────────────────────────────────────────────────────
     function App() {
-      const [user, setUser] = React.useState(() => {
-        const saved = localStorage.getItem('user');
+      var user = React.useState(function() {
+        var saved = localStorage.getItem('user');
         return saved ? JSON.parse(saved) : null;
       });
-      const [activePage, setActivePage] = React.useState('home');
-      const [activeTab, setActiveTab] = React.useState('tracking');
-      const [showAuth, setShowAuth] = React.useState(false);
-      const [authMode, setAuthMode] = React.useState('login');
+      var activePage = React.useState('home');
+      var activeTab = React.useState('tracking');
+      var showAuth = React.useState(false);
+      var authMode = React.useState('login');
+      var setUser = user[1]; user = user[0];
+      var setActivePage = activePage[1]; activePage = activePage[0];
+      var setActiveTab = activeTab[1]; activeTab = activeTab[0];
+      var setShowAuth = showAuth[1]; showAuth = showAuth[0];
+      var setAuthMode = authMode[1]; authMode = authMode[0];
 
-      function handleLogin() {
-        setShowAuth(true);
-        setAuthMode('login');
-      }
-
-      function handleRegister() {
-        setShowAuth(true);
-        setAuthMode('register');
-      }
-
+      function handleLogin() { setShowAuth(true); setAuthMode('login'); }
+      function handleRegister() { setShowAuth(true); setAuthMode('register'); }
       function handleAuthSuccess(userData, token, apiKey) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(userData));
+        if (apiKey) localStorage.setItem('apiKey', apiKey);
         setUser(userData);
         setShowAuth(false);
-        if (apiKey) localStorage.setItem('apiKey', apiKey);
       }
-
       function handleLogout() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
@@ -1408,71 +1690,69 @@
         setActivePage('home');
       }
 
-      const authValue = {
-        user,
+      var authValue = {
+        user: user,
         showAuth: handleLogin,
         showRegister: handleRegister,
         logout: handleLogout,
-        setActivePage,
+        setActivePage: setActivePage,
       };
 
-      return (
-        <AuthContext.Provider value={authValue}>
-          <Navbar user={user} onLoginClick={handleLogin} onLogout={handleLogout} />
-
-          {showAuth && (
-            <AuthModal
-              isRegister={authMode === 'register'}
-              onClose={() => setShowAuth(false)}
-              onSwitch={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
-              onSuccess={handleAuthSuccess}
-            />
-          )}
-
-          {activePage === 'docs' && <DocsPage />}
-          {activePage === 'dashboard' && <DashboardPage />}
-          {activePage === 'home' && (
-            <>
-              <Hero />
-              <section className="section">
-                <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 36 }}>
-                  <button className="tab-btn" style={{ background: activeTab === 'tracking' ? 'var(--forest)' : 'transparent', color: activeTab === 'tracking' ? 'white' : 'var(--forest)', borderColor: activeTab === 'tracking' ? 'var(--forest)' : 'var(--border)' }} onClick={() => setActiveTab('tracking')}>🔍 Lacak Paket</button>
-                  <button className="tab-btn" style={{ background: activeTab === 'ongkir' ? 'var(--forest)' : 'transparent', color: activeTab === 'ongkir' ? 'white' : 'var(--forest)', borderColor: activeTab === 'ongkir' ? 'var(--forest)' : 'var(--border)' }} onClick={() => setActiveTab('ongkir')}>💰 Kalkulator Ongkir</button>
-                </div>
-                {activeTab === 'tracking' && <TrackingTab />}
-                {activeTab === 'ongkir' && <OngkirTab />}
-              </section>
-              <div className="divider"><div className="divider-line"></div><div className="divider-dot"></div><div className="divider-line"></div></div>
-              <section className="section" id="ekspedisi">
-                <div className="section-title">
-                  <h2>Partner Ekspedisi</h2>
-                  <p>8 kurir ternama Indonesia dalam satu platform</p>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
-                  {COURIERS.map(c => (
-                    <div key={c.id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                      <div style={{ background: 'linear-gradient(135deg, var(--forest) 0%, #0d6e3a 100%)', padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 14 }}>
-                        <img src={c.logo} alt={c.name} style={{ width: 52, height: 52, objectFit: 'contain', flexShrink: 0, background: '#fff', borderRadius: 8, padding: 4 }} onError={e => { e.target.style.display = 'none' }} />
-                        <div>
-                          <div style={{ fontWeight: 900, color: '#fff', fontSize: '1.15rem' }}>{c.name}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', marginTop: 2 }}>{c.tagline}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-              <footer className="footer">
-                <p>🇮🇩 <strong>LacakOngkir</strong> — Platform tracking & kalkulator ongkir Indonesia</p>
-                <p style={{ marginTop: 6 }}>© 2026 · API powered by api.co.id</p>
-              </footer>
-            </>
-          )}
-        </AuthContext.Provider>
+      return React.createElement(AuthContext.Provider, { value: authValue },
+        React.createElement(Navbar, { user: user, onLoginClick: handleLogin, onLogout: handleLogout }),
+        showAuth && React.createElement(AuthModal, {
+          isRegister: authMode === 'register',
+          onClose: function() { setShowAuth(false); },
+          onSwitch: function() { setAuthMode(authMode === 'login' ? 'register' : 'login'); },
+          onSuccess: handleAuthSuccess
+        }),
+        activePage === 'docs' && React.createElement(DocsPage),
+        activePage === 'dashboard' && React.createElement(DashboardPage),
+        activePage === 'admin' && React.createElement(AdminPage),
+        activePage === 'home' && React.createElement(React.Fragment, null,
+          React.createElement(Hero),
+          React.createElement('section', { className: 'section' },
+            React.createElement('div', { style: { display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 36 } },
+              React.createElement('button', { className: 'tab-btn', style: { background: activeTab === 'tracking' ? 'var(--forest)' : 'transparent', color: activeTab === 'tracking' ? 'white' : 'var(--forest)', borderColor: activeTab === 'tracking' ? 'var(--forest)' : 'var(--border)' }, onClick: function() { setActiveTab('tracking'); } }, '\ud83d\udd0d Lacak Paket'),
+              React.createElement('button', { className: 'tab-btn', style: { background: activeTab === 'ongkir' ? 'var(--forest)' : 'transparent', color: activeTab === 'ongkir' ? 'white' : 'var(--forest)', borderColor: activeTab === 'ongkir' ? 'var(--forest)' : 'var(--border)' }, onClick: function() { setActiveTab('ongkir'); } }, '\ud83d\udcb0 Kalkulator Ongkir')
+            ),
+            activeTab === 'tracking' && React.createElement(TrackingTab),
+            activeTab === 'ongkir' && React.createElement(OngkirTab)
+          ),
+          React.createElement('div', { className: 'divider' },
+            React.createElement('div', { className: 'divider-line' }),
+            React.createElement('div', { className: 'divider-dot' }),
+            React.createElement('div', { className: 'divider-line' })
+          ),
+          React.createElement('section', { className: 'section', id: 'ekspedisi' },
+            React.createElement('div', { className: 'section-title' },
+              React.createElement('h2', null, 'Partner Ekspedisi'),
+              React.createElement('p', null, '8 kurir ternama Indonesia dalam satu platform')
+            ),
+            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 } },
+              COURIERS.map(function(c) {
+                return React.createElement('div', { key: c.id, className: 'card', style: { padding: 0, overflow: 'hidden' } },
+                  React.createElement('div', { style: { background: 'linear-gradient(135deg, var(--forest) 0%, #0d6e3a 100%)', padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 14 } },
+                    React.createElement('img', { src: c.logo, alt: c.name, style: { width: 52, height: 52, objectFit: 'contain', flexShrink: 0, background: '#fff', borderRadius: 8, padding: 4 }, onError: function(e) { e.target.style.display = 'none'; } }),
+                    React.createElement('div', null,
+                      React.createElement('div', { style: { fontWeight: 900, color: '#fff', fontSize: '1.15rem' } }, c.name),
+                      React.createElement('div', { style: { fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', marginTop: 2 } }, c.tagline)
+                    )
+                  )
+                );
+              })
+            )
+          ),
+          React.createElement('footer', { className: 'footer' },
+            React.createElement('p', null, '\ud83c\uddee\ud83c\udde9 ', React.createElement('strong', null, 'LacakOngkir'), ' \u2014 Platform tracking & kalkulator ongkir Indonesia'),
+            React.createElement('p', { style: { marginTop: 6 } }, '\u00a9 2026 \u00b7 API powered by api.co.id')
+          )
+        )
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+
   </script>
 </body>
 </html>

@@ -8,13 +8,17 @@ require_once __DIR__ . '/db.php';
 
 // ─── Response Helpers ───────────────────────────────────────────
 function json_response($data, $code = 200) {
-    http_response_code($code);
+    if (!headers_sent()) {
+        http_response_code($code);
+    }
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 function json_error($message, $code = 400, $details = null) {
-    http_response_code($code);
+    if (!headers_sent()) {
+        http_response_code($code);
+    }
     $data = ['success' => false, 'error' => $message];
     if ($details) $data['details'] = $details;
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -78,7 +82,7 @@ function requireAuth(): ?array {
     $stmt = $pdo->prepare('UPDATE sessions SET last_used_at = CURRENT_TIMESTAMP WHERE token = ?');
     $stmt->execute([$token]);
 
-    $stmt = $pdo->prepare('SELECT id, email, name, created_at FROM users WHERE id = ?');
+    $stmt = $pdo->prepare('SELECT id, email, name, role, is_verified, created_at FROM users WHERE id = ?');
     $stmt->execute([$session['user_id']]);
     return $stmt->fetch() ?: null;
 }

@@ -19,12 +19,18 @@ require_once __DIR__ . '/../utils.php';
 // ─── API Key Auth ────────────────────────────────────────────────
 $apiKey = $_SERVER['HTTP_X_API_KEY'] ?? '';
 $keyData = null;
-
 if (!empty($apiKey)) {
     $keyData = validateApiKey($apiKey);
 }
 
-if (!$keyData) {
+// Allow /track with courier=spx without API key (SPX API is public, no CORS issues from backend)
+$isSpxTrack = preg_match('#/api/v1/track#', $_SERVER['REQUEST_URI'] ?? '')
+    && strtolower($_GET['courier'] ?? '') === 'spx';
+
+// Debug: log all requests to a file (append)
+@file_put_contents('/tmp/v1_debug.log', date('Y-m-d H:i:s') . ' URI=' . ($_SERVER['REQUEST_URI'] ?? '') . ' courier=' . ($_GET['courier'] ?? 'null') . ' isSpxTrack=' . ($isSpxTrack ? 1 : 0) . ' hasKey=' . (!empty($keyData) ? 1 : 0) . PHP_EOL);
+
+if (!$keyData && !$isSpxTrack) {
     json_error('API Key tidak valid atau tidak aktif. Pastikan Anda sudah registrasi dan memiliki API key yang aktif.', 401);
 }
 
@@ -164,20 +170,58 @@ function getCost() {
 function track() {
     $awb = $_GET['awb'] ?? '';
     $courier = strtolower($_GET['courier'] ?? '');
-    
+
     if (empty($awb)) {
         json_error('Parameter AWB/Resi wajib diisi', 400);
     }
-    
-    // For now return mock data - in production this would call actual courier APIs
+
+    // Shopee Xpress — call SPX API from backend (bypasses CORS)
+    if ($courier === 'spx') {
+        $spxResponse = @file_get_contents(
+            'https://spx.co.id/shipment/order/open/order/get_order_info?spx_tn=' . urlencode($awb) . '&language_code=id'
+        );
+
+        if ($spxResponse === false) {
+            json_error('Gagal terhubung ke server Shopee. Coba lagi nanti.', 502);
+        }
+
+        $data = json_decode($spxResponse, true);
+
+        if (!isset($data['retcode']) || $data['retcode'] !== 0 || !isset($data['data']['sls_tracking_info']['records'])) {
+            $msg = $data['message'] ?? 'Resi Shopee Xpress tidak ditemukan';
+            json_error($msg, 404);
+        }
+
+        $records = $data['data']['sls_tracking_info']['records'];
+        $history = [];
+        foreach ($records as $r) {
+            $history[] = [
+                'date' => isset($r['actual_time']) ? date('d M Y, H:i', $r['actual_time']) : '',
+                'status' => $r['tracking_name'] ?? $r['milestone_name'] ?? 'Update',
+                'location' => $r['current_location']['location_name'] ?? ''
+            ];
+        }
+
+        logApiUsage($GLOBALS['keyData']['id'] ?? null, '/track', 'GET', 200);
+        json_response([
+            'success' => true,
+            'awb' => strtoupper($awb),
+            'courier' => 'spx',
+            'status' => $history[0]['status'] ?? 'UNKNOWN',
+            'history' => $history
+        ]);
+        return;
+    }
+
+    // Other couriers — return mock data (replace with real API calls)
     $mockHistory = [
         ['date' => date('d M Y, H:i', strtotime('-2 days')), 'status' => 'Paket diterima di gudang asal', 'location' => 'Jakarta'],
         ['date' => date('d M Y, H:i', strtotime('-1 days')), 'status' => 'Dalam perjalanan ke kota tujuan', 'location' => 'Surabaya Hub'],
         ['date' => date('d M Y, H:i'), 'status' => 'Paket tiba di kota tujuan', 'location' => 'Surabaya'],
     ];
-    
+
     logApiUsage($GLOBALS['keyData']['id'] ?? null, '/track', 'GET', 200);
-    
+
     json_response([
         'success' => true,
         'awb' => strtoupper($awb),

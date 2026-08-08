@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $api_key = '6HkOGh9rMgiJKiTlstuUMShNbVLlCIzXbu970CsFdOjIuNdMKf';
 
-// Get the request path from query string (URL decode since ? becomes %3F)
 $path = isset($_GET['path']) ? urldecode($_GET['path']) : '';
 
 if (empty($path)) {

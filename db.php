@@ -33,10 +33,17 @@ class Database {
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 email TEXT UNIQUE NOT NULL,
-                password_hash TEXT NOT NULL,
+                password_hash TEXT,
                 name TEXT NOT NULL,
+                role TEXT DEFAULT 'member',
+                is_verified INTEGER DEFAULT 0,
+                verification_token TEXT,
+                verification_expires_at DATETIME,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                google_id TEXT UNIQUE,
+                google_token TEXT,
+                google_token_expiry DATETIME
             )
         ");
         
@@ -80,9 +87,12 @@ class Database {
             )
         ");
         
-        // Create indexes
-        $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_user ON api_keys(user_id)");
-        $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_hash ON api_keys(key_hash)");
-        $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_usage_key ON api_usage(api_key_id)");
+        // Create indexes (use try-catch for older DBs)
+        try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_user ON api_keys(user_id)"); } catch (Exception $e) {}
+        try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_hash ON api_keys(key_hash)"); } catch (Exception $e) {}
+        try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_usage_key ON api_usage(api_key_id)"); } catch (Exception $e) {}
+        try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)"); } catch (Exception $e) {}
+        try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id)"); } catch (Exception $e) {}
+        try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_verification_token ON users(verification_token)"); } catch (Exception $e) {}
     }
 }
