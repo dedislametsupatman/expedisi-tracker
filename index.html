@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LacakOngkir — Expedisi Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap"
+    rel="stylesheet" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --forest: #084823;
@@ -23,8 +32,8 @@
       --text-dark: #1a1a1a;
       --text-muted: #6b7280;
       --border: #e5e7eb;
-      --shadow: 0 4px 20px rgba(8,72,35,0.12);
-      --shadow-lg: 0 8px 40px rgba(8,72,35,0.18);
+      --shadow: 0 4px 20px rgba(8, 72, 35, 0.12);
+      --shadow-lg: 0 8px 40px rgba(8, 72, 35, 0.18);
       --danger: #dc2626;
       --success: #16a34a;
     }
@@ -37,7 +46,11 @@
       line-height: 1.6;
     }
 
-    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    h1,
+    h2,
+    h3 {
+      font-family: 'Playfair Display', serif;
+    }
 
     .btn-primary {
       background-color: var(--orange);
@@ -49,11 +62,20 @@
       font-size: 0.95rem;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: 0 4px 16px rgba(196,98,45,0.35);
+      box-shadow: 0 4px 16px rgba(196, 98, 45, 0.35);
       font-family: inherit;
     }
-    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
 
     .btn-secondary {
       background-color: var(--green-mid);
@@ -65,11 +87,19 @@
       font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: 0 4px 14px rgba(10,92,46,0.3);
+      box-shadow: 0 4px 14px rgba(10, 92, 46, 0.3);
       font-family: inherit;
     }
-    .btn-secondary:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-secondary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
     .btn-ghost {
       background: transparent;
@@ -83,7 +113,11 @@
       transition: all 0.2s;
       font-family: inherit;
     }
-    .btn-ghost:hover { background: var(--forest); color: white; }
+
+    .btn-ghost:hover {
+      background: var(--forest);
+      color: white;
+    }
 
     .btn-danger {
       background-color: var(--danger);
@@ -97,9 +131,13 @@
       transition: all 0.2s;
       font-family: inherit;
     }
-    .btn-danger:hover { opacity: 0.9; }
 
-    input, select {
+    .btn-danger:hover {
+      opacity: 0.9;
+    }
+
+    input,
+    select {
       border: 2px solid var(--border);
       border-radius: 12px;
       padding: 12px 16px;
@@ -112,8 +150,15 @@
       outline: none;
       box-sizing: border-box;
     }
-    input:focus, select:focus { border-color: var(--green-mid); }
-    input::placeholder { color: #9ca3af; }
+
+    input:focus,
+    select:focus {
+      border-color: var(--green-mid);
+    }
+
+    input::placeholder {
+      color: #9ca3af;
+    }
 
     .card {
       background: white;
@@ -144,8 +189,9 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
     }
+
     .navbar-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1.4rem;
@@ -156,14 +202,19 @@
       align-items: center;
       gap: 10px;
     }
-    .navbar-logo span { color: var(--amber); }
+
+    .navbar-logo span {
+      color: var(--amber);
+    }
+
     .navbar-links {
       display: flex;
       gap: 8px;
       align-items: center;
     }
+
     .navbar-links a {
-      color: rgba(255,255,255,0.8);
+      color: rgba(255, 255, 255, 0.8);
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 500;
@@ -171,15 +222,23 @@
       border-radius: 8px;
       transition: all 0.2s;
     }
-    .navbar-links a:hover, .navbar-links a.active { color: white; background: rgba(255,255,255,0.1); }
+
+    .navbar-links a:hover,
+    .navbar-links a.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
 
     /* User menu */
-    .user-menu { position: relative; }
+    .user-menu {
+      position: relative;
+    }
+
     .user-btn {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       border: none;
       border-radius: 10px;
       padding: 8px 14px;
@@ -190,7 +249,11 @@
       font-family: inherit;
       transition: all 0.2s;
     }
-    .user-btn:hover { background: rgba(255,255,255,0.2); }
+
+    .user-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     .user-dropdown {
       position: absolute;
       top: calc(100% + 8px);
@@ -202,12 +265,24 @@
       overflow: hidden;
       z-index: 999;
     }
+
     .user-dropdown-header {
       padding: 14px 16px;
       border-bottom: 1px solid var(--border);
     }
-    .user-dropdown-name { font-weight: 700; color: var(--text-dark); font-size: 0.95rem; }
-    .user-dropdown-email { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+    .user-dropdown-name {
+      font-weight: 700;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+    }
+
+    .user-dropdown-email {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
     .user-dropdown-item {
       padding: 12px 16px;
       display: flex;
@@ -223,8 +298,14 @@
       text-align: left;
       font-family: inherit;
     }
-    .user-dropdown-item:hover { background: var(--light-tint); }
-    .user-dropdown-item.danger { color: var(--danger); }
+
+    .user-dropdown-item:hover {
+      background: var(--light-tint);
+    }
+
+    .user-dropdown-item.danger {
+      color: var(--danger);
+    }
 
     /* Hero */
     .hero {
@@ -234,19 +315,27 @@
       position: relative;
       overflow: hidden;
     }
+
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-    .hero-content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(212,168,67,0.18);
-      border: 1px solid rgba(212,168,67,0.4);
+      background: rgba(212, 168, 67, 0.18);
+      border: 1px solid rgba(212, 168, 67, 0.4);
       color: var(--amber);
       font-size: 0.78rem;
       font-weight: 700;
@@ -256,8 +345,21 @@
       border-radius: 100px;
       margin-bottom: 20px;
     }
-    .hero h1 { color: white; font-size: 2.8rem; line-height: 1.15; margin-bottom: 16px; }
-    .hero p { color: rgba(255,255,255,0.8); font-size: 1.1rem; max-width: 480px; margin: 0 auto 32px; }
+
+    .hero h1 {
+      color: white;
+      font-size: 2.8rem;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
     .hero-wave {
       position: absolute;
       bottom: 0;
@@ -267,15 +369,55 @@
       line-height: 0;
       overflow: hidden;
     }
-    .hero-wave svg { display: block; width: 100%; height: 100%; }
 
-    .section { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
-    .section-title { text-align: center; margin-bottom: 40px; }
-    .section-title h2 { font-size: 2rem; color: var(--forest); margin-bottom: 10px; }
-    .section-title p { color: var(--text-muted); font-size: 1rem; }
-    .divider { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 20px 0; }
-    .divider-line { width: 60px; height: 1px; background: var(--amber); }
-    .divider-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
+    .hero-wave svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--forest);
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 0;
+    }
+
+    .divider-line {
+      width: 60px;
+      height: 1px;
+      background: var(--amber);
+    }
+
+    .divider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
 
     /* Expedition grid */
     .expedition-grid {
@@ -284,6 +426,7 @@
       gap: 14px;
       margin-bottom: 32px;
     }
+
     .expedition-card {
       background: white;
       border: 2px solid var(--border);
@@ -294,17 +437,68 @@
       transition: all 0.2s;
       user-select: none;
     }
-    .expedition-card:hover { border-color: var(--green-mid); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,92,46,0.12); }
-    .expedition-card.selected { border-color: var(--green-mid); background: var(--light-tint); box-shadow: 0 0 0 3px rgba(10,92,46,0.15); }
-    .expedition-card img { width: 52px; height: 52px; object-fit: contain; margin-bottom: 10px; }
-    .expedition-card .name { font-weight: 700; font-size: 0.88rem; color: var(--forest); }
-    .expedition-card .type { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+
+    .expedition-card:hover {
+      border-color: var(--green-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(10, 92, 46, 0.12);
+    }
+
+    .expedition-card.selected {
+      border-color: var(--green-mid);
+      background: var(--light-tint);
+      box-shadow: 0 0 0 3px rgba(10, 92, 46, 0.15);
+    }
+
+    .expedition-card img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .expedition-card .name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--forest);
+    }
+
+    .expedition-card .type {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
 
     /* Tracking result */
-    .tracking-result { background: white; border-radius: 20px; padding: 28px; box-shadow: var(--shadow); margin-top: 24px; }
-    .tracking-header { display: flex; align-items: flex-start; gap: 16px; padding-bottom: 20px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
-    .tracking-awb { font-size: 1.1rem; font-weight: 800; color: var(--forest); }
-    .tracking-courier { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    .tracking-result {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-top: 24px;
+    }
+
+    .tracking-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .tracking-awb {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--forest);
+    }
+
+    .tracking-courier {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
     .tracking-status-badge {
       margin-left: auto;
       padding: 6px 14px;
@@ -315,7 +509,12 @@
       letter-spacing: 0.5px;
       white-space: nowrap;
     }
-    .timeline { position: relative; padding-left: 28px; }
+
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+
     .timeline::before {
       content: '';
       position: absolute;
@@ -325,8 +524,16 @@
       width: 2px;
       background: var(--border);
     }
-    .timeline-item { position: relative; padding-bottom: 24px; }
-    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 24px;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
     .timeline-dot {
       position: absolute;
       left: -25px;
@@ -339,10 +546,29 @@
       background: white;
       z-index: 1;
     }
-    .timeline-item:first-child .timeline-dot { box-shadow: 0 0 0 3px var(--green-mid); background: var(--green-mid); }
-    .timeline-date { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
-    .timeline-title { font-weight: 700; font-size: 0.95rem; color: var(--text-dark); margin: 2px 0; }
-    .timeline-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+    .timeline-item:first-child .timeline-dot {
+      box-shadow: 0 0 0 3px var(--green-mid);
+      background: var(--green-mid);
+    }
+
+    .timeline-date {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .timeline-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      margin: 2px 0;
+    }
+
+    .timeline-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
 
     /* Cost card */
     .cost-card {
@@ -353,12 +579,45 @@
       position: relative;
       overflow: hidden;
     }
-    .cost-card .courier-name { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
-    .cost-card .price { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--amber); }
-    .cost-card .eta { font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-top: 4px; }
-    .cost-breakdown { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .cost-breakdown .label { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
-    .cost-breakdown .value { font-size: 0.85rem; font-weight: 600; }
+
+    .cost-card .courier-name {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 4px;
+    }
+
+    .cost-card .price {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--amber);
+    }
+
+    .cost-card .eta {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 4px;
+    }
+
+    .cost-breakdown {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .cost-breakdown .label {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .cost-breakdown .value {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
     .best-badge {
       position: absolute;
       top: 12px;
@@ -373,20 +632,30 @@
     }
 
     /* Footer */
-    .footer { background: var(--forest); color: rgba(255,255,255,0.7); text-align: center; padding: 32px 24px; font-size: 0.88rem; }
-    .footer strong { color: var(--amber); }
+    .footer {
+      background: var(--forest);
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.88rem;
+    }
+
+    .footer strong {
+      color: var(--amber);
+    }
 
     /* Auth Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1000;
       backdrop-filter: blur(4px);
     }
+
     .modal {
       background: white;
       border-radius: 20px;
@@ -396,6 +665,7 @@
       box-shadow: var(--shadow-lg);
       position: relative;
     }
+
     .modal-close {
       position: absolute;
       top: 16px;
@@ -412,15 +682,69 @@
       align-items: center;
       justify-content: center;
     }
-    .modal-close:hover { background: var(--cream); color: var(--text-dark); }
-    .modal-title { font-size: 1.6rem; color: var(--forest); margin-bottom: 8px; }
-    .modal-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px; }
-    .form-group { margin-bottom: 18px; }
-    .form-label { display: block; font-weight: 600; font-size: 0.88rem; color: var(--forest); margin-bottom: 6px; }
-    .form-error { background: #fef2f2; border: 1px solid #fca5a5; color: var(--danger); padding: 10px 14px; border-radius: 10px; font-size: 0.88rem; margin-bottom: 16px; }
-    .form-success { background: #f0fdf4; border: 1px solid #86efac; color: var(--success); padding: 10px 14px; border-radius: 10px; font-size: 0.88rem; margin-bottom: 16px; }
-    .auth-switch { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
-    .auth-switch a { color: var(--forest); font-weight: 600; cursor: pointer; text-decoration: underline; }
+
+    .modal-close:hover {
+      background: var(--cream);
+      color: var(--text-dark);
+    }
+
+    .modal-title {
+      font-size: 1.6rem;
+      color: var(--forest);
+      margin-bottom: 8px;
+    }
+
+    .modal-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--forest);
+      margin-bottom: 6px;
+    }
+
+    .form-error {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: var(--danger);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+
+    .form-success {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: var(--success);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .auth-switch a {
+      color: var(--forest);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+    }
 
     .google-btn {
       display: flex;
@@ -440,9 +764,21 @@
       font-family: inherit;
       margin-bottom: 20px;
     }
-    .google-btn:hover { background: #f8f9fa; border-color: #c2c7cc; }
-    .google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    .google-btn svg { width: 20px; height: 20px; }
+
+    .google-btn:hover {
+      background: #f8f9fa;
+      border-color: #c2c7cc;
+    }
+
+    .google-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .google-btn svg {
+      width: 20px;
+      height: 20px;
+    }
 
     .divider-or {
       display: flex;
@@ -452,14 +788,20 @@
       color: var(--text-muted);
       font-size: 0.85rem;
     }
-    .divider-or::before, .divider-or::after {
+
+    .divider-or::before,
+    .divider-or::after {
       content: '';
       flex: 1;
       height: 1px;
       background: var(--border);
     }
 
-    .verify-screen { text-align: center; padding: 12px 0; }
+    .verify-screen {
+      text-align: center;
+      padding: 12px 0;
+    }
+
     .verify-icon {
       width: 72px;
       height: 72px;
@@ -471,6 +813,7 @@
       margin: 0 auto 20px;
       font-size: 2.2rem;
     }
+
     .verify-email {
       font-family: monospace;
       background: var(--cream);
@@ -483,7 +826,12 @@
       margin: 8px 0 20px;
       word-break: break-all;
     }
-    .verify-actions { display: flex; flex-direction: column; gap: 10px; }
+
+    .verify-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
     .unverified-link {
       display: inline-block;
@@ -503,7 +851,16 @@
       padding: 20px;
       margin-bottom: 20px;
     }
-    .api-key-label { font-size: 0.78rem; font-weight: 700; color: var(--amber); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+
+    .api-key-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
     .api-key-value {
       font-family: 'Courier New', monospace;
       font-size: 1rem;
@@ -515,9 +872,20 @@
       border-radius: 10px;
       border: 1px solid var(--border);
     }
-    .api-key-actions { display: flex; gap: 8px; margin-top: 12px; }
 
-    .key-list { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+    .api-key-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .key-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
     .key-item {
       display: flex;
       align-items: center;
@@ -527,31 +895,139 @@
       border-radius: 14px;
       padding: 16px 18px;
     }
-    .key-item-info { flex: 1; }
-    .key-item-name { font-weight: 700; color: var(--forest); font-size: 0.95rem; }
-    .key-item-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
-    .key-item-prefix { font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-muted); }
+
+    .key-item-info {
+      flex: 1;
+    }
+
+    .key-item-name {
+      font-weight: 700;
+      color: var(--forest);
+      font-size: 0.95rem;
+    }
+
+    .key-item-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .key-item-prefix {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
 
     /* Admin */
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
-    .stat-card { background: white; border-radius: 16px; padding: 24px; box-shadow: var(--shadow); text-align: center; }
-    .stat-value { font-size: 2.2rem; font-weight: 800; color: var(--forest); }
-    .stat-label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
 
-    .admin-table-wrap { overflow-x: auto; }
-    .admin-table { width: 100%; border-collapse: collapse; }
-    .admin-table th { text-align: left; padding: 12px 16px; background: var(--cream); border-bottom: 2px solid var(--border); font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .admin-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
-    .admin-table tr:hover td { background: var(--light-tint); }
-    .role-badge { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-    .role-badge.admin { background: #fef3c7; color: #92400e; }
-    .role-badge.member { background: var(--light-tint); color: var(--green-mid); }
-    .verified-badge { display: inline-flex; align-items: center; gap: 4px; color: var(--success); font-size: 0.82rem; font-weight: 600; }
-    .verified-badge.unverified { color: var(--danger); }
-    .pagination { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 24px; }
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--forest);
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .admin-table-wrap {
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .admin-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--cream);
+      border-bottom: 2px solid var(--border);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .admin-table tr:hover td {
+      background: var(--light-tint);
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .role-badge.admin {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .role-badge.member {
+      background: var(--light-tint);
+      color: var(--green-mid);
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--success);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .verified-badge.unverified {
+      color: var(--danger);
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
 
     /* Docs */
-    .docs-nav { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+    .docs-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
     .docs-nav-btn {
       padding: 8px 16px;
       border-radius: 10px;
@@ -564,8 +1040,17 @@
       transition: all 0.2s;
       font-family: inherit;
     }
-    .docs-nav-btn:hover { border-color: var(--green-mid); color: var(--green-mid); }
-    .docs-nav-btn.active { background: var(--forest); border-color: var(--forest); color: white; }
+
+    .docs-nav-btn:hover {
+      border-color: var(--green-mid);
+      color: var(--green-mid);
+    }
+
+    .docs-nav-btn.active {
+      background: var(--forest);
+      border-color: var(--forest);
+      color: white;
+    }
 
     .docs-code {
       background: #1e293b;
@@ -578,13 +1063,38 @@
       margin: 12px 0;
       line-height: 1.6;
     }
-    .docs-code .comment { color: #64748b; }
-    .docs-code .string { color: #86efac; }
-    .docs-code .keyword { color: #f472b6; }
-    .docs-code .method { color: #60a5fa; }
 
-    .endpoint-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
-    .endpoint-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .docs-code .comment {
+      color: #64748b;
+    }
+
+    .docs-code .string {
+      color: #86efac;
+    }
+
+    .docs-code .keyword {
+      color: #f472b6;
+    }
+
+    .docs-code .method {
+      color: #60a5fa;
+    }
+
+    .endpoint-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
     .method-badge {
       padding: 4px 10px;
       border-radius: 6px;
@@ -593,16 +1103,63 @@
       letter-spacing: 0.5px;
       font-family: monospace;
     }
-    .method-badge.get { background: #dbeafe; color: #1e40af; }
-    .method-badge.post { background: #d1fae5; color: #065f46; }
-    .method-badge.delete { background: #fee2e2; color: #991b1b; }
-    .endpoint-path { font-family: monospace; font-size: 0.95rem; font-weight: 600; color: var(--text-dark); }
-    .endpoint-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
 
-    .param-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-    .param-table th { text-align: left; padding: 8px 12px; background: var(--cream); border-bottom: 2px solid var(--border); font-size: 0.8rem; color: var(--text-muted); }
-    .param-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
-    .param-table code { background: var(--light-tint); padding: 2px 6px; border-radius: 4px; font-size: 0.82rem; color: var(--forest); }
+    .method-badge.get {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .method-badge.post {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .method-badge.delete {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .endpoint-path {
+      font-family: monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .endpoint-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    .param-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--cream);
+      border-bottom: 2px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .param-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .param-table code {
+      background: var(--light-tint);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: var(--forest);
+    }
 
     /* Toast */
     .toast {
@@ -618,13 +1175,35 @@
       box-shadow: var(--shadow-lg);
       animation: toastIn 0.3s ease;
     }
-    .toast.success { background: #d1fae5; color: #065f46; border: 1.5px solid #6ee7b7; }
-    .toast.error { background: #fee2e2; color: #991b1b; border: 1.5px solid #fca5a5; }
-    .toast.info { background: #dbeafe; color: #1e40af; border: 1.5px solid #93c5fd; }
+
+    .toast.success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1.5px solid #6ee7b7;
+    }
+
+    .toast.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1.5px solid #fca5a5;
+    }
+
+    .toast.info {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1.5px solid #93c5fd;
+    }
 
     @keyframes toastIn {
-      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     /* ── Dashboard Page ───────────────────────────── */
@@ -641,6 +1220,7 @@
       margin-bottom: 28px;
       gap: 16px;
     }
+
     .dash-title {
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
@@ -648,7 +1228,12 @@
       color: var(--forest);
       margin-bottom: 4px;
     }
-    .dash-subtitle { font-size: 0.9rem; color: var(--text-muted); }
+
+    .dash-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
     .dash-plan-badge {
       display: inline-flex;
       flex-direction: column;
@@ -670,6 +1255,7 @@
       padding-bottom: 0;
       overflow-x: auto;
     }
+
     .dash-tab-btn {
       display: flex;
       align-items: center;
@@ -687,11 +1273,34 @@
       font-family: inherit;
       white-space: nowrap;
     }
-    .dash-tab-btn:hover { color: var(--forest); background: var(--light-tint); }
-    .dash-tab-btn.active { color: var(--forest); border-bottom-color: var(--forest); background: var(--light-tint); font-weight: 700; }
 
-    .dash-content { animation: fadeIn 0.2s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .dash-tab-btn:hover {
+      color: var(--forest);
+      background: var(--light-tint);
+    }
+
+    .dash-tab-btn.active {
+      color: var(--forest);
+      border-bottom-color: var(--forest);
+      background: var(--light-tint);
+      font-weight: 700;
+    }
+
+    .dash-content {
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
     .dash-section-title {
       font-family: 'Playfair Display', serif;
@@ -707,6 +1316,7 @@
       gap: 14px;
       margin-bottom: 20px;
     }
+
     .dash-stat-card {
       background: white;
       border-radius: 16px;
@@ -716,10 +1326,37 @@
       align-items: center;
       gap: 14px;
     }
-    .dash-stat-icon { font-size: 1.6rem; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .dash-stat-info { flex: 1; min-width: 0; }
-    .dash-stat-value { font-size: 1.5rem; font-weight: 800; line-height: 1.2; }
-    .dash-stat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+
+    .dash-stat-icon {
+      font-size: 1.6rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dash-stat-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dash-stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .dash-stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-top: 2px;
+    }
 
     .dash-card {
       background: white;
@@ -749,10 +1386,29 @@
       margin-bottom: 10px;
       flex-wrap: wrap;
     }
-    .dash-key-info { flex: 1; min-width: 160px; }
-    .dash-key-name { font-weight: 700; color: var(--forest); font-size: 0.95rem; }
-    .dash-key-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
-    .dash-key-prefix { font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--text-muted); }
+
+    .dash-key-info {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .dash-key-name {
+      font-weight: 700;
+      color: var(--forest);
+      font-size: 0.95rem;
+    }
+
+    .dash-key-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .dash-key-prefix {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
 
     .dash-plan-card {
       background: linear-gradient(135deg, var(--forest) 0%, var(--green-mid) 100%);
@@ -761,7 +1417,12 @@
       margin-bottom: 20px;
       color: white;
     }
-    .dash-plan-card .btn-primary { background: white; color: var(--forest); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+
+    .dash-plan-card .btn-primary {
+      background: white;
+      color: var(--forest);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
 
     .dash-packages-grid {
       display: grid;
@@ -769,6 +1430,7 @@
       gap: 16px;
       margin-bottom: 8px;
     }
+
     .dash-package-card {
       background: white;
       border: 2px solid var(--border);
@@ -781,8 +1443,18 @@
       align-items: center;
       transition: all 0.2s;
     }
-    .dash-package-card:hover { border-color: var(--green-mid); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(10,92,46,0.14); }
-    .dash-package-card.popular { border-color: var(--orange); background: linear-gradient(180deg, #fff9f5 0%, white 100%); }
+
+    .dash-package-card:hover {
+      border-color: var(--green-mid);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(10, 92, 46, 0.14);
+    }
+
+    .dash-package-card.popular {
+      border-color: var(--orange);
+      background: linear-gradient(180deg, #fff9f5 0%, white 100%);
+    }
+
     .dash-package-popular-badge {
       position: absolute;
       top: -12px;
@@ -797,31 +1469,84 @@
       white-space: nowrap;
       letter-spacing: 0.5px;
     }
-    .dash-package-name { font-size: 1.1rem; font-weight: 800; color: var(--forest); margin-bottom: 8px; }
-    .dash-package-credits { font-size: 1.8rem; font-weight: 800; color: var(--text-dark); line-height: 1.1; }
-    .dash-package-price { font-size: 1rem; font-weight: 700; color: var(--orange); margin: 8px 0 4px; }
+
+    .dash-package-name {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--forest);
+      margin-bottom: 8px;
+    }
+
+    .dash-package-credits {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.1;
+    }
+
+    .dash-package-price {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--orange);
+      margin: 8px 0 4px;
+    }
 
     @media (max-width: 900px) {
-      .dash-stat-grid { grid-template-columns: repeat(2, 1fr); }
-      .dash-packages-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dash-packages-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
+
     @media (max-width: 600px) {
-      .dash-stat-grid { grid-template-columns: 1fr 1fr; }
-      .dash-packages-grid { grid-template-columns: 1fr 1fr; }
-      .dash-header { flex-direction: column; }
+      .dash-stat-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dash-packages-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dash-header {
+        flex-direction: column;
+      }
     }
 
     @media (max-width: 640px) {
-      .hero h1 { font-size: 2rem; }
-      .navbar { padding: 0 16px; }
-      .navbar-links { display: none; }
-      .section { padding: 32px 16px; }
-      .cost-breakdown { grid-template-columns: 1fr; }
-      .expedition-grid { grid-template-columns: repeat(3, 1fr); }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .navbar {
+        padding: 0 16px;
+      }
+
+      .navbar-links {
+        display: none;
+      }
+
+      .section {
+        padding: 32px 16px;
+      }
+
+      .cost-breakdown {
+        grid-template-columns: 1fr;
+      }
+
+      .expedition-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
   <div id="root"></div>
   <script type="text/babel">
@@ -882,9 +1607,9 @@
 
     // ─── Toast ──────────────────────────────────────────────────────────────────
     function Toast(props) {
-      React.useEffect(function() {
+      React.useEffect(function () {
         var t = setTimeout(props.onClose, 4000);
-        return function() { clearTimeout(t); };
+        return function () { clearTimeout(t); };
       }, [props.onClose]);
       return React.createElement('div', { className: 'toast ' + (props.type || '') },
         (props.type === 'success' ? '\u2713' : props.type === 'error' ? '\u2717' : '\u2139') + ' ' + props.message
@@ -899,8 +1624,8 @@
         method: 'POST',
         headers: headers,
         body: JSON.stringify(body)
-      }).then(function(res) {
-        return res.json().then(function(data) {
+      }).then(function (res) {
+        return res.json().then(function (data) {
           if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
           if (!data.success && !data.error) throw new Error(data.message || 'Request failed');
           return data;
@@ -911,8 +1636,8 @@
     function apiGet(path, token) {
       var headers = {};
       if (token) headers['Authorization'] = 'Bearer ' + token;
-      return fetch(API_BASE + path, { headers: headers }).then(function(res) {
-        return res.json().then(function(data) {
+      return fetch(API_BASE + path, { headers: headers }).then(function (res) {
+        return res.json().then(function (data) {
           if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
           return data;
         });
@@ -926,7 +1651,7 @@
         method: 'DELETE',
         headers: headers,
         body: JSON.stringify(body)
-      }).then(function(res) { return res.json(); });
+      }).then(function (res) { return res.json(); });
     }
 
     // ─── Google SVG ──────────────────────────────────────────────────────────────
@@ -942,23 +1667,23 @@
     // ─── Search Select ──────────────────────────────────────────────────────────
     function SearchSelect(props) {
       var ref = React.useRef(null);
-      var selected = props.options.find(function(o) { return o.id === props.value; });
-      var filtered = props.query === '' ? props.options : props.options.filter(function(o) {
+      var selected = props.options.find(function (o) { return o.id === props.value; });
+      var filtered = props.query === '' ? props.options : props.options.filter(function (o) {
         return o.name.toLowerCase().includes(props.query.toLowerCase()) ||
           o.province.toLowerCase().includes(props.query.toLowerCase());
       });
 
-      React.useEffect(function() {
+      React.useEffect(function () {
         function handleClick(e) {
           if (ref.current && !ref.current.contains(e.target)) props.onClose && props.onClose();
         }
         document.addEventListener('mousedown', handleClick);
-        return function() { document.removeEventListener('mousedown', handleClick); };
+        return function () { document.removeEventListener('mousedown', handleClick); };
       }, []);
 
       return React.createElement('div', { ref: ref, style: { position: 'relative' } },
         React.createElement('div', {
-          onClick: function() { props.onOpen && props.onOpen(); },
+          onClick: function () { props.onOpen && props.onOpen(); },
           style: { width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 44, boxSizing: 'border-box' }
         }, selected ? selected.name + ' (' + selected.province + ')' : props.placeholder)
       );
@@ -998,15 +1723,15 @@
         setError('');
         google.accounts.id.initialize({
           client_id: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
-          callback: function(response) {
+          callback: function (response) {
             setGoogleLoading(false);
-            apiPost('/auth.php?action=google-callback', { google_token: response.credential }).then(function(data) {
+            apiPost('/auth.php?action=google-callback', { google_token: response.credential }).then(function (data) {
               if (data.success && data.token) {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 props.onSuccess(data.user, data.token, null);
               }
-            }).catch(function() {
+            }).catch(function () {
               setError('Login Google gagal. Coba cara lain.');
             });
           }
@@ -1024,8 +1749,8 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
-        }).then(function(res) {
-          return res.json().then(function(data) {
+        }).then(function (res) {
+          return res.json().then(function (data) {
             if (!res.ok) {
               if (res.status === 403 && (data.error || '').toLowerCase().includes('belum diverifikasi')) {
                 setError('\u274c Email belum diverifikasi. ');
@@ -1055,24 +1780,24 @@
             }
             setLoading(false);
           });
-        }).catch(function() {
+        }).catch(function () {
           setError('Koneksi gagal. Coba lagi.');
           setLoading(false);
         });
       }
 
       function handleResend() {
-        apiPost('/api/resend_verification.php', { email: pendingEmail }).then(function(data) {
+        apiPost('/api/resend_verification.php', { email: pendingEmail }).then(function (data) {
           if (data.success) { setResendDone(true); setError(''); }
           else { setError(data.error || 'Gagal.'); }
           setResendLoading(false);
-        }).catch(function() { setError('Gagal.'); setResendLoading(false); });
+        }).catch(function () { setError('Gagal.'); setResendLoading(false); });
       }
 
       // Verification screen
       if (showVerification) {
         return React.createElement('div', { className: 'modal-overlay', onClick: props.onClose },
-          React.createElement('div', { className: 'modal', onClick: function(e) { e.stopPropagation(); } },
+          React.createElement('div', { className: 'modal', onClick: function (e) { e.stopPropagation(); } },
             React.createElement('button', { className: 'modal-close', onClick: props.onClose }, '\u00d7'),
             React.createElement('div', { className: 'verify-screen' },
               React.createElement('div', { className: 'verify-icon' }, '\u2709'),
@@ -1083,9 +1808,9 @@
               error && React.createElement('div', { className: 'form-error', style: { marginBottom: 16 } }, error),
               React.createElement('div', { className: 'verify-actions' },
                 React.createElement('button', { className: 'btn-primary', onClick: handleResend, disabled: resendLoading }, resendLoading ? 'Mengirim...' : '\u2709 Kirim Ulang Email'),
-                React.createElement('button', { className: 'btn-ghost', onClick: function() { window.open('mailto:' + pendingEmail, '_blank'); } }, '\uD83D\uDCEc Buka Email'),
+                React.createElement('button', { className: 'btn-ghost', onClick: function () { window.open('mailto:' + pendingEmail, '_blank'); } }, '\uD83D\uDCEc Buka Email'),
                 React.createElement('div', { className: 'auth-switch' },
-                  React.createElement('a', { onClick: function() { setShowVerification(false); props.onSwitch(); } }, 'Kembali')
+                  React.createElement('a', { onClick: function () { setShowVerification(false); props.onSwitch(); } }, 'Kembali')
                 )
               )
             )
@@ -1094,7 +1819,7 @@
       }
 
       return React.createElement('div', { className: 'modal-overlay', onClick: props.onClose },
-        React.createElement('div', { className: 'modal', onClick: function(e) { e.stopPropagation(); } },
+        React.createElement('div', { className: 'modal', onClick: function (e) { e.stopPropagation(); } },
           React.createElement('button', { className: 'modal-close', onClick: props.onClose }, '\u00d7'),
           React.createElement('h2', { className: 'modal-title' }, props.isRegister ? 'Daftar Akun' : 'Masuk'),
           React.createElement('p', { className: 'modal-subtitle' }, props.isRegister ? 'Buat akun gratis untuk dapat API key' : 'Masuk ke akun Anda'),
@@ -1107,15 +1832,15 @@
           React.createElement('form', { onSubmit: handleSubmit },
             props.isRegister && React.createElement('div', { className: 'form-group' },
               React.createElement('label', { className: 'form-label' }, 'Nama Lengkap'),
-              React.createElement('input', { type: 'text', value: name, onChange: function(e) { setName(e.target.value); }, placeholder: 'Masukkan nama Anda', required: true })
+              React.createElement('input', { type: 'text', value: name, onChange: function (e) { setName(e.target.value); }, placeholder: 'Masukkan nama Anda', required: true })
             ),
             React.createElement('div', { className: 'form-group' },
               React.createElement('label', { className: 'form-label' }, 'Email'),
-              React.createElement('input', { type: 'email', value: email, onChange: function(e) { setEmail(e.target.value); }, placeholder: 'nama@email.com', required: true })
+              React.createElement('input', { type: 'email', value: email, onChange: function (e) { setEmail(e.target.value); }, placeholder: 'nama@email.com', required: true })
             ),
             React.createElement('div', { className: 'form-group' },
               React.createElement('label', { className: 'form-label' }, 'Password'),
-              React.createElement('input', { type: 'password', value: password, onChange: function(e) { setPassword(e.target.value); }, placeholder: props.isRegister ? 'Minimal 8 karakter' : 'Masukkan password', required: true })
+              React.createElement('input', { type: 'password', value: password, onChange: function (e) { setPassword(e.target.value); }, placeholder: props.isRegister ? 'Minimal 8 karakter' : 'Masukkan password', required: true })
             ),
             React.createElement('button', { type: 'submit', className: 'btn-primary', style: { width: '100%' }, disabled: loading },
               loading ? 'Memproses...' : (props.isRegister ? 'Daftar Gratis' : 'Masuk')
@@ -1135,40 +1860,40 @@
       var setShowDropdown = showDropdown[1]; showDropdown = showDropdown[0];
       var authCtx = useAuth();
 
-      React.useEffect(function() {
+      React.useEffect(function () {
         function handleClick(e) {
           if (showDropdown && !e.target.closest('.user-menu')) setShowDropdown(false);
         }
         document.addEventListener('mousedown', handleClick);
-        return function() { document.removeEventListener('mousedown', handleClick); };
+        return function () { document.removeEventListener('mousedown', handleClick); };
       }, [showDropdown]);
 
       return React.createElement('nav', { className: 'navbar' },
-        React.createElement('a', { href: '#', className: 'navbar-logo', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('home'); } },
+        React.createElement('a', { href: '#', className: 'navbar-logo', onClick: function (e) { e.preventDefault(); authCtx.setActivePage('home'); } },
           '\ud83d\ude9b ', React.createElement('span', null, 'Lacak'), 'Ongkir'
         ),
         React.createElement('div', { className: 'navbar-links' },
-          React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('home'); } }, 'Lacak'),
-          React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('home'); } }, 'Ongkir'),
-          React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('docs'); } }, 'API Docs'),
-          props.user && React.createElement('a', { href: '#', onClick: function(e) { e.preventDefault(); authCtx.setActivePage('dashboard'); } }, 'Dashboard')
+          React.createElement('a', { href: '#', onClick: function (e) { e.preventDefault(); authCtx.setActivePage('home'); } }, 'Lacak'),
+          React.createElement('a', { href: '#', onClick: function (e) { e.preventDefault(); authCtx.setActivePage('home'); } }, 'Ongkir'),
+          React.createElement('a', { href: '#', onClick: function (e) { e.preventDefault(); authCtx.setActivePage('docs'); } }, 'API Docs'),
+          props.user && React.createElement('a', { href: '#', onClick: function (e) { e.preventDefault(); authCtx.setActivePage('dashboard'); } }, 'Dashboard')
         ),
         React.createElement('div', { className: 'user-menu' },
           props.user
             ? React.createElement(React.Fragment, null,
-                React.createElement('button', { className: 'user-btn', onClick: function() { setShowDropdown(!showDropdown); } },
-                  '\ud83d\udc64 ', props.user.name, React.createElement('span', { style: { fontSize: '0.7rem' } }, '\u25be')
+              React.createElement('button', { className: 'user-btn', onClick: function () { setShowDropdown(!showDropdown); } },
+                '\ud83d\udc64 ', props.user.name, React.createElement('span', { style: { fontSize: '0.7rem' } }, '\u25be')
+              ),
+              showDropdown && React.createElement('div', { className: 'user-dropdown' },
+                React.createElement('div', { className: 'user-dropdown-header' },
+                  React.createElement('div', { className: 'user-dropdown-name' }, props.user.name),
+                  React.createElement('div', { className: 'user-dropdown-email' }, props.user.email)
                 ),
-                showDropdown && React.createElement('div', { className: 'user-dropdown' },
-                  React.createElement('div', { className: 'user-dropdown-header' },
-                    React.createElement('div', { className: 'user-dropdown-name' }, props.user.name),
-                    React.createElement('div', { className: 'user-dropdown-email' }, props.user.email)
-                  ),
-                  React.createElement('button', { className: 'user-dropdown-item', onClick: function() { authCtx.setActivePage('dashboard'); setShowDropdown(false); } }, '\u2699\ufe0f Dashboard'),
-                  props.user.role === 'admin' && React.createElement('button', { className: 'user-dropdown-item', onClick: function() { authCtx.setActivePage('admin'); setShowDropdown(false); } }, '\ud83d\udde1\ufe0f Admin Panel'),
-                  React.createElement('button', { className: 'user-dropdown-item danger', onClick: function() { authCtx.logout(); setShowDropdown(false); } }, '\ud83d\uded2 Keluar')
-                )
+                React.createElement('button', { className: 'user-dropdown-item', onClick: function () { authCtx.setActivePage('dashboard'); setShowDropdown(false); } }, '\u2699\ufe0f Dashboard'),
+                props.user.role === 'admin' && React.createElement('button', { className: 'user-dropdown-item', onClick: function () { authCtx.setActivePage('admin'); setShowDropdown(false); } }, '\ud83d\udde1\ufe0f Admin Panel'),
+                React.createElement('button', { className: 'user-dropdown-item danger', onClick: function () { authCtx.logout(); setShowDropdown(false); } }, '\ud83d\uded2 Keluar')
               )
+            )
             : React.createElement('button', { className: 'user-btn', onClick: props.onLoginClick }, '\ud83d\udd10 Masuk / Daftar')
         )
       );
@@ -1197,13 +1922,13 @@
     // ─── Expedition Grid ──────────────────────────────────────────────────────────
     function ExpeditionGrid(props) {
       return React.createElement('div', { className: 'expedition-grid' },
-        COURIERS.map(function(c) {
+        COURIERS.map(function (c) {
           return React.createElement('div', {
             key: c.id,
             className: 'expedition-card' + (props.selected === c.id ? ' selected' : ''),
-            onClick: function() { props.onSelect(c.id); }
+            onClick: function () { props.onSelect(c.id); }
           },
-            React.createElement('img', { src: c.logo, alt: c.name, onError: function(e) { e.target.style.display = 'none'; } }),
+            React.createElement('img', { src: c.logo, alt: c.name, onError: function (e) { e.target.style.display = 'none'; } }),
             React.createElement('div', { className: 'name' }, c.name),
             React.createElement('div', { className: 'type' }, (c.tagline || '').substring(0, 20) + '...')
           );
@@ -1235,22 +1960,22 @@
           : '/api/v1/track?awb=' + encodeURIComponent(awb.trim()) + '&courier=' + courier;
 
         fetch(fetchUrl, courier === 'spx' ? {} : { headers: { 'X-API-Key': apiKey } })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
             console.log('Track response:', data);
             if (data.success && data.history && data.history.length > 0) {
-              var events = data.history.map(function(h) {
+              var events = data.history.map(function (h) {
                 return { date: h.date || '', title: h.status || h.title || 'Update', desc: h.location || h.desc || '' };
               });
-              setResult({ awb: awb.trim().toUpperCase(), courier: data.courier_name || COURIERS.find(function(c) { return c.id === courier; }).name, history: events, status: data.status || events[0].title });
+              setResult({ awb: awb.trim().toUpperCase(), courier: data.courier_name || COURIERS.find(function (c) { return c.id === courier; }).name, history: events, status: data.status || events[0].title });
             } else {
-              setResult({ awb: awb.trim().toUpperCase(), courier: COURIERS.find(function(c) { return c.id === courier; }).name, history: [], status: 'TIDAK DITEMUKAN', error: data.error || 'Resi tidak ditemukan' });
+              setResult({ awb: awb.trim().toUpperCase(), courier: COURIERS.find(function (c) { return c.id === courier; }).name, history: [], status: 'TIDAK DITEMUKAN', error: data.error || 'Resi tidak ditemukan' });
             }
             setLoading(false);
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.error('Track error:', err);
-            setResult({ awb: awb.trim().toUpperCase(), courier: COURIERS.find(function(c) { return c.id === courier; }).name, history: [], status: 'ERROR', error: 'Koneksi gagal. Periksa internet Anda.' });
+            setResult({ awb: awb.trim().toUpperCase(), courier: COURIERS.find(function (c) { return c.id === courier; }).name, history: [], status: 'ERROR', error: 'Koneksi gagal. Periksa internet Anda.' });
             setLoading(false);
           });
       }
@@ -1266,7 +1991,7 @@
           React.createElement('div', { style: { marginBottom: 20 } },
             React.createElement('label', { style: { display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 } }, 'Nomor Resi / AWB'),
             React.createElement('div', { style: { display: 'flex', gap: 12 } },
-              React.createElement('input', { type: 'text', placeholder: 'Contoh: JP1234567890', value: awb, onChange: function(e) { setAwb(e.target.value); }, style: { flex: 1, fontWeight: 600 } }),
+              React.createElement('input', { type: 'text', placeholder: 'Contoh: JP1234567890', value: awb, onChange: function (e) { setAwb(e.target.value); }, style: { flex: 1, fontWeight: 600 } }),
               React.createElement('button', { className: 'btn-primary', onClick: handleTrack, disabled: loading || !awb.trim(), style: { whiteSpace: 'nowrap', opacity: (loading || !awb.trim()) ? 0.6 : 1 } },
                 loading ? 'Melacak...' : '\ud83d\udd0d Lacak'
               )
@@ -1275,11 +2000,11 @@
         ),
         result && React.createElement('div', { className: 'tracking-result' },
           result.error ? React.createElement('div', { style: { textAlign: 'center', padding: '24px 0' } },
-              React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '\ud83d\udeab'),
-              React.createElement('div', { style: { fontWeight: 700, fontSize: '1.1rem', color: 'var(--forest)', marginBottom: 8 } }, 'Resi Tidak Ditemukan'),
-              React.createElement('div', { style: { color: 'var(--text-muted)', fontSize: '0.9rem' } }, result.error),
-              React.createElement('div', { style: { color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: 12 } }, 'Pastikan nomor resi dan kurir sudah benar.')
-            ) :
+            React.createElement('div', { style: { fontSize: '3rem', marginBottom: 12 } }, '\ud83d\udeab'),
+            React.createElement('div', { style: { fontWeight: 700, fontSize: '1.1rem', color: 'var(--forest)', marginBottom: 8 } }, 'Resi Tidak Ditemukan'),
+            React.createElement('div', { style: { color: 'var(--text-muted)', fontSize: '0.9rem' } }, result.error),
+            React.createElement('div', { style: { color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: 12 } }, 'Pastikan nomor resi dan kurir sudah benar.')
+          ) :
             React.createElement(React.Fragment, null,
               React.createElement('div', { className: 'tracking-header' },
                 React.createElement('div', null,
@@ -1289,7 +2014,7 @@
                 React.createElement('span', { className: 'tracking-status-badge', style: { background: badge.bg, color: badge.color } }, badge.text)
               ),
               React.createElement('div', { className: 'timeline' },
-                result.history.map(function(item, i) {
+                result.history.map(function (item, i) {
                   return React.createElement('div', { key: i, className: 'timeline-item' },
                     React.createElement('div', { className: 'timeline-dot' }),
                     React.createElement('div', { className: 'timeline-date' }, item.date),
@@ -1324,18 +2049,18 @@
         var q = React.useState('');
         var setOpen = open[1]; open = open[0];
         var setQ = q[1]; q = q[0];
-        var selected = CITIES.find(function(o) { return o.id === props.value; });
-        var filtered = q === '' ? CITIES : CITIES.filter(function(o) {
+        var selected = CITIES.find(function (o) { return o.id === props.value; });
+        var filtered = q === '' ? CITIES : CITIES.filter(function (o) {
           return o.name.toLowerCase().includes(q.toLowerCase()) || o.province.toLowerCase().includes(q.toLowerCase());
         });
-        React.useEffect(function() {
+        React.useEffect(function () {
           function h(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
           document.addEventListener('mousedown', h);
-          return function() { document.removeEventListener('mousedown', h); };
+          return function () { document.removeEventListener('mousedown', h); };
         }, []);
         return React.createElement('div', { ref: ref, style: { position: 'relative' } },
           React.createElement('div', {
-            onClick: function() { setOpen(true); setQ(''); },
+            onClick: function () { setOpen(true); setQ(''); },
             style: { width: '100%', padding: '10px 12px', border: '1.5px solid #d1d5db', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 44, boxSizing: 'border-box' }
           },
             React.createElement('span', { style: selected ? { color: '#111' } : { color: '#9ca3af' } },
@@ -1347,13 +2072,13 @@
           ),
           open && React.createElement('div', { style: { position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999, background: '#fff', border: '1.5px solid #d1d5db', borderRadius: 8, marginTop: 4, maxHeight: 260, overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' } },
             React.createElement('div', { style: { padding: '8px 10px', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#f9fafb' } },
-              React.createElement('input', { autoFocus: true, value: q, onChange: function(e) { setQ(e.target.value); }, placeholder: 'Ketik nama kota...', style: { width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' } })
+              React.createElement('input', { autoFocus: true, value: q, onChange: function (e) { setQ(e.target.value); }, placeholder: 'Ketik nama kota...', style: { width: '100%', padding: '6px 8px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' } })
             ),
             filtered.length === 0 && React.createElement('div', { style: { padding: 16, textAlign: 'center', color: '#9ca3af', fontSize: '0.85rem' } }, 'Kota tidak ditemukan'),
-            filtered.map(function(c) {
+            filtered.map(function (c) {
               return React.createElement('div', {
                 key: c.id,
-                onClick: function() { props.onChange(c.id); setOpen(false); setQ(''); },
+                onClick: function () { props.onChange(c.id); setOpen(false); setQ(''); },
                 style: { padding: '9px 12px', cursor: 'pointer', fontSize: '0.88rem', background: c.id === props.value ? '#f0fdf4' : 'transparent', color: '#111' }
               },
                 React.createElement('span', { style: { fontWeight: 600 } }, c.name),
@@ -1382,11 +2107,11 @@
           weight: weight
         });
         fetch('/proxy.php?path=' + encodeURIComponent('/shipping-cost?' + params.toString()))
-          .then(function(res) { return res.json(); })
-          .then(function(data) {
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
             if (data.is_success && data.data && data.data.couriers) {
-              var mapped = COURIERS.map(function(c) {
-                var apiSvc = data.data.couriers.find(function(r) {
+              var mapped = COURIERS.map(function (c) {
+                var apiSvc = data.data.couriers.find(function (r) {
                   var svc = (r.courier_code || '').toUpperCase();
                   if (c.id === 'jne' && svc.includes('JNE')) return true;
                   if (c.id === 'jnt' && (svc.includes('J&T') || svc === 'JNT')) return true;
@@ -1395,12 +2120,12 @@
                 });
                 if (!apiSvc) return null;
                 return { id: c.id, name: c.name, price: Math.round((apiSvc.price || 0) / 1000) || Math.round(Math.random() * 20000 + 8000), days: apiSvc.estimation || '\u00b13 hari', source: 'api' };
-              }).filter(Boolean).sort(function(a, b) { return a.price - b.price; });
+              }).filter(Boolean).sort(function (a, b) { return a.price - b.price; });
               if (mapped.length === 0) {
-                var mock = COURIERS.slice(0, 4).map(function(c, i) {
+                var mock = COURIERS.slice(0, 4).map(function (c, i) {
                   return { id: c.id, name: c.name, price: 8000 + (i * 2000) + Math.round(Math.random() * 3000), days: '\u00b1' + (2 + i) + ' hari', source: 'estimation' };
                 });
-                setResults(mock.sort(function(a, b) { return a.price - b.price; }));
+                setResults(mock.sort(function (a, b) { return a.price - b.price; }));
               } else {
                 setResults(mapped);
               }
@@ -1409,7 +2134,7 @@
             }
             setLoading(false);
           })
-          .catch(function() {
+          .catch(function () {
             setError('Koneksi ke server gagal.');
             setLoading(false);
           });
@@ -1429,7 +2154,7 @@
           ),
           React.createElement('div', { style: { marginBottom: 16 } },
             React.createElement('label', { style: { display: 'block', fontWeight: 700, fontSize: '0.9rem', color: 'var(--forest)', marginBottom: 8 } }, 'Berat (gram)'),
-            React.createElement('input', { type: 'number', min: 1, max: 30000, value: weight, onChange: function(e) { setWeight(Number(e.target.value)); } })
+            React.createElement('input', { type: 'number', min: 1, max: 30000, value: weight, onChange: function (e) { setWeight(Number(e.target.value)); } })
           ),
           React.createElement('button', { className: 'btn-primary', onClick: handleCalc, disabled: loading || !from || !to, style: { width: '100%', opacity: (loading || !from || !to) ? 0.6 : 1 } },
             loading ? 'Menghitung...' : '\ud83d\udcb0 Hitung Ongkir'
@@ -1438,7 +2163,7 @@
         error && React.createElement('div', { style: { marginTop: 16, padding: '12px 16px', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, color: '#dc2626', fontSize: '0.9rem' } }, '\u26a0\ufe0f ' + error),
         results.length > 0 && React.createElement('div', { style: { marginTop: 24 } },
           React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 } },
-            results.map(function(r, i) {
+            results.map(function (r, i) {
               return React.createElement('div', { key: r.id, className: 'cost-card' },
                 i === 0 && React.createElement('div', { className: 'best-badge' }, 'TERCEPAT'),
                 React.createElement('div', { className: 'courier-name' }, r.name),
@@ -1451,8 +2176,8 @@
                 ),
                 React.createElement('div', { className: 'cost-breakdown' },
                   React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Berat'), React.createElement('div', { className: 'value' }, weight + 'g')),
-                  React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Asal'), React.createElement('div', { className: 'value' }, CITIES.find(function(c) { return c.id === from; }).name)),
-                  React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Tujuan'), React.createElement('div', { className: 'value' }, CITIES.find(function(c) { return c.id === to; }).name))
+                  React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Asal'), React.createElement('div', { className: 'value' }, CITIES.find(function (c) { return c.id === from; }).name)),
+                  React.createElement('div', null, React.createElement('div', { className: 'label' }, 'Tujuan'), React.createElement('div', { className: 'value' }, CITIES.find(function (c) { return c.id === to; }).name))
                 )
               );
             })
@@ -1481,7 +2206,7 @@
                 React.createElement('th', null, 'Name'), React.createElement('th', null, 'Type'), React.createElement('th', null, 'Description')
               )),
               React.createElement('tbody', null,
-                props.params.map(function(p) {
+                props.params.map(function (p) {
                   return React.createElement('tr', { key: p.name },
                     React.createElement('td', null, React.createElement('code', null, p.name)),
                     React.createElement('td', null, p.type),
@@ -1504,7 +2229,7 @@
         !authCtx.user && React.createElement('div', { className: 'card', style: { marginBottom: 24, background: 'var(--light-tint)', border: '2px solid var(--amber)' } },
           React.createElement('div', { style: { fontWeight: 700, color: 'var(--forest)', marginBottom: 8 } }, '\ud83d\udd10 Butuh API Key'),
           React.createElement('p', { style: { color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 12 } }, 'Daftar gratis untuk mendapatkan API key yang bisa Anda gunakan untuk integrasi.'),
-          React.createElement('button', { className: 'btn-primary', onClick: function() { authCtx.showAuth('register'); } }, 'Daftar Gratis')
+          React.createElement('button', { className: 'btn-primary', onClick: function () { authCtx.showAuth('register'); } }, 'Daftar Gratis')
         ),
         authCtx.user && React.createElement('div', { className: 'api-key-box' },
           React.createElement('div', { className: 'api-key-label' }, 'API Key Anda'),
@@ -1514,12 +2239,12 @@
           )
         ),
         React.createElement('div', { className: 'docs-nav' },
-          ['overview', 'cost', 'track', 'couriers', 'cities'].map(function(tab) {
+          ['overview', 'cost', 'track', 'couriers', 'cities'].map(function (tab) {
             var labels = { overview: 'Overview', cost: 'Cek Ongkir', track: 'Lacak Paket', couriers: 'Daftar Kurir', cities: 'Daftar Kota' };
             return React.createElement('button', {
               key: tab,
               className: 'docs-nav-btn' + (activeTab === tab ? ' active' : ''),
-              onClick: function() { setActiveTab(tab); }
+              onClick: function () { setActiveTab(tab); }
             }, labels[tab]);
           })
         ),
@@ -1583,7 +2308,7 @@
           React.createElement('div', { className: 'card', style: { marginTop: 16 } },
             React.createElement('h4', { style: { color: 'var(--forest)', marginBottom: 10 } }, 'Kode Kota yang Tersedia'),
             React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 8 } },
-              CITIES.map(function(c) {
+              CITIES.map(function (c) {
                 return React.createElement('div', { key: c.id, style: { background: 'var(--cream)', padding: '6px 10px', borderRadius: 8, fontSize: '0.82rem' } },
                   React.createElement('code', { style: { color: 'var(--forest)', fontWeight: 600 } }, c.id),
                   React.createElement('span', { style: { color: 'var(--text-muted)' } }, ' \u2014 ' + c.name)
@@ -1599,25 +2324,25 @@
     function DashboardPage() {
       var user = useAuth().user;
       var token = localStorage.getItem('token');
-      var dashTab = React.useState('usage');
-      var dashTab = dashTab[0]; var setDashTab = dashTab[1];
+      var dashTabState = React.useState('usage');
+      var dashTab = dashTabState[0]; var setDashTab = dashTabState[1];
 
-      var keys = React.useState([]);
-      var newKeyName = React.useState('');
-      var loading = React.useState(false);
-      var toast = React.useState(null);
-      var setKeys = keys[1]; keys = keys[0];
-      var setNewKeyName = newKeyName[1]; newKeyName = newKeyName[0];
-      var setLoading = loading[1]; loading = loading[0];
-      var setToast = toast[1]; toast = toast[0];
+      var keysState = React.useState([]);
+      var newKeyNameState = React.useState('');
+      var loadingState = React.useState(false);
+      var toastState = React.useState(null);
+      var setKeys = keysState[1]; var keys = keysState[0];
+      var setNewKeyName = newKeyNameState[1]; var newKeyName = newKeyNameState[0];
+      var setLoading = loadingState[1]; var loading = loadingState[0];
+      var setToast = toastState[1]; var toast = toastState[0];
 
       // Usage state
-      var usageData = React.useState({ callsThisMonth: 0, quota: 1000, plan: 'Free', history: [] });
-      var usageData = usageData[0]; var setUsageData = usageData[1];
+      var usageState = React.useState({ callsThisMonth: 0, quota: 1000, plan: 'Free', history: [] });
+      var usageData = usageState[0]; var setUsageData = usageState[1];
 
       // Billing state
-      var billingData = React.useState({ plan: 'Free', credits: 0, nextBilling: null, paymentMethod: null });
-      var billingData = billingData[0]; var setBillingData = billingData[1];
+      var billingState = React.useState({ plan: 'Free', credits: 0, nextBilling: null, paymentMethod: null });
+      var billingData = billingState[0]; var setBillingData = billingState[1];
 
       // Top-up state
       var packages = [
@@ -1627,38 +2352,40 @@
         { id: 'enterprise', name: 'Enterprise', credits: 20000, price: 1200000, priceDisplay: 'Rp 1.200.000', popular: false },
       ];
 
-      React.useEffect(function() {
+      React.useEffect(function () {
         loadKeys();
         loadUsage();
         loadBilling();
       }, []);
 
       function loadKeys() {
-        apiGet('/keys.php', token).then(function(data) {
+        apiGet('/keys.php', token).then(function (data) {
           if (data.success) setKeys(data.keys || []);
-        }).catch(function(err) { console.error(err); });
+        }).catch(function (err) { console.error(err); });
       }
 
       function loadUsage() {
-        apiGet('/keys.php?action=usage', token).then(function(data) {
+        apiGet('/keys.php?action=usage', token).then(function (data) {
           if (data.success) {
             setUsageData(data.usage || { callsThisMonth: 0, quota: 1000, plan: 'Free', history: [] });
           }
-        }).catch(function() {
+        }).catch(function () {
           // fallback mock data if endpoint not ready
-          setUsageData({ callsThisMonth: 127, quota: 1000, plan: 'Free', history: [
-            { month: 'Jan', calls: 45 }, { month: 'Feb', calls: 89 }, { month: 'Mar', calls: 62 },
-            { month: 'Apr', calls: 110 }, { month: 'May', calls: 95 }, { month: 'Jun', calls: 127 },
-          ]});
+          setUsageData({
+            callsThisMonth: 127, quota: 1000, plan: 'Free', history: [
+              { month: 'Jan', calls: 45 }, { month: 'Feb', calls: 89 }, { month: 'Mar', calls: 62 },
+              { month: 'Apr', calls: 110 }, { month: 'May', calls: 95 }, { month: 'Jun', calls: 127 },
+            ]
+          });
         });
       }
 
       function loadBilling() {
-        apiGet('/keys.php?action=billing', token).then(function(data) {
+        apiGet('/keys.php?action=billing', token).then(function (data) {
           if (data.success) {
             setBillingData(data.billing || { plan: 'Free', credits: 0, nextBilling: null, paymentMethod: null });
           }
-        }).catch(function() {
+        }).catch(function () {
           setBillingData({ plan: 'Free', credits: 0, nextBilling: null, paymentMethod: null });
         });
       }
@@ -1666,33 +2393,58 @@
       function createKey() {
         if (!newKeyName.trim()) return;
         setLoading(true);
-        apiPost('/keys.php', { name: newKeyName }, token).then(function(data) {
+        apiPost('/keys.php', { name: newKeyName }, token).then(function (data) {
           if (data.success) {
             setToast({ message: 'API Key berhasil dibuat!', type: 'success' });
             setNewKeyName('');
             loadKeys();
           }
-        }).catch(function() { setToast({ message: 'Gagal membuat key', type: 'error' }); })
-          .finally(function() { setLoading(false); });
+        }).catch(function () { setToast({ message: 'Gagal membuat key', type: 'error' }); })
+          .finally(function () { setLoading(false); });
       }
 
       function revokeKey(keyId) {
-        apiDelete('/keys.php', { id: keyId }, token).then(function(data) {
+        apiDelete('/keys.php', { id: keyId }, token).then(function (data) {
           if (data.success) {
             setToast({ message: 'API Key berhasil direvoke', type: 'success' });
             loadKeys();
           }
-        }).catch(function() { setToast({ message: 'Gagal revoke key', type: 'error' }); });
+        }).catch(function () { setToast({ message: 'Gagal revoke key', type: 'error' }); });
       }
 
       function copyKey(text) {
-        navigator.clipboard.writeText(text).then(function() {
+        navigator.clipboard.writeText(text).then(function () {
           setToast({ message: 'API Key copied!', type: 'success' });
         });
       }
 
       function handleTopUp(pkg) {
-        setToast({ message: 'Fitur Top Up akan segera hadir! Hubungi admin untuk upgrade paket.', type: 'info' });
+        setLoading(true);
+        var token = localStorage.getItem('token');
+        apiPost('/payment.php', {
+          order_id: 'INV-' + pkg.id + '-' + Date.now(),
+          package: pkg.id,
+          amount: pkg.price,
+          payment_method: 'qris'
+        }, token).then(function (data) {
+          if (data.success) {
+            setToast({ message: 'Pembayaran dibuat. Mengarahkan ke halaman Pakasir...', type: 'success' });
+            var redirectUrl = data.payment_url || (data.payment && data.payment.payment_url);
+            if (redirectUrl) {
+              window.location.href = redirectUrl;
+            } else if (data.payment && data.payment.payment_number) {
+              setToast({ message: 'Pembayaran berhasil dibuat. Gunakan kode QR/nomor pembayaran yang diberikan.', type: 'success' });
+              console.log('Pakasir payment:', data.payment);
+            } else {
+              setToast({ message: 'Metode pembayaran berhasil dibuat, tetapi tidak ada URL pembayaran tersedia.', type: 'error' });
+            }
+          }
+        }).catch(function (err) {
+          console.error(err);
+          setToast({ message: 'Gagal membuat pembayaran Pakasir.', type: 'error' });
+        }).finally(function () {
+          setLoading(false);
+        });
       }
 
       // Usage bar chart - simple bar renderer
@@ -1702,9 +2454,9 @@
             'Tidak ada data usage'
           );
         }
-        var maxCalls = Math.max.apply(null, history.map(function(h) { return h.calls; })) || 1;
+        var maxCalls = Math.max.apply(null, history.map(function (h) { return h.calls; })) || 1;
         return React.createElement('div', { style: { display: 'flex', alignItems: 'flex-end', gap: 10, height: 120, padding: '0 4px' } },
-          history.map(function(h, i) {
+          history.map(function (h, i) {
             var pct = (h.calls / maxCalls) * 100;
             return React.createElement('div', { key: i, style: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 } },
               React.createElement('div', { style: { fontSize: '0.72rem', fontWeight: 700, color: 'var(--forest)' } }, h.calls),
@@ -1724,7 +2476,7 @@
       ];
 
       return React.createElement('div', { className: 'dash-page' },
-        toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: function() { setToast(null); } }),
+        toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: function () { setToast(null); } }),
 
         // Header bar
         React.createElement('div', { className: 'dash-header' },
@@ -1743,11 +2495,11 @@
 
         // Tab navigation
         React.createElement('div', { className: 'dash-tabs' },
-          TAB_ITEMS.map(function(tab) {
+          TAB_ITEMS.map(function (tab) {
             return React.createElement('button', {
               key: tab.id,
               className: 'dash-tab-btn' + (dashTab === tab.id ? ' active' : ''),
-              onClick: function() { setDashTab(tab.id); }
+              onClick: function () { setDashTab(tab.id); }
             }, tab.icon, '\u00a0', tab.label);
           })
         ),
@@ -1839,7 +2591,7 @@
               React.createElement('button', {
                 className: 'btn-secondary',
                 style: { marginLeft: 16, flexShrink: 0 },
-                onClick: function() { copyKey(localStorage.getItem('apiKey') || localStorage.getItem('token')); }
+                onClick: function () { copyKey(localStorage.getItem('apiKey') || localStorage.getItem('token')); }
               }, '📋 Copy')
             ),
             React.createElement('div', { style: { fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 10 } },
@@ -1855,7 +2607,7 @@
                 React.createElement('input', {
                   type: 'text',
                   value: newKeyName,
-                  onChange: function(e) { setNewKeyName(e.target.value); },
+                  onChange: function (e) { setNewKeyName(e.target.value); },
                   placeholder: 'Nama key (contoh: Production Server, Staging)'
                 })
               ),
@@ -1873,38 +2625,38 @@
             React.createElement('h3', { style: { fontSize: '1rem', fontWeight: 700, color: 'var(--forest)', marginBottom: 14 } }, '📋 Semua API Keys (', keys.length, ')'),
             keys.length === 0
               ? React.createElement('div', { className: 'dash-card', style: { textAlign: 'center', color: 'var(--text-muted)', padding: '40px' } },
-                  'Belum ada API key. Buat key baru di atas.'
-                )
+                'Belum ada API key. Buat key baru di atas.'
+              )
               : React.createElement('div', null,
-                  keys.map(function(key) {
-                    return React.createElement('div', { key: key.id, className: 'dash-key-item' },
-                      React.createElement('div', { className: 'dash-key-info' },
-                        React.createElement('div', { className: 'dash-key-name' },
-                          key.name,
-                          !key.is_active && React.createElement('span', { style: { color: 'var(--danger)', fontSize: '0.78rem', fontWeight: 600, marginLeft: 8 } }, ' · Revoked')
-                        ),
-                        React.createElement('div', { className: 'dash-key-meta' },
-                          'Dibuat: ' + new Date(key.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
-                        )
+                keys.map(function (key) {
+                  return React.createElement('div', { key: key.id, className: 'dash-key-item' },
+                    React.createElement('div', { className: 'dash-key-info' },
+                      React.createElement('div', { className: 'dash-key-name' },
+                        key.name,
+                        !key.is_active && React.createElement('span', { style: { color: 'var(--danger)', fontSize: '0.78rem', fontWeight: 600, marginLeft: 8 } }, ' · Revoked')
                       ),
-                      React.createElement('div', { className: 'dash-key-prefix' },
-                        (key.key_prefix || '————————') + '...****'
-                      ),
-                      React.createElement('div', { style: { display: 'flex', gap: 8, flexShrink: 0 } },
-                        React.createElement('button', {
-                          className: 'btn-secondary',
-                          style: { padding: '6px 14px', fontSize: '0.82rem' },
-                          onClick: function() { copyKey(key.key_prefix); }
-                        }, '📋 Copy'),
-                        key.is_active && React.createElement('button', {
-                          className: 'btn-danger',
-                          style: { padding: '6px 14px', fontSize: '0.82rem' },
-                          onClick: function() { revokeKey(key.id); }
-                        }, '🗑 Revoke')
+                      React.createElement('div', { className: 'dash-key-meta' },
+                        'Dibuat: ' + new Date(key.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
                       )
-                    );
-                  })
-                )
+                    ),
+                    React.createElement('div', { className: 'dash-key-prefix' },
+                      (key.key_prefix || '————————') + '...****'
+                    ),
+                    React.createElement('div', { style: { display: 'flex', gap: 8, flexShrink: 0 } },
+                      React.createElement('button', {
+                        className: 'btn-secondary',
+                        style: { padding: '6px 14px', fontSize: '0.82rem' },
+                        onClick: function () { copyKey(key.key_prefix); }
+                      }, '📋 Copy'),
+                      key.is_active && React.createElement('button', {
+                        className: 'btn-danger',
+                        style: { padding: '6px 14px', fontSize: '0.82rem' },
+                        onClick: function () { revokeKey(key.id); }
+                      }, '🗑 Revoke')
+                    )
+                  );
+                })
+              )
           )
         ),
 
@@ -1925,7 +2677,7 @@
               React.createElement('div', { style: { textAlign: 'right' } },
                 React.createElement('button', {
                   className: 'btn-primary',
-                  onClick: function() { setDashTab('topup'); }
+                  onClick: function () { setDashTab('topup'); }
                 }, '⬆ Upgrade Plan')
               )
             )
@@ -1963,18 +2715,18 @@
             React.createElement('h3', { style: { fontSize: '1rem', fontWeight: 700, color: 'var(--forest)', marginBottom: 16 } }, '💳 Metode Pembayaran'),
             billingData.paymentMethod
               ? React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
-                  React.createElement('div', { style: { fontSize: '2rem' } }, '🏦'),
-                  React.createElement('div', null,
-                    React.createElement('div', { style: { fontWeight: 700, color: 'var(--forest)' } }, billingData.paymentMethod.bank),
-                    React.createElement('div', { style: { fontSize: '0.82rem', color: 'var(--text-muted)' } }, billingData.paymentMethod.account)
-                  )
+                React.createElement('div', { style: { fontSize: '2rem' } }, '🏦'),
+                React.createElement('div', null,
+                  React.createElement('div', { style: { fontWeight: 700, color: 'var(--forest)' } }, billingData.paymentMethod.bank),
+                  React.createElement('div', { style: { fontSize: '0.82rem', color: 'var(--text-muted)' } }, billingData.paymentMethod.account)
                 )
+              )
               : React.createElement('div', { style: { textAlign: 'center', color: 'var(--text-muted)', padding: '20px' } },
-                  'Belum ada metode pembayaran. Upgrade plan untuk mengaktifkan billing.',
-                  React.createElement('div', null,
-                    React.createElement('button', { className: 'btn-primary', style: { marginTop: 12 }, onClick: function() { setDashTab('topup'); } }, '💰 Top Up Sekarang')
-                  )
+                'Belum ada metode pembayaran. Upgrade plan untuk mengaktifkan billing.',
+                React.createElement('div', null,
+                  React.createElement('button', { className: 'btn-primary', style: { marginTop: 12 }, onClick: function () { setDashTab('topup'); } }, '💰 Top Up Sekarang')
                 )
+              )
           )
         ),
 
@@ -1988,7 +2740,7 @@
 
           // Packages grid
           React.createElement('div', { className: 'dash-packages-grid' },
-            packages.map(function(pkg) {
+            packages.map(function (pkg) {
               return React.createElement('div', {
                 key: pkg.id,
                 className: 'dash-package-card' + (pkg.popular ? ' popular' : '')
@@ -2006,7 +2758,7 @@
                 React.createElement('button', {
                   className: pkg.popular ? 'btn-primary' : 'btn-ghost',
                   style: { width: '100%', marginTop: 'auto' },
-                  onClick: function() { handleTopUp(pkg); }
+                  onClick: function () { handleTopUp(pkg); }
                 }, pkg.popular ? '🔥 Pilih Paket Ini' : 'Pilih Paket')
               );
             })
@@ -2043,38 +2795,38 @@
       var setLoading = loading[1]; loading = loading[0];
       var setToast = toast[1]; toast = toast[0];
 
-      React.useEffect(function() { loadUsers(); }, [page]);
-      React.useEffect(function() { loadStats(); }, []);
+      React.useEffect(function () { loadUsers(); }, [page]);
+      React.useEffect(function () { loadStats(); }, []);
 
       function loadUsers() {
         setLoading(true);
-        apiGet('/auth.php?action=admin/users&page=' + page, token).then(function(data) {
+        apiGet('/auth.php?action=admin/users&page=' + page, token).then(function (data) {
           if (data.success) {
             setUsers(data.users || []);
             setTotalPages(data.pagination ? data.pagination.total_pages : 1);
-            setStats(function(prev) {
+            setStats(function (prev) {
               return Object.assign({}, prev, {
                 total: data.pagination ? data.pagination.total : 0,
-                verified: (data.users || []).filter(function(u) { return u.is_verified; }).length
+                verified: (data.users || []).filter(function (u) { return u.is_verified; }).length
               });
             });
           }
           setLoading(false);
-        }).catch(function() { setToast({ message: 'Gagal memuat data', type: 'error' }); setLoading(false); });
+        }).catch(function () { setToast({ message: 'Gagal memuat data', type: 'error' }); setLoading(false); });
       }
 
       function loadStats() {
-        apiGet('/auth.php?action=admin/keys', token).then(function(data) {
-          if (data.success) setStats(function(prev) { return Object.assign({}, prev, { totalKeys: (data.keys || []).length }); });
-        }).catch(function() {});
+        apiGet('/auth.php?action=admin/keys', token).then(function (data) {
+          if (data.success) setStats(function (prev) { return Object.assign({}, prev, { totalKeys: (data.keys || []).length }); });
+        }).catch(function () { });
       }
 
       function exportCSV() {
         var headers = ['ID', 'Name', 'Email', 'Role', 'Verified', 'Joined'];
-        var rows = users.map(function(u) {
+        var rows = users.map(function (u) {
           return [u.id, u.name, u.email, u.role, u.is_verified ? 'Yes' : 'No', new Date(u.created_at).toLocaleDateString('id-ID')];
         });
-        var csv = [headers].concat(rows).map(function(r) { return r.join(','); }).join('\n');
+        var csv = [headers].concat(rows).map(function (r) { return r.join(','); }).join('\n');
         var blob = new Blob([csv], { type: 'text/csv' });
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
@@ -2088,12 +2840,12 @@
         return React.createElement('div', { className: 'section', style: { textAlign: 'center', padding: '80px 24px' } },
           React.createElement('h2', { style: { color: 'var(--danger)', marginBottom: 16 } }, 'Akses Ditolak'),
           React.createElement('p', { style: { color: 'var(--text-muted)' } }, 'Halaman ini hanya untuk admin.'),
-          React.createElement('button', { className: 'btn-primary', style: { marginTop: 20 }, onClick: function() { useAuth().setActivePage('home'); } }, 'Kembali ke Beranda')
+          React.createElement('button', { className: 'btn-primary', style: { marginTop: 20 }, onClick: function () { useAuth().setActivePage('home'); } }, 'Kembali ke Beranda')
         );
       }
 
       return React.createElement('div', { className: 'section' },
-        toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: function() { setToast(null); } }),
+        toast && React.createElement(Toast, { message: toast.message, type: toast.type, onClose: function () { setToast(null); } }),
         React.createElement('div', { className: 'section-title', style: { textAlign: 'left', marginBottom: 32 } },
           React.createElement('h2', null, '\ud83d\udde1\ufe0f Admin Panel'),
           React.createElement('p', null, 'Kelola pengguna dan API keys')
@@ -2120,42 +2872,42 @@
           loading
             ? React.createElement('div', { style: { padding: 40, textAlign: 'center', color: 'var(--text-muted)' } }, 'Memuat...')
             : React.createElement('div', { className: 'admin-table-wrap' },
-                React.createElement('table', { className: 'admin-table' },
-                  React.createElement('thead', null,
-                    React.createElement('tr', null,
-                      React.createElement('th', null, 'ID'),
-                      React.createElement('th', null, 'Name'),
-                      React.createElement('th', null, 'Email'),
-                      React.createElement('th', null, 'Role'),
-                      React.createElement('th', null, 'Verified'),
-                      React.createElement('th', null, 'Joined')
-                    )
-                  ),
-                  React.createElement('tbody', null,
-                    users.map(function(u) {
-                      return React.createElement('tr', { key: u.id },
-                        React.createElement('td', { style: { fontWeight: 700, color: 'var(--text-muted)' } }, '#' + u.id),
-                        React.createElement('td', { style: { fontWeight: 600 } }, u.name),
-                        React.createElement('td', { style: { color: 'var(--text-muted)' } }, u.email),
-                        React.createElement('td', null, React.createElement('span', { className: 'role-badge ' + (u.role || 'member') }, u.role || 'member')),
-                        React.createElement('td', null,
-                          React.createElement('span', { className: 'verified-badge' + (u.is_verified ? '' : ' unverified') },
-                            u.is_verified ? '\u2713 Verified' : '\u2717 Unverified'
-                          )
-                        ),
-                        React.createElement('td', { style: { color: 'var(--text-muted)', fontSize: '0.82rem' } }, new Date(u.created_at).toLocaleDateString('id-ID'))
-                      );
-                    }),
-                    users.length === 0 && React.createElement('tr', null,
-                      React.createElement('td', { colSpan: 6, style: { textAlign: 'center', padding: 32, color: 'var(--text-muted)' } }, 'Tidak ada data pengguna.')
-                    )
+              React.createElement('table', { className: 'admin-table' },
+                React.createElement('thead', null,
+                  React.createElement('tr', null,
+                    React.createElement('th', null, 'ID'),
+                    React.createElement('th', null, 'Name'),
+                    React.createElement('th', null, 'Email'),
+                    React.createElement('th', null, 'Role'),
+                    React.createElement('th', null, 'Verified'),
+                    React.createElement('th', null, 'Joined')
+                  )
+                ),
+                React.createElement('tbody', null,
+                  users.map(function (u) {
+                    return React.createElement('tr', { key: u.id },
+                      React.createElement('td', { style: { fontWeight: 700, color: 'var(--text-muted)' } }, '#' + u.id),
+                      React.createElement('td', { style: { fontWeight: 600 } }, u.name),
+                      React.createElement('td', { style: { color: 'var(--text-muted)' } }, u.email),
+                      React.createElement('td', null, React.createElement('span', { className: 'role-badge ' + (u.role || 'member') }, u.role || 'member')),
+                      React.createElement('td', null,
+                        React.createElement('span', { className: 'verified-badge' + (u.is_verified ? '' : ' unverified') },
+                          u.is_verified ? '\u2713 Verified' : '\u2717 Unverified'
+                        )
+                      ),
+                      React.createElement('td', { style: { color: 'var(--text-muted)', fontSize: '0.82rem' } }, new Date(u.created_at).toLocaleDateString('id-ID'))
+                    );
+                  }),
+                  users.length === 0 && React.createElement('tr', null,
+                    React.createElement('td', { colSpan: 6, style: { textAlign: 'center', padding: 32, color: 'var(--text-muted)' } }, 'Tidak ada data pengguna.')
                   )
                 )
-              ),
+              )
+            ),
           totalPages > 1 && React.createElement('div', { className: 'pagination' },
-            React.createElement('button', { className: 'btn-ghost', style: { padding: '8px 16px' }, disabled: page <= 1, onClick: function() { setPage(Math.max(1, page - 1)); } }, '\u2190 Prev'),
+            React.createElement('button', { className: 'btn-ghost', style: { padding: '8px 16px' }, disabled: page <= 1, onClick: function () { setPage(Math.max(1, page - 1)); } }, '\u2190 Prev'),
             React.createElement('span', { style: { color: 'var(--text-muted)', fontSize: '0.9rem' } }, 'Halaman ' + page + ' dari ' + totalPages),
-            React.createElement('button', { className: 'btn-ghost', style: { padding: '8px 16px' }, disabled: page >= totalPages, onClick: function() { setPage(Math.min(totalPages, page + 1)); } }, 'Next \u2192')
+            React.createElement('button', { className: 'btn-ghost', style: { padding: '8px 16px' }, disabled: page >= totalPages, onClick: function () { setPage(Math.min(totalPages, page + 1)); } }, 'Next \u2192')
           )
         )
       );
@@ -2163,7 +2915,7 @@
 
     // ─── Main App ──────────────────────────────────────────────────────────────
     function App() {
-      var user = React.useState(function() {
+      var user = React.useState(function () {
         var saved = localStorage.getItem('user');
         return saved ? JSON.parse(saved) : null;
       });
@@ -2206,8 +2958,8 @@
         React.createElement(Navbar, { user: user, onLoginClick: handleLogin, onLogout: handleLogout }),
         showAuth && React.createElement(AuthModal, {
           isRegister: authMode === 'register',
-          onClose: function() { setShowAuth(false); },
-          onSwitch: function() { setAuthMode(authMode === 'login' ? 'register' : 'login'); },
+          onClose: function () { setShowAuth(false); },
+          onSwitch: function () { setAuthMode(authMode === 'login' ? 'register' : 'login'); },
           onSuccess: handleAuthSuccess
         }),
         activePage === 'docs' && React.createElement(DocsPage),
@@ -2217,8 +2969,8 @@
           React.createElement(Hero),
           React.createElement('section', { className: 'section' },
             React.createElement('div', { style: { display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 36 } },
-              React.createElement('button', { className: 'tab-btn', style: { background: activeTab === 'tracking' ? 'var(--forest)' : 'transparent', color: activeTab === 'tracking' ? 'white' : 'var(--forest)', borderColor: activeTab === 'tracking' ? 'var(--forest)' : 'var(--border)' }, onClick: function() { setActiveTab('tracking'); } }, '\ud83d\udd0d Lacak Paket'),
-              React.createElement('button', { className: 'tab-btn', style: { background: activeTab === 'ongkir' ? 'var(--forest)' : 'transparent', color: activeTab === 'ongkir' ? 'white' : 'var(--forest)', borderColor: activeTab === 'ongkir' ? 'var(--forest)' : 'var(--border)' }, onClick: function() { setActiveTab('ongkir'); } }, '\ud83d\udcb0 Kalkulator Ongkir')
+              React.createElement('button', { className: 'tab-btn', style: { background: activeTab === 'tracking' ? 'var(--forest)' : 'transparent', color: activeTab === 'tracking' ? 'white' : 'var(--forest)', borderColor: activeTab === 'tracking' ? 'var(--forest)' : 'var(--border)' }, onClick: function () { setActiveTab('tracking'); } }, '\ud83d\udd0d Lacak Paket'),
+              React.createElement('button', { className: 'tab-btn', style: { background: activeTab === 'ongkir' ? 'var(--forest)' : 'transparent', color: activeTab === 'ongkir' ? 'white' : 'var(--forest)', borderColor: activeTab === 'ongkir' ? 'var(--forest)' : 'var(--border)' }, onClick: function () { setActiveTab('ongkir'); } }, '\ud83d\udcb0 Kalkulator Ongkir')
             ),
             activeTab === 'tracking' && React.createElement(TrackingTab),
             activeTab === 'ongkir' && React.createElement(OngkirTab)
@@ -2234,10 +2986,10 @@
               React.createElement('p', null, '8 kurir ternama Indonesia dalam satu platform')
             ),
             React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 } },
-              COURIERS.map(function(c) {
+              COURIERS.map(function (c) {
                 return React.createElement('div', { key: c.id, className: 'card', style: { padding: 0, overflow: 'hidden' } },
                   React.createElement('div', { style: { background: 'linear-gradient(135deg, var(--forest) 0%, #0d6e3a 100%)', padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 14 } },
-                    React.createElement('img', { src: c.logo, alt: c.name, style: { width: 52, height: 52, objectFit: 'contain', flexShrink: 0, background: '#fff', borderRadius: 8, padding: 4 }, onError: function(e) { e.target.style.display = 'none'; } }),
+                    React.createElement('img', { src: c.logo, alt: c.name, style: { width: 52, height: 52, objectFit: 'contain', flexShrink: 0, background: '#fff', borderRadius: 8, padding: 4 }, onError: function (e) { e.target.style.display = 'none'; } }),
                     React.createElement('div', null,
                       React.createElement('div', { style: { fontWeight: 900, color: '#fff', fontSize: '1.15rem' } }, c.name),
                       React.createElement('div', { style: { fontSize: '0.75rem', color: 'rgba(255,255,255,0.8)', marginTop: 2 } }, c.tagline)
@@ -2259,4 +3011,5 @@
 
   </script>
 </body>
+
 </html>

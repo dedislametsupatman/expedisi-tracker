@@ -33,3 +33,4 @@ composer.lock
 # Node (if frontend build used)
 /node_modules/
 npm-debug.log*
+graphify-out/

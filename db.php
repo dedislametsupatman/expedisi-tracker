@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Database setup for Expedisi Tracker
  * Supports MySQL (production) and SQLite (development fallback)
@@ -7,16 +8,19 @@
 
 require_once __DIR__ . '/config.php';
 
-class Database {
+class Database
+{
     private static ?PDO $pdo = null;
 
-    public static function get(): PDO {
+    public static function get(): PDO
+    {
         if (self::$pdo === null) {
-            // Use MySQL if DB_HOST is set, otherwise SQLite
-            $dbHost = DB_HOST;
-            $useMysql = !empty($dbHost);
+            $useMysql = DB_DRIVER === 'mysql';
 
             if ($useMysql) {
+                if (empty(DB_HOST)) {
+                    throw new RuntimeException('DB_HOST is required when DB_DRIVER is mysql.');
+                }
                 // MySQL connection
                 $dsn = sprintf(
                     'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
@@ -46,9 +50,10 @@ class Database {
         return self::$pdo;
     }
 
-    private static function initTables() {
+    private static function initTables()
+    {
         $pdo = self::$pdo;
-        $useMysql = defined('DB_HOST') && DB_HOST !== '';
+        $useMysql = DB_DRIVER === 'mysql';
 
         if ($useMysql) {
             // MySQL schema
@@ -160,6 +165,22 @@ class Database {
             ");
 
             $pdo->exec("
+                CREATE TABLE IF NOT EXISTS payments (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    order_id TEXT NOT NULL UNIQUE,
+                    user_id INTEGER NOT NULL,
+                    package TEXT NOT NULL,
+                    amount INTEGER NOT NULL,
+                    status TEXT NOT NULL,
+                    payment_method TEXT,
+                    project TEXT,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                )
+            ");
+
+            $pdo->exec("
                 CREATE TABLE IF NOT EXISTS sessions (
                     token TEXT PRIMARY KEY,
                     user_id INTEGER NOT NULL,
@@ -170,12 +191,30 @@ class Database {
             ");
 
             // SQLite indexes
-            try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_user ON api_keys(user_id)"); } catch (Exception $e) {}
-            try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_hash ON api_keys(key_hash)"); } catch (Exception $e) {}
-            try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_usage_key ON api_usage(api_key_id)"); } catch (Exception $e) {}
-            try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)"); } catch (Exception $e) {}
-            try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id)"); } catch (Exception $e) {}
-            try { $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_verification_token ON users(verification_token)"); } catch (Exception $e) {}
+            try {
+                $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_user ON api_keys(user_id)");
+            } catch (Exception $e) {
+            }
+            try {
+                $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_keys_hash ON api_keys(key_hash)");
+            } catch (Exception $e) {
+            }
+            try {
+                $pdo->exec("CREATE INDEX IF NOT EXISTS idx_api_usage_key ON api_usage(api_key_id)");
+            } catch (Exception $e) {
+            }
+            try {
+                $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)");
+            } catch (Exception $e) {
+            }
+            try {
+                $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id)");
+            } catch (Exception $e) {
+            }
+            try {
+                $pdo->exec("CREATE INDEX IF NOT EXISTS idx_users_verification_token ON users(verification_token)");
+            } catch (Exception $e) {
+            }
         }
     }
 }

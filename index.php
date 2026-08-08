@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Main Router - serves index.html or routes API calls
  */
@@ -12,6 +13,16 @@ if (strpos($uri, '/api/auth') === 0) {
 
 if (strpos($uri, '/api/keys') === 0) {
     require __DIR__ . '/api/keys.php';
+    exit;
+}
+
+if (strpos($uri, '/api/payment') === 0) {
+    require __DIR__ . '/api/payment.php';
+    exit;
+}
+
+if (strpos($uri, '/api/webhook') === 0) {
+    require __DIR__ . '/api/webhook.php';
     exit;
 }
 

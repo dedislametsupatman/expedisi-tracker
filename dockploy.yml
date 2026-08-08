@@ -1,0 +1,23 @@
+# Dockploy configuration for Expedisi Tracker
+# This file tells Dockploy how to build and run the app.
+# Replace placeholder values with your real production settings.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    env:
+      APP_URL: "http://localhost"
+      SENDER_EMAIL: "noreply@expedisi.aplikasirt.my.id"
+      SENDER_NAME: "LacakOngkir"
+      DB_DRIVER: "mysql"
+      DB_HOST: "127.0.0.1" # ganti dengan hostname service MySQL atau database host yang benar
+      DB_PORT: "3306"
+      DB_NAME: "expedisi"
+      DB_USER: "root"
+      DB_PASS: ""
+      PAKASIR_PROJECT: "your_pakasir_project_slug"
+      PAKASIR_API_KEY: "your_pakasir_api_key"
