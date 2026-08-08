@@ -1,0 +1,35 @@
+# Environment (contains secrets)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Database (SQLite - auto-generated per environment)
+data/
+*.db
+*.sqlite
+
+# Logs
+*.log
+/tmp/*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+.dockerignore
+
+# Composer
+/vendor/
+composer.lock
+
+# Node (if frontend build used)
+/node_modules/
+npm-debug.log*

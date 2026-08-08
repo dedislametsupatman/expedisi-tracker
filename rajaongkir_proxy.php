@@ -5,13 +5,15 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, key');
 
+require_once __DIR__ . '/config.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-$api_key = '6257ae210b00dfa4d6cda76747341c7a';
-$base_url = 'https://rajaongkir.komerce.id/api/v1';
+$api_key = RAJAONGKIR_KEY;
+$base_url = RAJAONGKIR_BASE_URL;
 
 $request_uri = $_SERVER['REQUEST_URI'];
 $path = preg_replace('#^/api/rajaongkir/#', '', $request_uri);

@@ -5,12 +5,14 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, x-api-co-id, origin');
 
+require_once __DIR__ . '/config.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-$api_key = '6HkOGh9rMgiJKiTlstuUMShNbVLlCIzXbu970CsFdOjIuNdMKf';
+$api_key = API_CO_ID_KEY;
 
 $path = isset($_GET['path']) ? urldecode($_GET['path']) : '';
 

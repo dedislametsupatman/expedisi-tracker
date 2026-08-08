@@ -1,5 +1,6 @@
 <?php
 // Simple router: serve static files or proxy API calls
+require_once __DIR__ . '/config.php';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Serve index.html for non-file paths
@@ -16,7 +17,7 @@ if (strpos($uri, '/proxy.php') === 0) {
         echo json_encode(['is_success' => false, 'message' => 'Missing path']);
         return;
     }
-    $api_key = '6HkOGh9rMgiJKiTlstuUMShNbVLlCIzXbu970CsFdOjIuNdMKf';
+    $api_key = API_CO_ID_KEY;
     $url = 'https://use.api.co.id/expedition' . $path;
     $ch = curl_init();
     curl_setopt_array($ch, [

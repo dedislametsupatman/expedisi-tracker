@@ -2,12 +2,11 @@
 /**
  * Email Service using Brevo (Sendinblue) API
  */
+require_once __DIR__ . '/config.php';
 
-define('BREVO_API_KEY', getenv('BREVO_API_KEY') ?: 'YOUR_BREVO_API_KEY');
-define('BREVO_BASE_URL', 'https://api.brevo.com/v3');
-define('SENDER_EMAIL', 'noreply@expedisi.aplikasirt.my.id');
-define('SENDER_NAME', 'LacakOngkir');
-define('APP_URL', 'https://expedisi.aplikasirt.my.id');
+define('SENDER_EMAIL', getenv('SENDER_EMAIL') ?: 'noreply@expedisi.aplikasirt.my.id');
+define('SENDER_NAME', getenv('SENDER_NAME') ?: 'LacakOngkir');
+define('APP_URL', getenv('APP_URL') ?: 'https://expedisi.aplikasirt.my.id');
 
 class EmailService {
     

@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../utils.php';
+require_once __DIR__ . '/../config.php';
 
 // ─── API Key Auth ────────────────────────────────────────────────
 $apiKey = $_SERVER['HTTP_X_API_KEY'] ?? '';
@@ -92,7 +93,7 @@ function getCost() {
     }
     
     // Call api.co.id
-    $apiKey = '6HkOGh9rMgiJKiTlstuUMShNbVLlCIzXbu970CsFdOjIuNdMKf';
+    $apiKey = API_CO_ID_KEY;
     $params = http_build_query([
         'origin_village_code' => $originCode,
         'destination_village_code' => $destCode,
