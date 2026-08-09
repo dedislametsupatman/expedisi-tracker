@@ -1617,10 +1617,17 @@
     }
 
     // ─── API Helpers ────────────────────────────────────────────────────────────
+    function apiEndpoint(path) {
+      if (path.startsWith(API_BASE + '/') || path === API_BASE) {
+        return path;
+      }
+      return path.startsWith('/api') ? path : API_BASE + path;
+    }
+
     function apiPost(path, body, token) {
       var headers = { 'Content-Type': 'application/json' };
       if (token) headers['Authorization'] = 'Bearer ' + token;
-      return fetch(API_BASE + path, {
+      return fetch(apiEndpoint(path), {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(body)
@@ -1636,7 +1643,7 @@
     function apiGet(path, token) {
       var headers = {};
       if (token) headers['Authorization'] = 'Bearer ' + token;
-      return fetch(API_BASE + path, { headers: headers }).then(function (res) {
+      return fetch(apiEndpoint(path), { headers: headers }).then(function (res) {
         return res.json().then(function (data) {
           if (!res.ok && res.status === 401) throw new Error('UNAUTHORIZED');
           return data;
@@ -1647,7 +1654,7 @@
     function apiDelete(path, body, token) {
       var headers = { 'Content-Type': 'application/json' };
       if (token) headers['Authorization'] = 'Bearer ' + token;
-      return fetch(API_BASE + path, {
+      return fetch(apiEndpoint(path), {
         method: 'DELETE',
         headers: headers,
         body: JSON.stringify(body)
