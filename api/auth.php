@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Authentication API - Register, Login, Logout, Profile, Verify, Google OAuth
  */
@@ -43,15 +44,21 @@ if ($method === 'GET' && isset($_GET['action']) && $_GET['action'] === 'verify')
 if (!empty($route)) {
     switch ($route) {
         case 'register':
-            if ($method !== 'POST') { json_error('Method not allowed', 405); }
+            if ($method !== 'POST') {
+                json_error('Method not allowed', 405);
+            }
             register();
             break;
         case 'login':
-            if ($method !== 'POST') { json_error('Method not allowed', 405); }
+            if ($method !== 'POST') {
+                json_error('Method not allowed', 405);
+            }
             login();
             break;
         case 'logout':
-            if ($method !== 'POST') { json_error('Method not allowed', 405); }
+            if ($method !== 'POST') {
+                json_error('Method not allowed', 405);
+            }
             logout();
             break;
         case 'profile':
@@ -91,7 +98,8 @@ if (!empty($route)) {
 json_response(['message' => 'Auth API - Expedisi Tracker', 'version' => '2.0']);
 
 // ─── Registration ─────────────────────────────────────────────────
-function register() {
+function register()
+{
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
     $email = trim($input['email'] ?? '');
     $password = $input['password'] ?? '';
@@ -144,7 +152,8 @@ function register() {
 }
 
 // ─── Login ────────────────────────────────────────────────────────
-function login() {
+function login()
+{
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
     $email = trim($input['email'] ?? '');
     $password = $input['password'] ?? '';
@@ -181,7 +190,8 @@ function login() {
 }
 
 // ─── Logout ───────────────────────────────────────────────────────
-function logout() {
+function logout()
+{
     $token = getBearerToken();
     if ($token) {
         deleteSession($token);
@@ -190,14 +200,18 @@ function logout() {
 }
 
 // ─── Profile ──────────────────────────────────────────────────────
-function profile() {
+function profile()
+{
     $user = requireAuth();
-    if (!$user) { json_error('Unauthorized', 401); }
+    if (!$user) {
+        json_error('Unauthorized', 401);
+    }
     json_response(['success' => true, 'user' => $user]);
 }
 
 // ─── Verify Email ─────────────────────────────────────────────────
-function verifyEmail(string $token) {
+function verifyEmail(string $token)
+{
     if (empty($token)) {
         http_response_code(400);
         echo json_encode(['success' => false, 'error' => 'Token tidak valid']);
@@ -205,8 +219,8 @@ function verifyEmail(string $token) {
     }
 
     $pdo = Database::get();
-    $stmt = $pdo->prepare('SELECT id, email, name, is_verified FROM users WHERE verification_token = ? AND verification_expires_at > datetime("now")');
-    $stmt->execute([$token]);
+    $stmt = $pdo->prepare('SELECT id, email, name, is_verified FROM users WHERE verification_token = ? AND verification_expires_at > ?');
+    $stmt->execute([$token, date('Y-m-d H:i:s')]);
     $user = $stmt->fetch();
 
     if (!$user) {
@@ -245,9 +259,12 @@ function verifyEmail(string $token) {
 }
 
 // ─── Resend Verification ──────────────────────────────────────────
-function verifyResend() {
+function verifyResend()
+{
     $user = requireAuth();
-    if (!$user) { json_error('Unauthorized', 401); }
+    if (!$user) {
+        json_error('Unauthorized', 401);
+    }
     if ($user['is_verified']) {
         json_error('Email sudah diverifikasi', 400);
     }
@@ -265,7 +282,8 @@ function verifyResend() {
 }
 
 // ─── Password Reset Request ────────────────────────────────────────
-function resetPasswordRequest() {
+function resetPasswordRequest()
+{
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
     $email = trim($input['email'] ?? '');
 
@@ -296,7 +314,8 @@ function resetPasswordRequest() {
 }
 
 // ─── Password Reset ───────────────────────────────────────────────
-function resetPassword() {
+function resetPassword()
+{
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
     $token = $input['token'] ?? '';
     $newPassword = $input['password'] ?? '';
@@ -309,8 +328,8 @@ function resetPassword() {
     }
 
     $pdo = Database::get();
-    $stmt = $pdo->prepare('SELECT id, email, name FROM users WHERE verification_token = ? AND verification_expires_at > datetime("now")');
-    $stmt->execute([$token]);
+    $stmt = $pdo->prepare('SELECT id, email, name FROM users WHERE verification_token = ? AND verification_expires_at > ?');
+    $stmt->execute([$token, date('Y-m-d H:i:s')]);
     $user = $stmt->fetch();
 
     if (!$user) {
@@ -324,7 +343,8 @@ function resetPassword() {
 }
 
 // ─── Google OAuth Callback ────────────────────────────────────────
-function googleCallback() {
+function googleCallback()
+{
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
     $googleToken = $input['google_token'] ?? '';
 
@@ -414,12 +434,14 @@ function googleCallback() {
 }
 
 // ─── Google Token (alternative - use Google's auth code flow) ───
-function googleToken() {
+function googleToken()
+{
     json_error('Google OAuth requires client-side token from Google Sign-In', 400);
 }
 
 // ─── Admin: List Users ───────────────────────────────────────────
-function listUsers() {
+function listUsers()
+{
     $pdo = Database::get();
     $page = max(1, intval($_GET['page'] ?? 1));
     $limit = min(100, max(10, intval($_GET['limit'] ?? 20)));
@@ -445,7 +467,8 @@ function listUsers() {
 }
 
 // ─── Admin: List All API Keys ────────────────────────────────────
-function listAllKeys() {
+function listAllKeys()
+{
     $pdo = Database::get();
     $stmt = $pdo->query('
         SELECT ak.id, ak.name, ak.key_prefix, ak.is_active, ak.created_at, ak.last_used_at, u.email as owner_email
@@ -460,7 +483,8 @@ function listAllKeys() {
 }
 
 // ─── Require Admin ────────────────────────────────────────────────
-function requireAdmin() {
+function requireAdmin()
+{
     $user = requireAuth();
     if (!$user) {
         json_error('Unauthorized', 401);
