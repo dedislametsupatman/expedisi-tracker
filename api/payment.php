@@ -58,10 +58,14 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlError = curl_error($ch);
-curl_close($ch);
+$curlErrno = curl_errno($ch);
 
 if ($response === false) {
-    json_error('Failed to contact Pakasir: ' . $curlError, 502);
+    $message = 'Failed to contact Pakasir: ' . ($curlError ?: 'Unknown error');
+    if ($curlErrno === CURLE_COULDNT_RESOLVE_HOST) {
+        $message .= ' (DNS lookup failed for app.pakasir.com)';
+    }
+    json_error($message, 502);
 }
 
 $data = json_decode($response, true);
