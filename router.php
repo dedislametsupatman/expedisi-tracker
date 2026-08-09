@@ -9,17 +9,21 @@ if ($path === '/proxy.php' || strpos($path, '/proxy.php') === 0) {
 }
 
 // API routes
-if (strpos($path, '/api/') === 0) {
-    if (strpos($path, '/api/auth') === 0) {
+if (strpos($path, '/api/') === 0 || $path === '/auth.php' || $path === '/payment.php' || $path === '/resend_verification.php' || $path === '/spx-track.php') {
+    if (strpos($path, '/api/auth') === 0 || $path === '/auth.php') {
         require __DIR__ . '/api/auth.php';
     } elseif (strpos($path, '/api/keys') === 0) {
         require __DIR__ . '/api/keys.php';
     } elseif (strpos($path, '/api/v1') === 0) {
         require __DIR__ . '/api/v1.php';
-    } elseif (strpos($path, '/api/resend_verification') === 0) {
+    } elseif (strpos($path, '/api/resend_verification') === 0 || $path === '/resend_verification.php') {
         require __DIR__ . '/api/resend_verification.php';
-    } elseif (strpos($path, '/api/spx-track') === 0) {
+    } elseif (strpos($path, '/api/spx-track') === 0 || $path === '/spx-track.php') {
         require __DIR__ . '/api/spx-track.php';
+    } elseif (strpos($path, '/api/payment') === 0 || $path === '/payment.php') {
+        require __DIR__ . '/api/payment.php';
+    } elseif (strpos($path, '/api/webhook') === 0) {
+        require __DIR__ . '/api/webhook.php';
     } else {
         http_response_code(404);
         echo json_encode(['success' => false, 'error' => 'API endpoint not found']);
