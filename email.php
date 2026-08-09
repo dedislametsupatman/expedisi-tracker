@@ -1,19 +1,19 @@
 <?php
+
 /**
  * Email Service using Brevo (Sendinblue) API
  */
 require_once __DIR__ . '/config.php';
 
-define('SENDER_EMAIL', getenv('SENDER_EMAIL') ?: 'noreply@expedisi.aplikasirt.my.id');
-define('SENDER_NAME', getenv('SENDER_NAME') ?: 'LacakOngkir');
-define('APP_URL', getenv('APP_URL') ?: 'https://expedisi.aplikasirt.my.id');
+// SENDER_EMAIL, SENDER_NAME, and APP_URL are defined in config.php.
+class EmailService
+{
 
-class EmailService {
-    
     /**
      * Send email via Brevo API
      */
-    public static function send(string $toEmail, string $toName, string $subject, string $htmlContent): bool {
+    public static function send(string $toEmail, string $toName, string $subject, string $htmlContent): bool
+    {
         $data = [
             'sender' => [
                 'name' => SENDER_NAME,
@@ -48,38 +48,42 @@ class EmailService {
     /**
      * Send verification email
      */
-    public static function sendVerificationEmail(string $email, string $name, string $token): bool {
+    public static function sendVerificationEmail(string $email, string $name, string $token): bool
+    {
         $verifyUrl = APP_URL . '/api/auth.php?action=verify&token=' . $token;
-        
+
         $subject = 'Verifikasi Email - LacakOngkir';
         $html = self::getVerificationEmailTemplate($name, $verifyUrl);
-        
+
         return self::send($email, $name, $subject, $html);
     }
 
     /**
      * Send welcome email (after verification)
      */
-    public static function sendWelcomeEmail(string $email, string $name, ?string $apiKey = null): bool {
+    public static function sendWelcomeEmail(string $email, string $name, ?string $apiKey = null): bool
+    {
         $subject = 'Selamat Datang di LacakOngkir!';
         $html = self::getWelcomeEmailTemplate($name, $apiKey);
-        
+
         return self::send($email, $name, $subject, $html);
     }
 
     /**
      * Send password reset email
      */
-    public static function sendPasswordResetEmail(string $email, string $name, string $token): bool {
+    public static function sendPasswordResetEmail(string $email, string $name, string $token): bool
+    {
         $resetUrl = APP_URL . '/api/auth.php?action=reset-password&token=' . $token;
-        
+
         $subject = 'Reset Password - LacakOngkir';
         $html = self::getPasswordResetEmailTemplate($name, $resetUrl);
-        
+
         return self::send($email, $name, $subject, $html);
     }
 
-    private static function getVerificationEmailTemplate(string $name, string $verifyUrl): string {
+    private static function getVerificationEmailTemplate(string $name, string $verifyUrl): string
+    {
         return '<!DOCTYPE html>
 <html>
 <head>
@@ -135,7 +139,8 @@ class EmailService {
 </html>';
     }
 
-    private static function getWelcomeEmailTemplate(string $name, ?string $apiKey): string {
+    private static function getWelcomeEmailTemplate(string $name, ?string $apiKey): string
+    {
         $apiKeySection = '';
         if ($apiKey) {
             $apiKeySection = '<div style="background:#f4f4f4;border-radius:8px;padding:16px;margin:20px 0;">
@@ -195,7 +200,8 @@ class EmailService {
 </html>';
     }
 
-    private static function getPasswordResetEmailTemplate(string $name, string $resetUrl): string {
+    private static function getPasswordResetEmailTemplate(string $name, string $resetUrl): string
+    {
         return '<!DOCTYPE html>
 <html>
 <head>
