@@ -248,6 +248,7 @@ function verifyEmail(string $token)
 
 function renderVerificationPage(bool $success, string $title, string $message, string $buttonText, string $buttonLink)
 {
+    header('Content-Type: text/html; charset=UTF-8');
     http_response_code($success ? 200 : 400);
     $bgColor = $success ? '#e6f4ea' : '#fff1f0';
     $textColor = $success ? '#0b5a2b' : '#a12020';
