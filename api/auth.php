@@ -213,9 +213,7 @@ function profile()
 function verifyEmail(string $token)
 {
     if (empty($token)) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Token tidak valid']);
-        exit;
+        renderVerificationPage(false, 'Token tidak valid', 'Tautan verifikasi tidak sah. Silakan coba lagi atau minta email verifikasi baru.', 'Kembali ke login', '/');
     }
 
     $pdo = Database::get();
@@ -224,15 +222,11 @@ function verifyEmail(string $token)
     $user = $stmt->fetch();
 
     if (!$user) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Token tidak valid atau sudah kadaluarsa']);
-        exit;
+        renderVerificationPage(false, 'Verifikasi gagal', 'Token tidak valid atau sudah kedaluwarsa. Minta email verifikasi baru melalui halaman login.', 'Kembali ke login', '/');
     }
 
     if ($user['is_verified']) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Email sudah diverifikasi sebelumnya']);
-        exit;
+        renderVerificationPage(false, 'Sudah diverifikasi', 'Email kamu sudah terdaftar dan diverifikasi. Silakan login kembali untuk melanjutkan.', 'Masuk sekarang', '/');
     }
 
     // Mark as verified
@@ -249,13 +243,44 @@ function verifyEmail(string $token)
     // Send welcome email with API key
     EmailService::sendWelcomeEmail($user['email'], $user['name'], $key);
 
-    http_response_code(200);
-    echo json_encode([
-        'success' => true,
-        'message' => 'Email berhasil diverifikasi! Selamat menggunakan LacakOngkir.',
-        'email' => $user['email'],
-        'api_key' => $key
-    ]);
+    renderVerificationPage(true, 'Verifikasi Berhasil!', 'Email kamu sudah diverifikasi. Silakan login kembali untuk masuk ke LacakOngkir.', 'Masuk sekarang', '/');
+}
+
+function renderVerificationPage(bool $success, string $title, string $message, string $buttonText, string $buttonLink)
+{
+    http_response_code($success ? 200 : 400);
+    $bgColor = $success ? '#e6f4ea' : '#fff1f0';
+    $textColor = $success ? '#0b5a2b' : '#a12020';
+    $buttonBg = $success ? '#0b5a2b' : '#9a1b1b';
+    $icon = $success ? '✓' : '✕';
+    echo '<!DOCTYPE html>';
+    echo '<html lang="id">';
+    echo '<head>';
+    echo '<meta charset="UTF-8">';
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+    echo '<title>' . htmlspecialchars($title) . '</title>';
+    echo '<style>';
+    echo 'body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;background:#f5f7fb;color:#111;}';
+    echo '.container{max-width:520px;margin:72px auto;padding:32px;background:#fff;border-radius:24px;box-shadow:0 24px 80px rgba(15,23,42,.12);}';
+    echo '.banner{display:flex;align-items:center;justify-content:center;width:96px;height:96px;margin:0 auto 24px;border-radius:50%;background:' . $bgColor . ';color:' . $textColor . ';font-size:44px;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);}';
+    echo '.title{margin:0 0 14px;font-size:28px;font-weight:700;text-align:center;}';
+    echo '.message{margin:0 0 28px;font-size:16px;line-height:1.8;text-align:center;color:#334155;}';
+    echo '.button{display:inline-flex;align-items:center;justify-content:center;padding:14px 24px;font-size:16px;font-weight:600;color:#fff;background:' . $buttonBg . ';border:none;border-radius:12px;text-decoration:none;cursor:pointer;}';
+    echo '.info{margin-top:20px;padding:18px 20px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;color:#475569;font-size:14px;line-height:1.7;}';
+    echo '.info strong{color:#0f172a;}';
+    echo '</style>';
+    echo '</head>';
+    echo '<body>';
+    echo '<div class="container">';
+    echo '<div class="banner">' . $icon . '</div>';
+    echo '<h1 class="title">' . htmlspecialchars($title) . '</h1>';
+    echo '<p class="message">' . htmlspecialchars($message) . '</p>';
+    echo '<div style="text-align:center;"><a class="button" href="' . htmlspecialchars($buttonLink) . '">' . htmlspecialchars($buttonText) . '</a></div>';
+    echo '<div class="info"><strong>Tips:</strong> gunakan email dan password yang kamu daftarkan untuk masuk. Jika belum menerima email, periksa folder spam atau kirim ulang verifikasi dari halaman login.</div>';
+    echo '</div>';
+    echo '</body>';
+    echo '</html>';
+    exit;
 }
 
 // ─── Resend Verification ──────────────────────────────────────────
